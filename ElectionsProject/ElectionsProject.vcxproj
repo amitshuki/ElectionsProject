@@ -138,7 +138,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Citizen.h" />
     <ClInclude Include="Date.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Citizen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
