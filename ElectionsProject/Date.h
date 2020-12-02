@@ -1,5 +1,7 @@
-#pragma once
 #include <iostream>
+#pragma once
+using namespace std;
+
 class Date {
 	private:
 		int day, month, year;

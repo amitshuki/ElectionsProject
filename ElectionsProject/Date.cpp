@@ -1,4 +1,4 @@
-#include <iostream>;
+
 #include "Date.h"
 
 
@@ -44,7 +44,7 @@ bool Date::setYear(int year)
 	
 }
 
-void printDate(Date d)
+void Date::printDate(Date d)
 {
 	if (d.getDay() > 9 && d.getMonth() > 9)
 	{
@@ -57,7 +57,7 @@ void printDate(Date d)
 	}
 	if (d.getDay() < 9 && d.getMonth() < 9)
 	{
-		cout << 0 << d.getDay() << '/' << d.getMonth() << 0 << '/' << d.getYear() << endl;
+		cout << 0 << d.getDay() << '/' << 0 << d.getMonth() << '/' << d.getYear() << endl;
 
 	}
 }
