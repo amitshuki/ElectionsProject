@@ -21,12 +21,54 @@
     <ClInclude Include="Citizen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Party.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="District.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VotersForParty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Round.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictReps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VotingResults.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Date.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Party.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="District.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VotersForParty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Round.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictReps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VotingResults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
