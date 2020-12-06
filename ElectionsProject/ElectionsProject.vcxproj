@@ -145,6 +145,7 @@
     <ClInclude Include="Party.h" />
     <ClInclude Include="Round.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="STRING.h" />
     <ClInclude Include="VotersForParty.h" />
     <ClInclude Include="VotingResults.h" />
   </ItemGroup>
@@ -153,9 +154,11 @@
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="District.cpp" />
     <ClCompile Include="DistrictReps.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="STRING.cpp" />
     <ClCompile Include="VotersForParty.cpp" />
     <ClCompile Include="VotingResults.cpp" />
   </ItemGroup>

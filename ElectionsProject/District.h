@@ -1,5 +1,6 @@
 #pragma once
 #include "VotersForParty.h"
+class VotersForParty;
 class District
 {
 private:
