@@ -1,8 +1,8 @@
 #include "STRING.h"
 STRING::STRING() {
 	str = new char[1]{ 0 };
-	logicalSize = 0;
-	physicalSize = 1;
+	logicallength = 0;
+	physicallength = 1;
 }
 STRING::STRING(const char* other_str) {
 	this->operator=(other_str);
@@ -16,17 +16,17 @@ STRING& STRING::operator=(const STRING& other_str){
 STRING& STRING::operator=(const char* other_str) {
 	int i,other_length = length(other_str);
 	while (other_length > this->getLength())
-		resize();
+		relength();
 	for (i = 0; i < other_length; i++)
 		this->str[i] = other_str[i];
-	this->logicalSize = i;
+	this->logicallength = i;
 	return *this;
 }
 
-void STRING::resize(){
-	physicalSize *= 2;
-	char* new_str = new char[physicalSize] {0};
-	for (int i = 0; i < logicalSize; i++)
+void STRING::relength(){
+	physicallength *= 2;
+	char* new_str = new char[physicallength] {0};
+	for (int i = 0; i < logicallength; i++)
 		new_str[i] = str[i];
 	delete[] str;
 	str = new_str;

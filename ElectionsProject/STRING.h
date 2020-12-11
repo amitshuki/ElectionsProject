@@ -3,15 +3,15 @@ class STRING
 {
 private:
 	char* str;
-	int physicalSize,logicalSize;
-	void resize();
+	int physicallength,logicallength;
+	void relength();
 public:
 	STRING();
 	STRING(const char* str);
 	~STRING();
 	char& operator[](int index)const { return str[index]; }
-	const int& getPhysicalSize()const { return physicalSize; }
-	const int& getlogicalSize()const { return logicalSize; }
+	const int& getPhysicallength()const { return physicallength; }
+	const int& getlogicallength()const { return logicallength; }
 	int getLength();
 	static int length(const char* other_str);
 	/*void append(const STRING& str);

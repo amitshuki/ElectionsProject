@@ -142,6 +142,7 @@
     <ClInclude Include="Date.h" />
     <ClInclude Include="District.h" />
     <ClInclude Include="DistrictReps.h" />
+    <ClInclude Include="myString.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="Round.h" />
     <ClInclude Include="State.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="District.cpp" />
     <ClCompile Include="DistrictReps.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="myString.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="State.cpp" />
