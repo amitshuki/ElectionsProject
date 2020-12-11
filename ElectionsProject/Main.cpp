@@ -4,6 +4,4 @@ using namespace std;
 
 int main()
 {
-	cin >> x;
-	cout << x;
 }
