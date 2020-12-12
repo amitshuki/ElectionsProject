@@ -104,5 +104,11 @@
     <ClCompile Include="PartyList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PartyArr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictArr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
