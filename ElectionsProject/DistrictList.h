@@ -32,7 +32,7 @@ public:
 	}
 
 	// Adds a district and returns a pointer to it.
-	District* const addDistrictToList(const myString& dstName,const int& rank) {
+	District* addDistrictToList(const myString& dstName,const int& rank) {
 		int districtSN = rand() % (100 - 1 + 1) + 1;
 		if (logSize == capacity)
 			resizeArr();
@@ -40,7 +40,6 @@ public:
 		while (checkExistingDistrictBySN(districtSN))//Check that there is no other dist with same SN
 			districtSN = rand() % (100 - 1 + 1) + 1;
 		dstArr[logSize++] = new District(dstName, rank, districtSN);
-		cout << "Serial no.: " << districtSN << endl;
 		return dstArr[logSize - 1];
 	}
 	bool checkExistingDistrictBySN(const int& sn)const {
@@ -55,18 +54,13 @@ public:
 			if (dstArr[i]->getSN() == sn)
 				return dstArr[i];
 		return nullptr;
-	}   
-	
-	const int& getLogSize()const { return logSize; }
-
-	District* const operator[](const int& idx) {
-		if (idx >= 0 && idx < logSize)
-			return dstArr[idx];
 	}
+	
+
 	friend ostream& operator<<(ostream& out, const DistrictList& dstList) {
 		int i;
 		for (i = 0; i < dstList.logSize; i++)
-			out << i + 1 << ". " << *(dstList.dstArr[i]) << endl;
+			out << *(dstList.dstArr[i]) << endl;
 		return out;
 	}
 

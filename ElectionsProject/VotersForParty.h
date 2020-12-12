@@ -1,12 +1,13 @@
 #pragma once
 #include "Party.h"
+#include "State.h"
 class Party;
 class VotersForParty//This is connection diagram #2
 {
 private:
 	int numOfVoters;
-	Party* party;
+	int partySN;
 public:
-	VotersForParty() :numOfVoters(0), party(nullptr) {}
+	VotersForParty() :numOfVoters(0), partySN(-1) {}
 };
 
