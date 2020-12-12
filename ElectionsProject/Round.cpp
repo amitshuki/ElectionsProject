@@ -19,80 +19,40 @@ void Round::MainPrint()
 		cout << "0. Exit" << endl;
 
 		cin >> input;
-
-		if (input == 1) {
+		switch (input)
+		{
+	
+		case 1: 
 			DistirctMenu();
-		}
-		else if (input == 2) {
+		
+		case 2:
 			CitizenMenu();
-		}
-		else if (input == 3) {
+		
+		case 3:
 			PartyMenu();
-		}
-		else if (input == 4) {
+		
+		case 4:
 			MakeRepMenu();
-		}
-		else if (input == 5) {
+		
+		case 5:
 			printDistricts();
-		}
-		else if (input == 6) {
+		
+		case 6:
 			printCtzs();
-		}
-		else if (input == 7) {
+		
+		case 7:
 			printpartys();
-		}
-		else if (input == 8) {
+		
+		case 8:
 			addVote();
-		}
-		else if (input == 9) {
+		
+		case 9:
 			printVotingRes();
-		}
-		else if (input == 10) {
+		
+		case 10:
 			break;
 		}
 
 	}
 }
 
-void Round::addRrp(void)
-{
-	int ID;
-
-	while (true) {
-		cout << "Please Enter ID of The new candidate:" << endl;
-		cout << "0. Exit;" << endl;
-
-		cin >> ID;
-
-		if (ID == 0)
-			break;
-
-		if (cList->findCitizenByID(tempID) != 0) {
-			Citizen& c1 = cList->getCitizenByID(tempID);
-
-			if (c1.getRepPointer() == nullptr) {
-				cout << "Make " << c1.getName() << " Representative " << endl;
-				int temParty;
-				cout << "Please Enter party id :" << endl;
-				cin >> temParty;
-
-				if (pList->findPartyByID(temParty)) {
-					c1.setRepresentative(temParty);
-					pList->getPartyByID(temParty).addCitizen(c1);
-					dList->getDistrictByID(c1.getDistric()).removeCitizen(c1);
-					cout << c1.getName() << " Set Successfully as a Rep;" << endl;
-				}
-				else {
-					cout << "Party not found;" << endl;
-				}
-			}
-			else {
-				cout << c1.getName() << " is already a Representative in party: " << c1.getRepPointer()->getPartyID() << endl;
-			}
-		}
-		else {
-			cout << "Cannot find ID " << tempID << endl;
-		}
-	}
-
-}

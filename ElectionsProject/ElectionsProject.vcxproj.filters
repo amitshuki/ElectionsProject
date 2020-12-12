@@ -48,6 +48,9 @@
     <ClInclude Include="PartyArr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DistrictArr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PartyArr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictArr.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
