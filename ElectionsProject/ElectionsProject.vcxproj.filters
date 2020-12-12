@@ -42,7 +42,7 @@
     <ClInclude Include="VotingResults.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="STRING.h">
+    <ClInclude Include="myString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PartyArr.h">
@@ -77,10 +77,10 @@
     <ClCompile Include="VotingResults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="STRING.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="myString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PartyArr.cpp">
