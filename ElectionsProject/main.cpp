@@ -11,18 +11,7 @@ void addCitizen(State& state);
 void addParty(State& state);
 void addCitizenAsPartyRep(State& state);
 
-const int* foo(const int& a)
-{
-	return foo1(&a);
-}
-const int* foo1(const int* a) {
-	return a;
-}
 void main() {
-	int i = 1;
-	if (&i == foo(i))
-		cout << "ok" << endl;
-	cout << "no" << endl;
 
 }
 
@@ -69,6 +58,7 @@ void handleInput(const int& input,State& state) {
 		addCitizenAsPartyRep(state);
 		break;
 	case 5:
+		break;
 
 	}
 }
@@ -112,7 +102,7 @@ void addParty(State& state) {
 	cin >> nameOfParty;
 	cout << "\tCandidate ID: ";
 	cin >> candidateID;
-	while (!state.checkExistingCitizenByID(candidateID)) {
+	while (!state.checkExistingCitizenbyID(candidateID)) {
 		cout << "\tInvalid candidate ID. Please try again: ";
 		cin >> candidateID;
 	}

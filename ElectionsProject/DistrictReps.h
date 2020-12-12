@@ -1,19 +1,19 @@
 #pragma once
 #include <iostream>
 #include "CitizenList.h"
-#include "District.h"
+
 using namespace std;
-class District;
+
 class DistrictReps//This is connection table #1
 {
 private:
-	int dstSN, rank;
+	int dstSN,rank;
 	CitizenList repsList;
 public:
-	DistrictReps() :dstSN(-1), rank(-1) {}
-	DistrictReps(const int& dstSn, const int& rank) :dstSN(dstSn), rank(rank) {}
-
-	bool setDistrict(const int& dstSn, const int& eRank) {
+	DistrictReps() :dstSN(-1),rank(-1),repsList() {}
+	DistrictReps(const int& dstSn, const int& rank) :dstSN(dstSn), rank(rank){}
+	
+	bool setDistrict(const int& dstSn,const int& eRank) { 
 		if (!(this->dstSN = dstSn) || !(this->rank = eRank))
 			return false;
 		return true;

@@ -5,7 +5,7 @@ void Round::MainPrint()
 {
 	int input;
 
-	while (true) {
+	/*while (true) {
 		cout << "Round Main Menu: " << endl;
 		cout << "1. Add District" << endl;
 		cout << "2. Add Citizen" << endl;
@@ -53,6 +53,6 @@ void Round::MainPrint()
 			break;
 		}
 
-	}
+	}*/
 }
 
