@@ -23,11 +23,13 @@ myString::myString(const myString& other) :arr(nullptr), length(0), capacity(0) 
 
 }
 myString::myString(const char* str) :arr(nullptr), length(0), capacity(0){
-	length = myStrLen(str);
+	int i = 0, countSpaces = 0;
+	//while (str[countSpaces++] == ' ');
+	length = myStrLen(str + countSpaces);
 	capacity = length + 1;
 	arr = new char[capacity] {'\0'};
-	for (int i = 0; i < length; i++)
-		arr[i] = str[i];
+	for (int j = 0; j < length; j++)
+		arr[j] = str[j + countSpaces];
 }
 myString::~myString() {
 	if (capacity > 0)

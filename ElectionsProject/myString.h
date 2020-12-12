@@ -1,5 +1,4 @@
 #pragma once
-#include <string.h>
 #include <iostream>
 using namespace std;
 namespace myStr{
@@ -38,6 +37,8 @@ public:
 	myString& operator=(const char* str) { return this->operator=(myString(str)); }
 
 	bool operator==(const myString& other)const;
+	bool operator!=(const myString& other)const { return !(*this == other); }
+	bool operator!=(const char* str)const { return !(*this == myString(str)); }
 
 
 	friend ostream& operator<<(ostream& output, const myString& myStr) {
@@ -48,6 +49,7 @@ public:
 	friend istream& operator>>(istream& input, myString& str) {
 		string str_in;
 		input >> str_in;
+		// Need to handle operator>>
 		int str_in_len = str_in.size();
 		char* cstr = new char[str_in_len + 1];
 		str_in.copy(cstr, str_in_len);
