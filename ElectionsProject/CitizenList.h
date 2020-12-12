@@ -61,11 +61,8 @@ public:
 		return nullptr;
 	}
 	const int& getLogSize()const { return logSize; }
-
-	void operator=(const CitizenList& other) {
-
-		for(int i = 0;i<)
-	}
+	
+	
 	friend ostream& operator<<(ostream& out, const CitizenList& citList) {
 		int i;
 		for (i = 0; i < citList.logSize; i++)

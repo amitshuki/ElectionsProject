@@ -51,7 +51,7 @@ public:
 	bool checkExistingPartyBySN(const int& sn)const {
 		int i;
 		for (i = 0; i < logSize; i++)
-			if (dstArr[i]->getSN() == sn)
+			if (partyArr[i]->getSN() == sn)
 				return true;
 		return false;
 	}

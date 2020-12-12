@@ -4,6 +4,7 @@
 #include "myString.h"
 using namespace myStr;
 using namespace std;
+
 class Party
 {
 private:
