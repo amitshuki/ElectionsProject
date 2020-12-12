@@ -26,6 +26,12 @@ private:
 		districtRepsArr = newDstRepsArr;
 		districtRepsArrCapacity *= 2;
 	}
+	bool checkExistingDistrictBySN(const int& sn) {
+		for (int i = 0; i < districtsAmount; i++)
+			if (districtRepsArr[i].getDistrictSN() == sn)
+				return true;
+		return false;
+	}
 public:
 	Party() :name(""), SN(-1), candidate(nullptr), districtRepsArr(nullptr), 
 		districtsAmount(0), districtRepsArrCapacity(0) {}
@@ -50,20 +56,20 @@ public:
 	}*/
 	~Party() {
 		int i;
-		if (districtRepsArrCapacity > 0) {
-			for (i = 0; i < districtsAmount; i++)
-				districtRepsArr[i].~DistrictReps();
+		if (districtRepsArrCapacity > 0)
 			delete[] districtRepsArr;
-		}
 	}
 
 	const int& getSN()const { return SN; }
 	const myString& getName()const { return name; }
 
 	bool addDistrict(const int& dstSN,const int& dstRank) {
-		if (districtsAmount == districtRepsArrCapacity)
-			resizeDistRepsArr();
-		return districtRepsArr[districtsAmount++].setDistrict(dstSN, dstRank);
+		if (!checkExistingDistrictBySN(dstSN)) {
+			if (districtsAmount == districtRepsArrCapacity)
+				resizeDistRepsArr();
+			return districtRepsArr[districtsAmount++].setDistrict(dstSN, dstRank);
+		}
+		return true;
 	}
 	bool addCitizenAsRep(const Citizen* rep, const int& dstSN) {
 		int i;
@@ -76,11 +82,15 @@ public:
 	friend ostream& operator<<(ostream& out, const Party& prty) {
 		out << "Party Serial Number:" << prty.SN << ", ";
 		out << "Name :" << prty.name << endl;
-		out << "Candidate :" << prty.candidate << endl;
-		out << "Representatives by Districts: " << endl;
-		out << "============================" << endl;
-		for (int i = 0; i < prty.districtsAmount; i++)
-			out << prty.districtRepsArr[i];
+		out << "Candidate :" << *(prty.candidate) << endl << endl;
+		if (prty.districtsAmount > 0) {
+			out << "Representatives by Districts: " << endl;
+			out << "============================" << endl;
+			for (int i = 0; i < prty.districtsAmount; i++)
+				out << i + 1 << ". " << prty.districtRepsArr[i];
+		}
+		else
+			out << "There are no representatives." << endl;
 		return out;
 	}
 };

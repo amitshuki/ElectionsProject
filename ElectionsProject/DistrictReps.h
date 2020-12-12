@@ -13,6 +13,9 @@ public:
 	DistrictReps() :dstSN(-1),rank(-1),repsList() {}
 	DistrictReps(const int& dstSn, const int& rank) :dstSN(dstSn), rank(rank){}
 	
+	~DistrictReps() {
+		int i = 1;
+	}
 	bool setDistrict(const int& dstSn,const int& eRank) { 
 		if (!(this->dstSN = dstSn) || !(this->rank = eRank))
 			return false;
@@ -32,9 +35,13 @@ public:
 
 	friend ostream& operator<<(ostream& out, const DistrictReps& dstReps) {
 		out << "District Serial Number:" << dstReps.getDistrictSN() << endl;
-		out << "Representatives: " << endl;
-		out << "=============== " << endl;
-		out << dstReps.repsList << endl;
+		if (dstReps.repsList.getLogSize() > 0) {
+			out << "Representatives: " << endl;
+			out << "=============== " << endl;
+			out << dstReps.repsList << endl;
+		}
+		else
+			out << "This party has no representatives for this district." << endl;
 		return out;
 	}
 };

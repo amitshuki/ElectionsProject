@@ -37,6 +37,7 @@ public:
 
 		while (checkExistingPartyBySN(partySN))//Check that there is no other party with same SN
 			partySN = rand() % (200 - 101 + 1) + 101;
+		cout << "Serial no.: " << partySN << endl;
 
 		return partyArr[logSize++] = new Party(partName, partySN, candidate);
 	}
@@ -62,11 +63,12 @@ public:
 		return nullptr;
 	}
 
+	const int& getLogSize()const { return logSize; }
 
 	friend ostream& operator<<(ostream& out, const PartyList& partyList) {
 		int i;
 		for (i = 0; i < partyList.logSize; i++)
-			out << *(partyList.partyArr[i]) << endl;
+			out << i + 1 << ". " <<		*(partyList.partyArr[i]) << endl;
 		return out;
 	}
 

@@ -7,9 +7,9 @@ class VotersForParty;
 class District
 {
 private:
+	myString name;
 	int SN, totalCivils, totalVoters, rank; /* total voters - filled only when  round is initiated (init -1)
 													  rank - given randomly */
-	myString name;
 	VotersForParty* votersForParty;
 public:
 	District(){
@@ -27,7 +27,9 @@ public:
 		votersForParty = nullptr;
 	}
 
-	~District();
+	~District() {
+		// Need to delete all the voters for party tables.
+	}
 
 	const int& getSN()const { return SN; }
 	const int& getRank()const { return rank; }

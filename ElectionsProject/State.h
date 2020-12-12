@@ -7,6 +7,7 @@
 #include "PartyList.h"
 #include "VotingResults.h"
 #include "myString.h"
+#include <ctime>
 using namespace myStr;
 using namespace std;
 
@@ -43,13 +44,17 @@ public:
 			return votersBook.addCitizenToList(new Citizen(name, id, birthYear, districtSN));
 	}
 	bool addParty(const myString& partyName, const int& candidateId) {
+		int i;
 		Citizen* candidate = votersBook.getCitizenByID(candidateId);
 		if (!candidate) {
 			cout << "Candidate does not exist in state." << endl;
 			return false;
 		}
-		else
-			return partyList.addPartyToList(partyName, candidate);
+		else {
+			partyList.addPartyToList(partyName, candidate);
+			for (i = 0; i < distList.getLogSize(); i++)
+				partyList.addDistrictToParties(distList[i]->getSN(), distList[i]->getRank());
+		}
 	}
 	bool addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN) {
 		Citizen* rep = votersBook.getCitizenByID(repID);
@@ -71,7 +76,7 @@ public:
 		cout << "===========" << endl;
 		cout << votersBook; 
 	}
-	void showDistrict()const { 
+	void showDistricts()const { 
 		cout << "Districts:" << endl;
 		cout << "=========" << endl;
 		cout << distList; 
