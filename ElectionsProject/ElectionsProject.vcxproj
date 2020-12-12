@@ -143,6 +143,7 @@
     <ClInclude Include="District.h" />
     <ClInclude Include="DistrictReps.h" />
     <ClInclude Include="Party.h" />
+    <ClInclude Include="PartyArr.h" />
     <ClInclude Include="Round.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="STRING.h" />
@@ -156,6 +157,7 @@
     <ClCompile Include="DistrictReps.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Party.cpp" />
+    <ClCompile Include="PartyArr.cpp" />
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="STRING.cpp" />

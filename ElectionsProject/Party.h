@@ -11,5 +11,9 @@ private:
 	//Citizen* stateRepresentative;
 	DistrictReps* districtRepsArr;
 public:
+
+inline	void printParty(void) {
+		cout << name << endl;
+	}
 };
 
