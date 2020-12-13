@@ -47,15 +47,9 @@ public:
 		return output;
 	}
 	friend istream& operator>>(istream& input, myString& str) {
-		string str_in;
-		input >> str_in;
-		// Need to handle operator>>
-		int str_in_len = str_in.size();
-		char* cstr = new char[str_in_len + 1];
-		str_in.copy(cstr, str_in_len);
-		cstr[str_in_len] = '\0';
-		str = myString(cstr);
-		delete[] cstr;
+		char* cstr = new char[str.capacity];
+		size_t size = str.capacity;
+
 		return input;
 	}
 

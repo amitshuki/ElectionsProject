@@ -13,10 +13,9 @@ void addParty(State& state);
 void addCitizenAsPartyRep(State& state);
 
 int main() {
-	State state;
-	run(state);
-	int i = 1;
-
+	myString x;
+	cin >> x;
+	cout << x;
 }
 
 void run(State& state) {
