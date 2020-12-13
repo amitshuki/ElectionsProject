@@ -7,7 +7,6 @@
 #include "PartyList.h"
 #include "VotingResults.h"
 #include "myString.h"
-#include <ctime>
 using namespace myStr;
 using namespace std;
 
@@ -19,7 +18,7 @@ private:
 	DistrictList distList;
 	PartyList partyList;
 
-	
+
 public:
 	State() {
 		srand(time(0));
@@ -33,7 +32,7 @@ public:
 		District* dst = distList.addDistrictToList(districtName, rank);
 		if (dst == nullptr)
 			return false;
-		return partyList.addDistrictToParties(dst->getSN(),dst->getRank());
+		return partyList.addDistrictToParties(dst->getSN(), dst->getRank());
 	}
 	bool addCitizen(const myString& name, const int& id, const int& birthYear, const int& districtSN) {
 		if (!distList.checkExistingDistrictBySN(districtSN)) {
@@ -44,17 +43,13 @@ public:
 			return votersBook.addCitizenToList(new Citizen(name, id, birthYear, districtSN));
 	}
 	bool addParty(const myString& partyName, const int& candidateId) {
-		int i;
 		Citizen* candidate = votersBook.getCitizenByID(candidateId);
 		if (!candidate) {
 			cout << "Candidate does not exist in state." << endl;
 			return false;
 		}
-		else {
-			partyList.addPartyToList(partyName, candidate);
-			for (i = 0; i < distList.getLogSize(); i++)
-				partyList.addDistrictToParties(distList[i]->getSN(), distList[i]->getRank());
-		}
+		else
+			return partyList.addPartyToList(partyName, candidate);
 	}
 	bool addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN) {
 		Citizen* rep = votersBook.getCitizenByID(repID);
@@ -71,28 +66,39 @@ public:
 		return false;
 	}
 
-	void showVotersBook()const { 
+	void showVotersBook()const {
 		cout << "Voters Book:" << endl;
 		cout << "===========" << endl;
-		cout << votersBook; 
+		cout << votersBook;
 	}
-	void showDistricts()const { 
+	void showDistrict()const {
 		cout << "Districts:" << endl;
 		cout << "=========" << endl;
-		cout << distList; 
+		cout << distList;
 	}
-	void showParties()const { 
+	void showParties()const {
 		cout << "Parties:" << endl;
 		cout << "=======" << endl;
-		cout << partyList; 
+		cout << partyList;
 	}
 
 	bool checkExistingCitizenbyID(const int& id) const { return votersBook.checkExistingCitizenInListByID(id); }
 	bool checkExistingDistrictBySN(const int& sn)const { return distList.checkExistingDistrictBySN(sn); }
 	bool checkExistingPartyBySN(const int& sn)const { return partyList.checkExistingPartyBySN(sn); }
 
-	void vote(int id, int partySN);
-	VotingResults& calcResults();
+	void vote(const int& id, const int& partySN){
+
+	}
+	VotingResults& calcResults() 
+	{
+
+		VotersForParty* resArr = new VotersForParty[partyList.getLogsize()];
+		VotersForParty
+
+
+
+
+	}
 
 };
 
