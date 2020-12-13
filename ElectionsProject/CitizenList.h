@@ -66,7 +66,7 @@ public:
 	friend ostream& operator<<(ostream& out, const CitizenList& citList) {
 		int i;
 		for (i = 0; i < citList.logSize; i++)
-			out << i + 1 << ". " << *(citList.citArr[i]) << endl;
+			out << *(citList.citArr[i]) << endl;
 		return out;
 	}
 };

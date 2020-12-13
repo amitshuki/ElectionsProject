@@ -7,16 +7,13 @@ using namespace std;
 class DistrictReps//This is connection table #1
 {
 private:
-	int dstSN,rank;
+	int dstSN, rank;
 	CitizenList repsList;
 public:
-	DistrictReps() :dstSN(-1),rank(-1),repsList() {}
-	DistrictReps(const int& dstSn, const int& rank) :dstSN(dstSn), rank(rank){}
-	
-	~DistrictReps() {
-		int i = 1;
-	}
-	bool setDistrict(const int& dstSn,const int& eRank) { 
+	DistrictReps() :dstSN(-1), rank(-1) {}
+	DistrictReps(const int& dstSn, const int& rank) :dstSN(dstSn), rank(rank) {}
+
+	bool setDistrict(const int& dstSn, const int& eRank) {
 		if (!(this->dstSN = dstSn) || !(this->rank = eRank))
 			return false;
 		return true;
@@ -35,13 +32,9 @@ public:
 
 	friend ostream& operator<<(ostream& out, const DistrictReps& dstReps) {
 		out << "District Serial Number:" << dstReps.getDistrictSN() << endl;
-		if (dstReps.repsList.getLogSize() > 0) {
-			out << "Representatives: " << endl;
-			out << "=============== " << endl;
-			out << dstReps.repsList << endl;
-		}
-		else
-			out << "This party has no representatives for this district." << endl;
+		out << "Representatives: " << endl;
+		out << "=============== " << endl;
+		out << dstReps.repsList << endl;
 		return out;
 	}
 };

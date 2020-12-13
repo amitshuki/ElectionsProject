@@ -1,5 +1,6 @@
 #pragma once
 #include "Party.h"
+#include "State.h"
 class Party;
 class VotersForParty//This is connection diagram #2
 {

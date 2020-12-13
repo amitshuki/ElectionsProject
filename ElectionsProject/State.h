@@ -51,6 +51,9 @@ public:
 		else
 			return partyList.addPartyToList(partyName, candidate);
 	}
+				partyList.addDistrictToParties(distList[i]->getSN(), distList[i]->getRank());
+		}
+	}
 	bool addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN) {
 		Citizen* rep = votersBook.getCitizenByID(repID);
 		Party* prt = partyList.getPartyBySN(partySN);
