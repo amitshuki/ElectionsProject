@@ -17,8 +17,6 @@ private:
 	CitizenList votersBook;
 	DistrictList distList;
 	PartyList partyList;
-
-
 public:
 	State() {
 		srand(time(0));
@@ -29,35 +27,44 @@ public:
 
 
 	bool addDistrict(const myString& districtName, const int& rank) {
-		District* dst = distList.addDistrictToList(districtName, rank);
+		District* dst = distList.addDistrictToList(districtName, rank);// Add the district to the state's list.
 		if (dst == nullptr)
 			return false;
-		return partyList.addDistrictToParties(dst->getSN(), dst->getRank());
+		for (int i = 0; i < partyList.getLogSize(); i++)
+			if (!dst->addPartyToDistrict(partyList[i]->getSN()))// Add all the parties to the new district's voting list
+				return false;
+		return partyList.addDistrictToParties(dst->getSN(), dst->getRank());// Add the District to the parties list.
 	}
 	bool addCitizen(const myString& name, const int& id, const int& birthYear, const int& districtSN) {
-		if (!distList.checkExistingDistrictBySN(districtSN)) {
-			cout << "Incorrect district SN." << endl;
-			return false;
-		}
-		else
-			return votersBook.addCitizenToList(new Citizen(name, id, birthYear, districtSN));
+		return votersBook.addCitizenToList(new Citizen(name, id, birthYear, districtSN)) &&// Add citizen to voters book
+			distList.getDistrictBySN(districtSN)->addCitizenToDistrict();// Add a citizen to the district's counter
 	}
 	bool addParty(const myString& partyName, const int& candidateId) {
-		Citizen* candidate = votersBook.getCitizenByID(candidateId);
+		Citizen* const candidate = votersBook.getCitizenByID(candidateId);
+		Party* newParty;
 		if (!candidate) {
 			cout << "Candidate does not exist in state." << endl;
 			return false;
 		}
-		else
-			return partyList.addPartyToList(partyName, candidate);
-	}
-				partyList.addDistrictToParties(distList[i]->getSN(), distList[i]->getRank());
+		else{
+			// Add the party to the state's list
+			newParty = partyList.addPartyToList(partyName, candidate);
+			if (newParty != nullptr)
+				for (int i = 0; i < distList.getLogSize(); i++) {
+					//add all of the districts to the new party
+					if (!newParty->addDistrict(distList[i]->getSN(), distList[i]->getRank()))
+						return false;
+					// add the new party to all of the districts
+					if (!distList[i]->addPartyToDistrict(newParty->getSN()))
+						return false;
+				}
 		}
+		return true;
 	}
 	bool addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN) {
-		Citizen* rep = votersBook.getCitizenByID(repID);
-		Party* prt = partyList.getPartyBySN(partySN);
-		District* dst = distList.getDistrictBySN(districtSN);
+		Citizen* const rep = votersBook.getCitizenByID(repID);
+		Party* const prt = partyList.getPartyBySN(partySN);
+		District* const dst = distList.getDistrictBySN(districtSN);
 		if (!rep)
 			cout << "Citizen does not exist in state." << endl;
 		else if (!prt)
@@ -89,19 +96,19 @@ public:
 	bool checkExistingDistrictBySN(const int& sn)const { return distList.checkExistingDistrictBySN(sn); }
 	bool checkExistingPartyBySN(const int& sn)const { return partyList.checkExistingPartyBySN(sn); }
 
-	void vote(const int& id, const int& partySN){
-
+	bool vote(const int& id, const int& partySN){
+		Citizen* const cit = votersBook.getCitizenByID(id);
+		if (!cit->hasVoted())
+			cit->vote(partySN);
+		else 
+			return false;
+		// Add vote to the party in the district of the citizen.
+		if (!distList.getDistrictBySN(cit->getDistrictSN())->addVoteToParty(partySN))
+			return false;
+		return true;
 	}
-	VotingResults& calcResults() 
-	{
 
-		VotersForParty* resArr = new VotersForParty[partyList.getLogsize()];
-		VotersForParty
-
-
-
-
-	}
+	void showElectionsResults() { distList.showVotesResults(partyList); }
 
 };
 

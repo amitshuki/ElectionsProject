@@ -144,6 +144,7 @@
     <ClInclude Include="District.h" />
     <ClInclude Include="DistrictList.h" />
     <ClInclude Include="DistrictReps.h" />
+    <ClInclude Include="DistrictRepsList.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="myString.h" />
     <ClInclude Include="Party.h" />
@@ -151,7 +152,9 @@
     <ClInclude Include="Round.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="VotersForParty.h" />
+    <ClInclude Include="VotersForPartyList.h" />
     <ClInclude Include="VotingResults.h" />
+    <ClInclude Include="VotingResultsPerParty.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp" />
@@ -160,6 +163,7 @@
     <ClCompile Include="District.cpp" />
     <ClCompile Include="DistrictList.cpp" />
     <ClCompile Include="DistrictReps.cpp" />
+    <ClCompile Include="DistrictRepsList.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="myString.cpp" />
@@ -168,7 +172,9 @@
     <ClCompile Include="Round.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="VotersForParty.cpp" />
+    <ClCompile Include="VotersForPartyList.cpp" />
     <ClCompile Include="VotingResults.cpp" />
+    <ClCompile Include="VotingResultsPerParty.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

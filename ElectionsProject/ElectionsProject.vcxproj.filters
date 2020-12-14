@@ -57,6 +57,15 @@
     <ClInclude Include="PartyList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DistrictRepsList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VotersForPartyList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VotingResultsPerParty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp">
@@ -104,10 +113,13 @@
     <ClCompile Include="PartyList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PartyArr.cpp">
+    <ClCompile Include="DistrictRepsList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DistrictArr.cpp">
+    <ClCompile Include="VotersForPartyList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VotingResultsPerParty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

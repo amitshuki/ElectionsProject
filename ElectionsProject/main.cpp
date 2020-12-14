@@ -11,11 +11,48 @@ void addDistrictToState(State& state);
 void addCitizen(State& state);
 void addParty(State& state);
 void addCitizenAsPartyRep(State& state);
+void vote(State& state);
+
 
 int main() {
-	myString x;
-	cin >> x;
-	cout << x;
+	State state;
+	state.addDistrict(myString("A"),10);
+	state.addDistrict(myString("B"), 15);
+	state.addDistrict(myString("C"), 21);
+
+	int i = 1;
+
+	state.addCitizen(myString("Tal"), 312, 1994, 1);
+	state.addCitizen(myString("Dar"), 201, 1994, 1);
+	state.addCitizen(myString("Adi"), 202, 1994, 2);
+	state.addCitizen(myString("Sapir"), 203, 1994, 2);
+	state.addCitizen(myString("Tiki"), 204, 1994, 3);
+	state.addCitizen(myString("Yossi"), 205, 1994, 3);
+
+	state.addParty(myString("Dumbo"), 312);
+	state.addParty(myString("Ior"), 201);
+
+	state.addCitizenAsPartyRepInDist(202, 1, 1);
+	state.addCitizenAsPartyRepInDist(203, 1, 2);
+	state.addCitizenAsPartyRepInDist(204, 1, 2);
+	state.addCitizenAsPartyRepInDist(205, 1, 3);
+	state.addCitizenAsPartyRepInDist(202, 2, 1);
+	state.addCitizenAsPartyRepInDist(203, 2, 2);
+	state.addCitizenAsPartyRepInDist(204, 2, 1);
+	state.addCitizenAsPartyRepInDist(205, 2, 3);
+
+	state.vote(312, 1);
+	state.vote(201, 1);
+	state.vote(202, 2);
+	state.vote(203, 1);
+	state.vote(204, 2);
+	state.vote(205, 1);
+
+	state.showDistrict();
+	state.showVotersBook();
+	state.showParties();
+
+	//state.showElectionsResults();
 }
 
 void run(State& state) {
@@ -30,7 +67,6 @@ void run(State& state) {
 		handleInput(input, state);
 		cout << endl;
 	}
-
 }
 void printMenu() {
 	cout << "Main Menu:" << endl << "==========" << endl;
@@ -61,7 +97,7 @@ void handleInput(const int& input,State& state) {
 		addCitizenAsPartyRep(state);
 		break;
 	case 5:
-		state.showDistricts();
+		state.showDistrict();
 		break;
 	case 6:
 		state.showVotersBook();
@@ -69,7 +105,7 @@ void handleInput(const int& input,State& state) {
 	case 7:
 		state.showParties();
 		break;
-
+	
 	}
 }
 
@@ -85,8 +121,8 @@ void addDistrictToState(State& state) {
 	cin >> rank;
 	if (rank <= 0)
 		cout << "Invalid amount of electors.";
-	else
-		state.addDistrict(dstName, rank);
+	else if (!state.addDistrict(dstName, rank))
+			cout << "Could not add district." << endl;
 }
 void addCitizen(State& state) {
 	myString name;
@@ -108,8 +144,8 @@ void addCitizen(State& state) {
 		cout << "Invalid birth year. " << endl;
 	else if (!state.checkExistingDistrictBySN(dstSN))
 		cout << "Invalid district serial number." << endl;
-	else
-		state.addCitizen(name, id, birthYear, dstSN);
+	else if(!state.addCitizen(name, id, birthYear, dstSN))
+			cout << "Could not add citizen." << endl;
 }
 void addParty(State& state) {
 	myString nameOfParty;
@@ -122,8 +158,9 @@ void addParty(State& state) {
 	cin >> candidateID;
 	if (!state.checkExistingCitizenbyID(candidateID))
 		cout << "Invalid candidate ID." << endl;
-	else
-		state.addParty(nameOfParty, candidateID);
+	else if(!state.addParty(nameOfParty, candidateID))
+			cout << "Could not add district." << endl;
+
 }
 void addCitizenAsPartyRep(State& state) {
 	int repID, partySN, distrSN;
@@ -138,10 +175,25 @@ void addCitizenAsPartyRep(State& state) {
 	cin >> partySN;
 	if(!state.checkExistingCitizenbyID(repID)) 
 		cout << "Invalid candidate ID. " << endl;
-	if(!state.checkExistingDistrictBySN(distrSN)) 
+	else if(!state.checkExistingDistrictBySN(distrSN)) 
 		cout << "Invalid district Serial Number. "<<endl;
-	if (!state.checkExistingPartyBySN(partySN))
+	else if (!state.checkExistingPartyBySN(partySN))
 		cout << "Invalid party Serial Number. " << endl;
 	else
-		state.addCitizenAsPartyRepInDist(repID, partySN, distrSN);
+		if(!state.addCitizenAsPartyRepInDist(repID, partySN, distrSN))
+			cout << "Could not add representative." << endl;
+
+}
+void vote(State& state) {
+	int id, partySN;
+	cout << "Citizen's ID: ";
+	cin >> id;
+	cout << "Party Serial Number: ";
+	cin >> partySN;
+	if (!state.checkExistingCitizenbyID(id))
+		cout << "Invalid candidate ID. " << endl;
+	else if (!state.checkExistingPartyBySN(partySN))
+		cout << "Invalid party Serial Number. " << endl;
+	else if (!state.vote(id, partySN))
+		cout << "This citizen has already voted." << endl;
 }

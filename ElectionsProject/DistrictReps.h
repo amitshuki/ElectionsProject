@@ -18,23 +18,40 @@ public:
 			return false;
 		return true;
 	}
-	bool addRep(Citizen* rep) {
+	bool addRep(Citizen* const rep) {
 		if (this->rank == repsList.getLogSize()) {
 			cout << "Not enough space for more representatives in this district." << endl;
 			return false;
 		}
-		else
-			return repsList.addCitizenToList(rep);
+		else {
+			if (!repsList.addCitizenToList(rep))
+				cout << "Representative already in list." << endl;
+			return false;
+		}
+		return true;
 	}
 
 	const int& getDistrictSN()const { return dstSN; }
 	const int& getDistrictRank()const { return rank; }
+	const CitizenList& getRepsList() const { return repsList; }
+
+
+	DistrictReps& operator=(const DistrictReps& other) {
+		this->dstSN = other.dstSN;
+		this->rank = other.rank;
+		this->repsList = other.repsList;
+		return *this;
+	}
 
 	friend ostream& operator<<(ostream& out, const DistrictReps& dstReps) {
 		out << "District Serial Number:" << dstReps.getDistrictSN() << endl;
-		out << "Representatives: " << endl;
-		out << "=============== " << endl;
-		out << dstReps.repsList << endl;
+		if (dstReps.repsList.getLogSize() > 0) {
+			out << "Representatives: " << endl;
+			out << "=============== " << endl;
+			out << dstReps.repsList << endl;
+		}
+		else
+			out << "This party has no representatives in this district." << endl;
 		return out;
 	}
 };

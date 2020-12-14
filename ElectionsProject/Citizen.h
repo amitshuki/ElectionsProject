@@ -33,10 +33,10 @@ public:
 	const int& getVotedPartySN() const { return votedPartySN; }
 	bool hasVoted()const { return didVote; }
 	friend ostream& operator<<(ostream& out, const Citizen& cit) {
-		out << "Name :" << cit.name << ", ";
-		out << "ID :" << cit.id << ", ";
-		out << "Birth year :" << cit.birthYear << ", ";
-		out << "District serial no.:" << cit.districtSN;
+		out << "Name: " << cit.name << ", ";
+		out << "ID: " << cit.id << ", ";
+		out << "Birth year: " << cit.birthYear << ", ";
+		out << "District serial no.: " << cit.districtSN;
 		return out;
 	}
 };
