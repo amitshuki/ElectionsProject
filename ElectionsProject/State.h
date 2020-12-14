@@ -86,7 +86,7 @@ public:
 	bool checkExistingDistrictBySN(const int& sn)const { return distList.checkExistingDistrictBySN(sn); }
 	bool checkExistingPartyBySN(const int& sn)const { return partyList.checkExistingPartyBySN(sn); }
 
-	void vote(int  id, int  partySN)
+	void vote(const int& id, const int&  partySN)
 	{
 		if (checkExistingCitizenbyID(id) && checkExistingPartyBySN(partySN))
 		{
@@ -110,7 +110,7 @@ public:
 	{
 
 		VotersForParty* resArr = new VotersForParty[partyList.getLogsize()];
-		VotersForParty
+
 
 
 
