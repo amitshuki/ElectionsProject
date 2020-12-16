@@ -28,6 +28,7 @@ namespace myStr {
 	public:
 		myString& append(const myString& other);
 		myString& append(const char* str) { return this->append(myString(str)); }
+		
 		myString subMyString(const int& start, const int& length)const;
 		void erase(const int& begining, const int& length);
 		bool setIdx(const int& index, const char& val);

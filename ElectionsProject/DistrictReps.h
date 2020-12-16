@@ -20,7 +20,6 @@ public:
 	}
 	bool addRep(Citizen* const rep) {
 		if (this->rank == repsList.getLogSize()) {
-			cout << "Not enough space for more representatives in this district." << endl;
 			return false;
 		}
 		else {
@@ -34,6 +33,9 @@ public:
 	const int& getDistrictSN()const { return dstSN; }
 	const int& getDistrictRank()const { return rank; }
 	const CitizenList& getRepsList() const { return repsList; }
+
+	void printFirstXReps(const int& amount) { repsList.printFirstXReps(amount); }
+
 
 
 	DistrictReps& operator=(const DistrictReps& other) {

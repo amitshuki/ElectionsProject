@@ -39,6 +39,14 @@ public:
 		return false;
 	}
 
+	const int& getAmountOfVotersByPartySN(const int& partySN) {
+		for (int i = 0; i < logSize; i++)
+			if (vfpArr[i].getPartySN() == partySN)
+				return vfpArr[i].getNumOfVoters();
+		return -1;
+	}
+
+
 	VotersForParty& getVFPByPartySN(const int& partySN) {
 		for (int i = 0; i < logSize; i++)
 			if (vfpArr[i].getPartySN() == partySN) 

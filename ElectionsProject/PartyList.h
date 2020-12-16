@@ -37,7 +37,7 @@ public:
 
 		while (checkExistingPartyBySN(partySN))//Check that there is no other party with same SN
 			partySN = rand() % (200 - 101 + 1) + 101;
-		cout << "Serial number: " << partySN << endl;
+		//cout << "Serial number: " << partySN << endl;
 		return partyArr[logSize++] = new Party(partName, logSize + 1, candidate);
 	}
 	bool addDistrictToParties(const int& dstSN,const int& dstRank) {
@@ -70,7 +70,7 @@ public:
 		return nullptr;
 	}
 
-	Party* operator[](const int& idx) {
+	Party* operator[](const int& idx)const {
 		if (idx >= 0 && idx < logSize)
 			return partyArr[idx];
 		return nullptr;

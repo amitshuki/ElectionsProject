@@ -27,6 +27,12 @@ public:
 	const myString& getName()const { return name; }
 	const Citizen* getCandidate()const { return candidate; }
 
+	void printResults(const int& districtSN, const int& electorsAmount) { 
+		cout << "Party Name: " << name << ", Party Serial No.: " << SN << endl;
+		drList.printFirstXReps(districtSN, electorsAmount); 
+	}
+
+
 	CitizenList& getSubRepsListInDistrict(const int& dstSN, const int& amount) {
 		// Party returns a sublist of representatives in the DistrictRepsList
 		return drList.getDistRepsByDistSN(dstSN).getRepsList().getSubList(amount);

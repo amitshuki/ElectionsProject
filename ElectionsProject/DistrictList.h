@@ -4,6 +4,8 @@
 #include "myString.h"
 using namespace myStr;
 
+
+
 class DistrictList
 {
 private:
@@ -41,7 +43,7 @@ public:
 		//while (checkExistingDistrictBySN(districtSN))//Check that there is no other dist with same SN
 		//	districtSN = rand() % (100 - 1 + 1) + 1;
 		dstArr[logSize++] = new District(dstName, rank, logSize + 1);//districtSN);
-		cout << "Serial number: " << logSize + 1 << endl;
+		//cout << "Serial number: " << logSize + 1 << endl;
 		return dstArr[logSize - 1];
 	}
 	bool checkExistingDistrictBySN(const int& sn)const {
@@ -58,6 +60,8 @@ public:
 		return nullptr;
 	}
 	const int& getLogSize()const { return logSize; }
+
+
 
 
 	District* const operator[](const int& idx) {
@@ -82,33 +86,52 @@ public:
 		return out;
 	}
 	
-	void showVotesResults(const PartyList& partyList)const {
-	//	cout << "================================" << endl;
-	//	cout << "||Voting results per District:||" << endl;
-	//	cout << "================================" << endl;
 
-		VotingResults curVR;
-		int* electorsCountArr = new int[partyList.getLogSize()]{ 0 };
-		int i, j, max = 0, keep;
-		for (i = 0; i < logSize; i++) {
-			cout << "======================================================================" << endl;
-			cout << "||||||" << *(dstArr[i]) << "||||||" << endl;
-			cout << "======================================================================" << endl;
-			curVR = dstArr[i]->getVotingResults(partyList);
-			
-			cout << curVR << endl;
-			for (j = 0; j < partyList.getLogSize(); j++)
-				if (curVR.getElectedCandidate()->getId() == partyList.getPartyByIndex(j)->getCandidate()->getId())
-					electorsCountArr[j] += curVR.getElectorsAmount();// if // for j 
-			curVR.~VotingResults();
-		}//for i
-		for (keep = j = 0; j < partyList.getLogSize(); j++)
-			if (electorsCountArr[j] > max) {
-				max = electorsCountArr[j];
-				keep = j;
-			}// if // for j,keep
-		cout << "The winner of the elections, with a total of " << electorsCountArr[keep] << " electors is: " << endl;
-		cout << *(partyList.getPartyByIndex(keep)->getCandidate()) << endl;
+	Party* getResults(int& winningPartyElectorsAmount, PartyList& partyList) {
+		int i,j, const num_of_parties = partyList.getLogSize();
+		int winningPartySN,winningPartyIdx;
+		Party* winningParty;
+		// An array ordered same as partyList - counts for each party electors amount
+		ElectorsForParty* electors_for_parties = new ElectorsForParty[num_of_parties];
+
+		for (i = 0; i < num_of_parties; i++)
+			electors_for_parties[i].party = partyList[i];
+		
+		// Every District - prints results.
+		for (i = 0; i < this->logSize/*logSize = Num of Districtrs*/; i++) {
+			// Winning partySN for current district.
+			winningPartySN = dstArr[i]->getVotingresults(partyList);
+			for (j = 0; j < num_of_parties; j++) {
+				if (electors_for_parties[j].party->getSN() == winningPartySN) {
+					electors_for_parties[j].electorsAmount += dstArr[i]->getRank();
+					break;
+				}
+			}
+			cout << endl;
+		}
+		
+		winningPartyIdx = getIndexOfWinningParty(electors_for_parties, num_of_parties);
+		winningPartyElectorsAmount = electors_for_parties[winningPartyIdx].electorsAmount;
+		winningParty = electors_for_parties[winningPartyIdx].party;
+		delete[] electors_for_parties;
+		return winningParty;
+	}
+
+	int getIndexOfWinningParty(ElectorsForParty* elecForParty, const int& num_of_parties) {
+		int i, maxElectors = 0, keepMaxPartyIndex = 0;
+		ElectorsForParty cur;
+		for (i = 0; i < num_of_parties; i++) {
+			cur = elecForParty[i];
+			if (cur.electorsAmount > maxElectors) {
+				maxElectors = cur.electorsAmount;
+				keepMaxPartyIndex = i;
+			}
+			else if (cur.electorsAmount == maxElectors) {// Need to take The party with the smallest SerialNumber
+				if (cur.party->getSN() < elecForParty[keepMaxPartyIndex].party->getSN())
+					keepMaxPartyIndex = i;
+			}
+		}
+		return keepMaxPartyIndex;
 	}
 };
 

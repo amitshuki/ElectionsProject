@@ -43,6 +43,13 @@ public:
 				return districtRepsArr[i];
 	}
 
+	void printFirstXReps(const int& districtSN, const int& amountOfReps) {
+		for (int i = 0; i < logSize; i++)
+			if (districtRepsArr[i].getDistrictSN() == districtSN)
+				districtRepsArr[i].printFirstXReps(amountOfReps);
+	}
+
+
 	DistrictRepsList& operator=(const DistrictRepsList& other) {
 		DistrictReps* newDRArr = new DistrictReps[other.capacity];
 		for (int i = 0; i < other.logSize; i++)

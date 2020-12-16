@@ -79,6 +79,13 @@ public:
 		return *newCitList;
 	}
 
+
+	void printFirstXReps(const int& amount) {
+		for (int i = 0; i < amount && i < logSize; i++)
+			cout << i + 1 << ". " << *(citArr[i]) << endl;
+	}
+
+
 	CitizenList& operator=(const CitizenList& other) {
 		Citizen** newCitArr = new Citizen * [other.capacity];
 		for (int i = 0; i < other.logSize; i++)

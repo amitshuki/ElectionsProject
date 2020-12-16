@@ -5,7 +5,7 @@ class VotingResultsPerParty
 {
 private:
 	const Party* party;
-	CitizenList repsList;
+	CitizenList repsList;	
 public:
 	VotingResultsPerParty():party(nullptr){}
 	VotingResultsPerParty(Party* party):party(party){}
@@ -19,11 +19,11 @@ public:
 	CitizenList& getRepsList() { return repsList; }
 	const Party* getParty() { return party; }
 
-	/*VotingResultsPerParty& operator=(const VotingResultsPerParty& other) {
+	VotingResultsPerParty& operator=(const VotingResultsPerParty& other) {
 		this->party = party;
 		repsList = other.repsList;
 		return *this;
-	}*/
+	}
 	friend ostream& operator<<(ostream& out, const VotingResultsPerParty& vrpp) {
 		if (vrpp.repsList.getLogSize() > 0) {
 			out << "\tParty Serial number: " << vrpp.party->getSN() << ", ";

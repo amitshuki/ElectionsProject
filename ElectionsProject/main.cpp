@@ -16,43 +16,46 @@ void vote(State& state);
 
 int main() {
 	State state;
-	state.addDistrict(myString("A"),10);
-	state.addDistrict(myString("B"), 15);
-	state.addDistrict(myString("C"), 21);
-
+	state.addDistrict(myString("A"),15);
+	state.addDistrict(myString("B"), 10);
+	state.addDistrict(myString("C"), 7);
+	myString name("citizen");
 	int i = 1;
+	for (i = 0; i < 100; i++)
+		state.addCitizen(name, i, 1994, 1);
+	for (i = 100; i < 200; i++)
+		state.addCitizen(name, i, 1995, 2);
+	for (i = 200; i < 300; i++)
+		state.addCitizen(name, i, 1996, 3);
 
-	state.addCitizen(myString("Tal"), 312, 1994, 1);
-	state.addCitizen(myString("Dar"), 201, 1994, 1);
-	state.addCitizen(myString("Adi"), 202, 1994, 2);
-	state.addCitizen(myString("Sapir"), 203, 1994, 2);
-	state.addCitizen(myString("Tiki"), 204, 1994, 3);
-	state.addCitizen(myString("Yossi"), 205, 1994, 3);
+	state.addParty(myString("Dumbo"), 0);
+	state.addParty(myString("Ior"), 100);
 
-	state.addParty(myString("Dumbo"), 312);
-	state.addParty(myString("Ior"), 201);
+	for (i = 0; i < 15; i++) {
+		state.addCitizenAsPartyRepInDist(i, 1, 1);
+		state.addCitizenAsPartyRepInDist(i+15, 1, 2);
+		state.addCitizenAsPartyRepInDist(i+30, 1, 3);
+		state.addCitizenAsPartyRepInDist(i+45, 2, 1);
+		state.addCitizenAsPartyRepInDist(i + 60, 2, 2);
+		state.addCitizenAsPartyRepInDist(i + 75, 2, 3);
+	}
 
-	state.addCitizenAsPartyRepInDist(202, 1, 1);
-	state.addCitizenAsPartyRepInDist(203, 1, 2);
-	state.addCitizenAsPartyRepInDist(204, 1, 2);
-	state.addCitizenAsPartyRepInDist(205, 1, 3);
-	state.addCitizenAsPartyRepInDist(202, 2, 1);
-	state.addCitizenAsPartyRepInDist(203, 2, 2);
-	state.addCitizenAsPartyRepInDist(204, 2, 1);
-	state.addCitizenAsPartyRepInDist(205, 2, 3);
+	for (i = 0; i < 60; i++)
+		state.vote(i, 1);
+	for (i = 0; i < 40; i++)
+		state.vote(i+60, 2);
+	for (i = 0; i < 25; i++) {
+		state.vote(i+100, 1);
+		state.vote(i + 125, 2);
+	}
+	for (i = 0; i < 40; i++) {
+		state.vote(i + 200, 1);
+	}
+	for (i = 0; i < 50; i++) {
+		state.vote(i + 240, 2);
+	}
 
-	state.vote(312, 1);
-	state.vote(201, 1);
-	state.vote(202, 2);
-	state.vote(203, 1);
-	state.vote(204, 2);
-	state.vote(205, 1);
-
-	state.showDistrict();
-	state.showVotersBook();
-	state.showParties();
-
-	//state.showElectionsResults();
+	state.showElectionsResults();
 }
 
 void run(State& state) {

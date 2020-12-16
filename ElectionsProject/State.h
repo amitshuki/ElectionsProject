@@ -108,7 +108,12 @@ public:
 		return true;
 	}
 
-	void showElectionsResults() { distList.showVotesResults(partyList); }
+	void showElectionsResults() { 
+		int winningPartyElectorsAmount;
+		Party* winningParty = distList.getResults(winningPartyElectorsAmount, partyList);
+		cout << "The winner of the elections, with "<< winningPartyElectorsAmount<<" electors is: " << endl;
+		cout << *(winningParty->getCandidate()) << endl;
+	}
 
 };
 

@@ -35,6 +35,7 @@ public:
 
 	bool setElectedCandidate(const Citizen* candidateElect) { return this->electedCandidate = candidateElect; }
 
+
 	const int& getElectorsAmount()const { return electors; }
 	const Citizen* const getElectedCandidate()const { return electedCandidate; }
 	CitizenList& getElectedRepsListByParty(const int& partySN, const int& idx = -1) {
@@ -48,7 +49,7 @@ public:
 
 	VotingResults& operator=(const VotingResults& other) {
 		VotingResultsPerParty* newvrppArr = new VotingResultsPerParty[other.numOfParties];
-		for (int i = 0; i < numOfParties; i++)
+		for (int i = 0; i < other.numOfParties; i++)
 			newvrppArr[i] = other.vrppArr[i];
 		delete[] vrppArr;
 		vrppArr = newvrppArr;
