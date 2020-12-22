@@ -11,14 +11,15 @@ bool State::addDistrict(const myString& districtName, const int& rank) {
 	return partyList.addDistrictToParties(dst->getSN(), dst->getRank());// Add the District to the parties list.
 }
 bool State::addCitizen(const myString& name, const int& id, const int& birthYear, const int& districtSN) {
-	return votersBook.addCitizenToList(new Citizen(name, id, birthYear, districtSN)) &&// Add citizen to voters book
-		distList.getDistrictBySN(districtSN)->addCitizenToDistrict();// Add a citizen to the district's counter
+	District* dst = this->distList.getDistrictBySN(districtSN);
+	return votersBook.addCitizenToList(new Citizen(name, id, birthYear, districtSN, dst)) &&// Add citizen to voters book
+		dst->addCitizenToDistrict();// Add a citizen to the district's counter
 }
 bool State::addParty(const myString& partyName, const int& candidateId) {
 	Citizen* const candidate = votersBook.getCitizenByID(candidateId);
 	Party* newParty;
 	if (!candidate) {
-		cout << "Candidate does not exist in state." << endl;
+		//cout << "Candidate does not exist in state." << endl;
 		return false;
 	}
 	else {
@@ -40,13 +41,7 @@ bool State::addCitizenAsPartyRepInDist(const int& repID, const int& partySN, con
 	Citizen* const rep = votersBook.getCitizenByID(repID);
 	Party* const prt = partyList.getPartyBySN(partySN);
 	District* const dst = distList.getDistrictBySN(districtSN);
-	if (!rep)
-		cout << "Citizen does not exist in state." << endl;
-	else if (!prt)
-		cout << "Party does not exist in state." << endl;
-	else if (!dst)
-		cout << "District does not exist in state." << endl;
-	else
+	if (rep && prt && dst)
 		return prt->addCitizenAsRep(rep, dst->getSN());
 	return false;
 }
@@ -68,13 +63,15 @@ void State::showParties()const {
 }
 
 bool State::vote(const int& id, const int& partySN) {
-	Citizen* const cit = votersBook.getCitizenByID(id);
+	Citizen* cit = votersBook.getCitizenByID(id);
 	if (!cit->hasVoted())
 		cit->vote(partySN);
 	else
 		return false;
+
 	// Add vote to the party in the district of the citizen.
-	if (!distList.getDistrictBySN(cit->getDistrictSN())->addVoteToParty(partySN))
+	District* dst = cit->getDistrict();
+	if(!dst->addVoteToParty(partySN))
 		return false;
 	return true;
 }

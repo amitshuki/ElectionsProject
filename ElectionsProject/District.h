@@ -1,6 +1,5 @@
 #pragma once
 #include "PartyList.h"
-#include "VotingResults.h"
 #include "VotersForPartyList.h"
 #include "myString.h"
 #include <cmath>

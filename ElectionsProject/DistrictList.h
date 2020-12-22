@@ -1,5 +1,4 @@
 #pragma once
-#include "VotingResults.h"
 #include "District.h"
 #include "myString.h"
 using namespace myStr;
@@ -19,7 +18,7 @@ public:
 	
 	District* const addDistrictToList(const myString& dstName, const int& rank);
 	bool checkExistingDistrictBySN(const int& sn)const;
-	District* const getDistrictBySN(const int& sn)const;
+	District* getDistrictBySN(const int& sn)const;
 	const int& getLogSize()const { return logSize; }
 
 

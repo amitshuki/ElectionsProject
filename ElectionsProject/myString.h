@@ -19,7 +19,7 @@ namespace myStr {
 		const int& getlength()const { return length; }
 		const int& getCapacity()const { return capacity; }
 
-		void resizeCapacity(const int& newlength);
+		bool resizeCapacity(const int& newlength);
 	private:
 		void resizeCapacityCase_1_1(const int& newlength);
 		void resizeCapacityCase_1_2(const int& newlength);

@@ -55,7 +55,6 @@ const int& District::getVotingresults(PartyList& partyList) {
 
 int District::getWinningPartyIdx(ElectorsForParty*& electors_for_parties, const int& num_of_parties) {
 	int i, maxElectors = 0, keepMaxPartyIndex = 0;
-	Party* winningParty;
 	ElectorsForParty cur;
 	for (i = 0; i < num_of_parties; i++) {
 		cur = electors_for_parties[i];

@@ -5,7 +5,6 @@ bool VotersForParty::setPartySN(const int& partySN) {
 	if (this->partySN == -1)
 		return this->partySN = partySN;
 
-	std::cout << "Party Serial No. already set." << std::endl;
 	return false;
 }
 

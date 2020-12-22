@@ -11,15 +11,13 @@ bool DistrictReps::setDistrict(const int& dstSn, const int& eRank) {
 	return true;
 }
 bool DistrictReps::addRep(Citizen* const rep) {
-	if (this->rank == repsList.getLogSize()) {
+	if (this->rank == repsList.getLogSize())
 		return false;
-	}
-	else {
-		if (!repsList.addCitizenToList(rep))
-			cout << "Representative already in list." << endl;
-		return false;
-	}
-	return true;
+
+	if (repsList.addCitizenToList(rep))
+		return true;
+
+	return false;
 }
 
 

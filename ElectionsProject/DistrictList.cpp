@@ -29,10 +29,7 @@ District* const DistrictList::addDistrictToList(const myString& dstName, const i
 	if (logSize == capacity)
 		resizeArr();
 
-	//while (checkExistingDistrictBySN(districtSN))//Check that there is no other dist with same SN
-	//	districtSN = rand() % (100 - 1 + 1) + 1;
-	dstArr[logSize++] = new District(dstName, rank, logSize + 1);//districtSN);
-	//cout << "Serial number: " << logSize + 1 << endl;
+	dstArr[logSize++] = new District(dstName, rank, logSize + 1);
 	return dstArr[logSize - 1];
 }
 bool DistrictList::checkExistingDistrictBySN(const int& sn)const {
@@ -42,7 +39,7 @@ bool DistrictList::checkExistingDistrictBySN(const int& sn)const {
 			return true;
 	return false;
 }
-District* const DistrictList::getDistrictBySN(const int& sn)const {
+District* DistrictList::getDistrictBySN(const int& sn)const {
 	for (int i = 0; i < logSize; i++)
 		if (dstArr[i]->getSN() == sn)
 			return dstArr[i];

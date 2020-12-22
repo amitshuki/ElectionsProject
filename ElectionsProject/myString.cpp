@@ -11,8 +11,6 @@ namespace myStr {
 			this->length = elength;
 			this->capacity = elength + 1;
 		}
-		else
-			cout << "Cannot allocate negatives." << endl;
 	}
 	myString::myString(const myString& other) :arr(nullptr), length(0), capacity(0) {
 		length = other.length;
@@ -36,10 +34,10 @@ namespace myStr {
 			delete[] arr;
 	}
 
-	void myString::resizeCapacity(const int& newCapacity) {
+	bool myString::resizeCapacity(const int& newCapacity) {
 		/*This function resizeCapacitys myString according to given newCapacity*/
 		if (newCapacity == 0) {
-			cout << "New capacity is invalid." << endl;
+			return false;
 		}
 		else {
 			if (newCapacity > 0 && newCapacity != capacity) {

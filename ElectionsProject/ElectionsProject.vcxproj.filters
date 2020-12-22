@@ -68,9 +68,6 @@
     <ClCompile Include="VotersForParty.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Round.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DistrictReps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

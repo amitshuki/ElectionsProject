@@ -30,7 +30,6 @@ int main() {
 
 	state.addParty(myString("Dumbo"), 0);
 	state.addParty(myString("Ior"), 100);
-
 	for (i = 0; i < 15; i++) {
 		state.addCitizenAsPartyRepInDist(i, 1, 1);
 		state.addCitizenAsPartyRepInDist(i+15, 1, 2);

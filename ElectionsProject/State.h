@@ -5,7 +5,6 @@
 #include "CitizenList.h"
 #include "Party.h"
 #include "PartyList.h"
-#include "VotingResults.h"
 #include "myString.h"
 using namespace myStr;
 using namespace std;

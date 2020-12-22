@@ -162,7 +162,6 @@
     <ClCompile Include="myString.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PartyList.cpp" />
-    <ClCompile Include="Round.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="VotersForParty.cpp" />
     <ClCompile Include="VotersForPartyList.cpp" />
