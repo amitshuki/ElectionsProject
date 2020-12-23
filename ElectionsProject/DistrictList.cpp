@@ -1,6 +1,4 @@
 #include "DistrictList.h"
-
-
 void DistrictList::resizeArr() {
 	int i;
 	if (capacity == 0)
@@ -29,7 +27,7 @@ District* const DistrictList::addDistrictToList(const myString& dstName, const i
 	if (logSize == capacity)
 		resizeArr();
 
-	dstArr[logSize++] = new District(dstName, rank, logSize + 1);
+	dstArr[logSize++] = new DividedDistrict(dstName, rank, logSize + 1);
 	return dstArr[logSize - 1];
 }
 bool DistrictList::checkExistingDistrictBySN(const int& sn)const {
@@ -73,39 +71,28 @@ ostream& operator<<(ostream& out, const DistrictList& dstList) {
 
 
 Party* DistrictList::getResults(int& winningPartyElectorsAmount, PartyList& partyList) {
-	int i, j, const num_of_parties = partyList.getLogSize();
-	int winningPartySN, winningPartyIdx;
+	int i, winningPartyIdx;
 	Party* winningParty;
+	
 	// An array ordered same as partyList - counts for each party electors amount
-	ElectorsForParty* electors_for_parties = new ElectorsForParty[num_of_parties];
-
-	for (i = 0; i < num_of_parties; i++)
-		electors_for_parties[i].party = partyList[i];
+	ElectorsForPartyArr elects_for_parties(partyList);
 
 	// Every District - prints results.
 	for (i = 0; i < this->logSize/*logSize = Num of Districtrs*/; i++) {
-		// Winning partySN for current district.
-		winningPartySN = dstArr[i]->getVotingresults(partyList);
-		for (j = 0; j < num_of_parties; j++) {
-			if (electors_for_parties[j].party->getSN() == winningPartySN) {
-				electors_for_parties[j].electorsAmount += dstArr[i]->getRank();
-				break;
-			}
-		}
+		elects_for_parties += dstArr[i]->getVotingresults(partyList);//Add the current district result to the overall results.
 		cout << endl;
 	}
 
-	winningPartyIdx = getIndexOfWinningParty(electors_for_parties, num_of_parties);
-	winningPartyElectorsAmount = electors_for_parties[winningPartyIdx].electorsAmount;
-	winningParty = electors_for_parties[winningPartyIdx].party;
-	delete[] electors_for_parties;
+	winningPartyIdx = getIndexOfWinningParty(elects_for_parties);
+	winningPartyElectorsAmount = elects_for_parties[winningPartyIdx].electorsAmount;
+	winningParty = elects_for_parties[winningPartyIdx].party;
 	return winningParty;
 }
 
-int DistrictList::getIndexOfWinningParty(ElectorsForParty* elecForParty, const int& num_of_parties) {
+int DistrictList::getIndexOfWinningParty(ElectorsForPartyArr& elecForParty) {
 	int i, maxElectors = 0, keepMaxPartyIndex = 0;
 	ElectorsForParty cur;
-	for (i = 0; i < num_of_parties; i++) {
+	for (i = 0; i < elecForParty.getSize(); i++) {
 		cur = elecForParty[i];
 		if (cur.electorsAmount > maxElectors) {
 			maxElectors = cur.electorsAmount;

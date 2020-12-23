@@ -1,12 +1,13 @@
 #include "CitizenList.h"
 
-CitizenList::CitizenList() :citArr(nullptr), logSize(0), capacity(0), delOpt(deleteOption::CANCLE_LIST) {}
+CitizenList::CitizenList(const RoundMode& rm) :citArr(nullptr), logSize(0), capacity(0), delOpt(deleteOption::CANCLE_LIST), round_mode(rm) {}
 CitizenList::CitizenList(const CitizenList& other) {
 	citArr = new Citizen * [other.capacity];
 	for (int i = 0; i < other.logSize; i++)
 		citArr[i] = other.citArr[i];
 	logSize = other.logSize;
 	capacity = other.capacity;
+	round_mode = other.round_mode;
 	this->delOpt = other.delOpt;
 }
 CitizenList::~CitizenList() {
@@ -33,13 +34,20 @@ void CitizenList::resizeArr() {
 	capacity *= 2;
 }
 
-
-bool CitizenList::addCitizenToList(Citizen* cit) {
+bool CitizenList::addCitizenToList(Citizen* const cit) {
 	if (logSize == capacity)
 		resizeArr();
 	if (checkExistingCitizenInListByID(cit->getId()))
 		return false;
 	return citArr[logSize++] = cit;
+}
+
+bool CitizenList::addCitizenToList(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* dst){
+	if (logSize == capacity)
+		resizeArr();
+	if (checkExistingCitizenInListByID(id))
+		return false;
+	return citArr[logSize++] = new Citizen(name, id, birthYear, districtSN, dst, this->round_mode);
 }
 bool CitizenList::checkExistingCitizenInListByID(const int& id)const {
 	int i;
@@ -58,13 +66,6 @@ Citizen* const CitizenList::getCitizenByID(const int& id)const {
 		if (citArr[i]->getId() == id)
 			return citArr[i];
 	return nullptr;
-}
-
-CitizenList& CitizenList::getSubList(const int& amount)const {
-	CitizenList* newCitList = new CitizenList;
-	for (int i = 0; i < amount && i < logSize; i++)
-		newCitList->addCitizenToList(citArr[i]);
-	return *newCitList;
 }
 
 void CitizenList::printFirstXReps(const int& amount) {

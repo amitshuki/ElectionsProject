@@ -2,10 +2,7 @@
 #include "DistrictReps.h"
 using namespace std;
 
-DistrictReps::DistrictReps() :dstSN(-1), rank(-1) {}
-DistrictReps::DistrictReps(const int& dstSn, const int& rank) : dstSN(dstSn), rank(rank) {}
-
-bool DistrictReps::setDistrict(const int& dstSn, const int& eRank) {
+bool DistrictReps::setDistrict(const int& dstSn, const int& eRank, const RoundMode& rm){
 	if (!(this->dstSN = dstSn) || !(this->rank = eRank))
 		return false;
 	return true;
@@ -20,23 +17,19 @@ bool DistrictReps::addRep(Citizen* const rep) {
 	return false;
 }
 
-
-
-DistrictReps& DistrictReps::operator=(const DistrictReps& other) {
-	this->dstSN = other.dstSN;
-	this->rank = other.rank;
-	this->repsList = other.repsList;
-	return *this;
-}
-
 ostream& operator<<(ostream& out, const DistrictReps& dstReps) {
-	out << "District Serial Number:" << dstReps.getDistrictSN() << endl;
+	if (dstReps.round_mode == RoundMode::REGULAR)
+		out << "District Serial Number:" << dstReps.getDistrictSN() << endl;
 	if (dstReps.repsList.getLogSize() > 0) {
 		out << "Representatives: " << endl;
 		out << "=============== " << endl;
 		out << dstReps.repsList << endl;
 	}
-	else
-		out << "This party has no representatives in this district." << endl;
+	else {
+		if (dstReps.round_mode == RoundMode::REGULAR)
+			out << "This party has no representatives in this district." << endl;
+		else
+			out << "This party has no representatives." << endl;
+	}
 	return out;
 }

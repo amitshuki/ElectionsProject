@@ -11,14 +11,15 @@ private:
 	int logSize, capacity;
 
 	deleteOption delOpt;
-
+	RoundMode round_mode;
 	void resizeArr();
 public:
-	CitizenList();
+	CitizenList(const RoundMode& rm);
 	CitizenList(const CitizenList& other);
 	~CitizenList();
 
-	bool addCitizenToList(Citizen* cit);
+	bool addCitizenToList(Citizen* const cit);
+	bool addCitizenToList(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* dst);
 	bool checkExistingCitizenInListByID(const int& id)const;
 	bool setDeleteOpt(const deleteOption& delOpt);
 	

@@ -1,5 +1,7 @@
 #pragma once
-#include "District.h"
+#include "UnifiedDistrict.h"
+#include "DividedDistrict.h"
+#include "ElectorsForPartyArr.h"
 #include "myString.h"
 using namespace myStr;
 
@@ -30,6 +32,6 @@ public:
 	
 
 	Party* getResults(int& winningPartyElectorsAmount, PartyList& partyList);
-	int getIndexOfWinningParty(ElectorsForParty* elecForParty, const int& num_of_parties);
+	int getIndexOfWinningParty(ElectorsForPartyArr& elecForParty);
 };
 

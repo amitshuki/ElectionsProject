@@ -23,14 +23,9 @@ PartyList::~PartyList() {
 }
 
 Party* const PartyList::addPartyToList(const myString& partName, const Citizen* candidate) {
-	int partySN = rand() % (200 - 101 + 1) + 101;
 	if (logSize == capacity)
 		resizeArr();
-
-	while (checkExistingPartyBySN(partySN))//Check that there is no other party with same SN
-		partySN = rand() % (200 - 101 + 1) + 101;
-	//cout << "Serial number: " << partySN << endl;
-	return partyArr[logSize++] = new Party(partName, logSize + 1, candidate);
+	return partyArr[logSize++] = new Party(partName, logSize + 1, candidate, this->round_mode);
 }
 bool PartyList::addDistrictToParties(const int& dstSN, const int& dstRank) {
 	int i;

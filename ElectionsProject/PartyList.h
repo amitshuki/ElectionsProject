@@ -5,10 +5,10 @@ class PartyList
 {
 	Party** partyArr;
 	int logSize, capacity;
-
+	RoundMode round_mode;
 	void resizeArr();
 public:
-	PartyList() :partyArr(nullptr), logSize(0), capacity(0) {}
+	PartyList(const RoundMode& rm) :partyArr(nullptr), logSize(0), capacity(0), round_mode(rm) {}
 	~PartyList();
 
 	Party* const addPartyToList(const myString& partName, const Citizen* candidate);

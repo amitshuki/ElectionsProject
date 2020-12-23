@@ -144,10 +144,15 @@
     <ClInclude Include="DistrictList.h" />
     <ClInclude Include="DistrictReps.h" />
     <ClInclude Include="DistrictRepsList.h" />
+    <ClInclude Include="DividedDistrict.h" />
+    <ClInclude Include="ElectorsForPartyArr.h" />
     <ClInclude Include="myString.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="PartyList.h" />
-    <ClInclude Include="State.h" />
+    <ClInclude Include="RegularRound.h" />
+    <ClInclude Include="Round.h" />
+    <ClInclude Include="SimpleRound.h" />
+    <ClInclude Include="UnifiedDistrict.h" />
     <ClInclude Include="VotersForParty.h" />
     <ClInclude Include="VotersForPartyList.h" />
   </ItemGroup>
@@ -158,11 +163,16 @@
     <ClCompile Include="DistrictList.cpp" />
     <ClCompile Include="DistrictReps.cpp" />
     <ClCompile Include="DistrictRepsList.cpp" />
+    <ClCompile Include="DividedDistrict.cpp" />
+    <ClCompile Include="ElectorsForPartyArr.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="myString.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PartyList.cpp" />
-    <ClCompile Include="State.cpp" />
+    <ClCompile Include="RegularRound.cpp" />
+    <ClCompile Include="Round.cpp" />
+    <ClCompile Include="SimpleRound.cpp" />
+    <ClCompile Include="UnifiedDistrict.cpp" />
     <ClCompile Include="VotersForParty.cpp" />
     <ClCompile Include="VotersForPartyList.cpp" />
   </ItemGroup>
