@@ -23,11 +23,14 @@ DistrictList::~DistrictList() {
 
 // Adds a district and returns a pointer to it.
 
-District* const DistrictList::addDistrictToList(const myString& dstName, const int& rank) {
+District* const DistrictList::addDistrictToList(const myString& dstName, const int& rank, const DistrictType& dt) {
 	if (logSize == capacity)
 		resizeArr();
+	if (dt == DistrictType::DIVIDED)
+		dstArr[logSize++] = new DividedDistrict(dstName, rank, logSize + 1);
+	else
+		dstArr[logSize++] = new UnifiedDistrict(dstName, rank, logSize + 1);
 
-	dstArr[logSize++] = new DividedDistrict(dstName, rank, logSize + 1);
 	return dstArr[logSize - 1];
 }
 bool DistrictList::checkExistingDistrictBySN(const int& sn)const {
@@ -43,9 +46,6 @@ District* DistrictList::getDistrictBySN(const int& sn)const {
 			return dstArr[i];
 	return nullptr;
 }
-
-
-
 
 District* const DistrictList::operator[](const int& idx) {
 	if (idx > logSize || idx < 0)

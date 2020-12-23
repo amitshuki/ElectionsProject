@@ -1,7 +1,7 @@
 #include "SimpleRound.h"
 
 SimpleRound::SimpleRound(const int& rank) :Round(RoundMode::SIMPLE) {
-	District* dst = this->distList.addDistrictToList("gen_dst", rank);
+	District* dst = this->distList.addDistrictToList("gen_dst", rank, DistrictType::DIVIDED);
 	this->districtSN = dst->getSN();
 }
 

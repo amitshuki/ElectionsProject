@@ -6,7 +6,7 @@
 using namespace myStr;
 
 
-
+enum class DistrictType { DIVIDED, UNIFIED };
 class DistrictList
 {
 private:
@@ -18,7 +18,7 @@ public:
 	~DistrictList();
 	// Adds a district and returns a pointer to it.
 	
-	District* const addDistrictToList(const myString& dstName, const int& rank);
+	District* const addDistrictToList(const myString& dstName, const int& rank,const DistrictType& dt);
 	bool checkExistingDistrictBySN(const int& sn)const;
 	District* getDistrictBySN(const int& sn)const;
 	const int& getLogSize()const { return logSize; }

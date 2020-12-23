@@ -5,7 +5,7 @@ class RegularRound :
 {
 public:
 	RegularRound() :Round(RoundMode::REGULAR){}
-	bool addDistrict(const myString& districtName, const int& rank);
+	bool addDistrict(const myString& districtName, const int& rank, const DistrictType& dt);
 	bool addCitizen(const myString& name, const int& id, const int& birthYear, const int& districtSN);
 	bool addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN);
 

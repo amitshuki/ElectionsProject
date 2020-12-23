@@ -1,6 +1,6 @@
 #include "RegularRound.h"
-bool RegularRound::addDistrict(const myString& districtName, const int& rank) {
-	District* dst = distList.addDistrictToList(districtName, rank);// Add the district to the Round's list.
+bool RegularRound::addDistrict(const myString& districtName, const int& rank, const DistrictType& dt) {
+	District* dst = distList.addDistrictToList(districtName, rank, dt);// Add the district to the Round's list.
 	if (dst == nullptr)
 		return false;
 	for (int i = 0; i < partyList.getLogSize(); i++)

@@ -31,70 +31,72 @@ public:
 private:
 
 };
-int main() {
-	SimpleRound simpleRound(30);
-	myString name("citizen");
-	int i = 1;
-	for (i = 0; i < 1000; i++)
-		simpleRound.addCitizen(name, i, 1994);
-	simpleRound.addParty("Dumbo", 0);
-	simpleRound.addParty("Ior", 100);
-
-	for (i = 0; i < 30; i++) {
-		simpleRound.addCitizenAsPartyRep(i, 1);
-		simpleRound.addCitizenAsPartyRep(i+30, 2);
-	}
-
-	for (i = 0; i < 300; i++)
-		simpleRound.vote(i, 1);
-	for (i = 0; i < 300; i++)
-		simpleRound.vote(i + 500, 2);
-	simpleRound.showElectionsResults();
-	
-}
 //int main() {
-//	//B b;
-//	RegularRound RegularRound;
-//	RegularRound.addDistrict(myString("A"),15);//Need to take care of which kind of district this is.
-//	RegularRound.addDistrict(myString("B"), 10);
-//	RegularRound.addDistrict(myString("C"), 7);
+//	SimpleRound simpleRound(30);
 //	myString name("citizen");
 //	int i = 1;
-//	for (i = 0; i < 100; i++)
-//		RegularRound.addCitizen(name, i, 1994, 1);
-//	for (i = 100; i < 200; i++)
-//		RegularRound.addCitizen(name, i, 1995, 2);
-//	for (i = 200; i < 300; i++)
-//		RegularRound.addCitizen(name, i, 1996, 3);
+//	for (i = 0; i < 1000; i++)
+//		simpleRound.addCitizen(name, i, 1994);
+//	simpleRound.addParty("Dumbo", 0);
+//	simpleRound.addParty("Ior", 100);
 //
-//	RegularRound.addParty(myString("Dumbo"), 0);
-//	RegularRound.addParty(myString("Ior"), 100);
-//	for (i = 0; i < 15; i++) {
-//		RegularRound.addCitizenAsPartyRepInDist(i, 1, 1);
-//		RegularRound.addCitizenAsPartyRepInDist(i+15, 1, 2);
-//		RegularRound.addCitizenAsPartyRepInDist(i+30, 1, 3);
-//		RegularRound.addCitizenAsPartyRepInDist(i+45, 2, 1);
-//		RegularRound.addCitizenAsPartyRepInDist(i + 60, 2, 2);
-//		RegularRound.addCitizenAsPartyRepInDist(i + 75, 2, 3);
+//	for (i = 0; i < 30; i++) {
+//		simpleRound.addCitizenAsPartyRep(i, 1);
+//		simpleRound.addCitizenAsPartyRep(i+30, 2);
 //	}
 //
-//	for (i = 0; i < 60; i++)
-//		RegularRound.vote(i, 1);
-//	for (i = 0; i < 40; i++)
-//		RegularRound.vote(i+60, 2);
-//	for (i = 0; i < 25; i++) {
-//		RegularRound.vote(i+100, 1);
-//		RegularRound.vote(i + 125, 2);
-//	}
-//	for (i = 0; i < 40; i++) {
-//		RegularRound.vote(i + 200, 1);
-//	}
-//	for (i = 0; i < 50; i++) {
-//		RegularRound.vote(i + 240, 2);
-//	}
-//
-//	RegularRound.showElectionsResults();
+//	for (i = 0; i < 300; i++)
+//		simpleRound.vote(i, 1);
+//	for (i = 0; i < 300; i++)
+//		simpleRound.vote(i + 500, 2);
+//	simpleRound.showElectionsResults();
+//	
 //}
+
+int i;
+int main() {
+	//B b;
+	RegularRound RegularRound;
+	RegularRound.addDistrict(myString("A"), 15, DistrictType::DIVIDED);
+	RegularRound.addDistrict(myString("B"), 10, DistrictType::DIVIDED);
+	RegularRound.addDistrict(myString("C"), 7, DistrictType::DIVIDED);
+	myString name("citizen");
+	int i = 1;
+	for (i = 0; i < 100; i++)
+		RegularRound.addCitizen(name, i, 1994, 1);
+	for (i = 100; i < 200; i++)
+		RegularRound.addCitizen(name, i, 1995, 2);
+	for (i = 200; i < 300; i++)
+		RegularRound.addCitizen(name, i, 1996, 3);
+
+	RegularRound.addParty(myString("Dumbo"), 0);
+	RegularRound.addParty(myString("Ior"), 100);
+	for (i = 0; i < 15; i++) {
+		RegularRound.addCitizenAsPartyRepInDist(i, 1, 1);
+		RegularRound.addCitizenAsPartyRepInDist(i+15, 1, 2);
+		RegularRound.addCitizenAsPartyRepInDist(i+30, 1, 3);
+		RegularRound.addCitizenAsPartyRepInDist(i+45, 2, 1);
+		RegularRound.addCitizenAsPartyRepInDist(i + 60, 2, 2);
+		RegularRound.addCitizenAsPartyRepInDist(i + 75, 2, 3);
+	}
+
+	for (i = 0; i < 60; i++)
+		RegularRound.vote(i, 1);
+	for (i = 0; i < 40; i++)
+		RegularRound.vote(i+60, 2);
+	for (i = 0; i < 25; i++) {
+		RegularRound.vote(i+100, 1);
+		RegularRound.vote(i + 125, 2);
+	}
+	for (i = 0; i < 40; i++) {
+		RegularRound.vote(i + 200, 1);
+	}
+	for (i = 0; i < 50; i++) {
+		RegularRound.vote(i + 240, 2);
+	}
+
+	RegularRound.showElectionsResults();
+}
 
 void run(RegularRound& RegularRound) {
 	int input = 0;
@@ -162,7 +164,7 @@ void addDistrictToRegularRound(RegularRound& RegularRound) {
 	cin >> rank;
 	if (rank <= 0)
 		cout << "Invalid amount of electors.";
-	else if (!RegularRound.addDistrict(dstName, rank))
+	else if (!RegularRound.addDistrict(dstName, rank,DistrictType::DIVIDED))//Need to change district Type!!
 			cout << "Could not add district." << endl;
 }
 void addCitizen(RegularRound& RegularRound) {
