@@ -50,3 +50,18 @@ ostream& operator<<(ostream& out, const District& dst) {
 	out << "Rank: " << dst.rank;
 	return out;
 }
+
+bool District::save(ostream& out) const {
+	out.write(rcastcc(&districtSN), sizeof(districtSN));
+	out.write(rcastcc(&totalCivils), sizeof(totalCivils));
+	out.write(rcastcc(&totalVoters), sizeof(totalVoters));
+	out.write(rcastcc(&rank), sizeof(rank));
+	if (!name.save(out))
+		return false;
+	if (!voters4PartyList.save(out))
+		return false;
+	return out.good();
+}
+bool District::load(istream& in) {
+	return true;
+}

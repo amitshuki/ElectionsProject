@@ -21,5 +21,7 @@ public:
 	void printFirstXReps(const int& amount) { repsList.printFirstXReps(amount); }
 
 	friend ostream& operator<<(ostream& out, const DistrictReps& dstReps);
+	bool save(ostream& out);
+	bool load(istream& in);
 };
 

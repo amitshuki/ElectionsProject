@@ -1,4 +1,5 @@
 #pragma once
+#include "DistrictLoader.h"
 #include "UnifiedDistrict.h"
 #include "DividedDistrict.h"
 #include "ElectorsForPartyArr.h"
@@ -6,7 +7,6 @@
 using namespace myStr;
 
 
-enum class DistrictType { DIVIDED, UNIFIED };
 class DistrictList
 {
 private:
@@ -33,5 +33,8 @@ public:
 
 	Party* getResults(int& winningPartyElectorsAmount, PartyList& partyList);
 	int getIndexOfWinningParty(ElectorsForPartyArr& elecForParty);
+
+	bool save(ostream& out);
+	bool load(istream& in);
 };
 

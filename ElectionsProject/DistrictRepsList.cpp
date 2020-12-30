@@ -10,8 +10,7 @@ void DistrictRepsList::resize() {
 		newDstRepsArr[i] = districtRepsArr[i];
 	delete[] districtRepsArr;
 	districtRepsArr = newDstRepsArr;
-	capacity *= 2;
-}
+	capacity *= 2;}
 
 
 bool DistrictRepsList::addDistrict(const int& dstSN, const int& dstRank) {
@@ -54,4 +53,17 @@ ostream& operator<<(ostream& out, const DistrictRepsList& drList) {
 	for (int i = 0; i < drList.logSize; i++)
 		out << i + 1 << ". " << *(drList.districtRepsArr[i]) << endl;
 	return out;
+}
+
+bool DistrictRepsList::save(ostream& out) {
+	out.write(rcastcc(&logSize), sizeof(logSize));
+	out.write(rcastcc(&capacity), sizeof(capacity));
+	out.write(rcastcc(&round_mode), sizeof(round_mode));
+	for (int i = 0; i < logSize; i++)
+		if (!districtRepsArr[i]->save(out))
+			return false;
+	return out.good();
+}
+bool DistrictRepsList::load(istream& in) {
+	return true;
 }

@@ -18,3 +18,13 @@ bool SimpleRound::addCitizenAsPartyRep(const int& repID, const int& partySN) {
 		return prt->addCitizenAsRep(rep, this->districtSN);
 	return false;
 }
+
+bool SimpleRound::save(ostream& out) {
+	Round::save(out);
+	out.write(rcastcc(&this->districtSN), sizeof(this->districtSN));
+	return out.good();
+}
+
+bool SimpleRound::load(istream& in) {
+	return true;
+}

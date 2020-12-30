@@ -26,5 +26,8 @@ public:
 
 	DistrictRepsList& operator=(const DistrictRepsList& other);
 	friend ostream& operator<<(ostream& out, const DistrictRepsList& drList);
+
+	bool save(ostream& out);
+	bool load(istream& in);
 };
 

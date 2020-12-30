@@ -33,3 +33,15 @@ ostream& operator<<(ostream& out, const DistrictReps& dstReps) {
 	}
 	return out;
 }
+
+bool DistrictReps::save(ostream& out) {
+	out.write(rcastcc(&dstSN), sizeof(dstSN));
+	out.write(rcastcc(&rank), sizeof(rank));
+	out.write(rcastcc(&round_mode), sizeof(round_mode));
+	if (!repsList.save(out))
+		return false;
+	return out.good();
+}
+bool DistrictReps::load(istream& in) {
+	return true;
+}

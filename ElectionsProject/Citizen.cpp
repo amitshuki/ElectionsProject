@@ -25,3 +25,26 @@ ostream& operator<<(ostream& out, const Citizen& cit) {
 		out << ", District serial no.: " << cit.districtSN;
 	return out;
 }
+
+bool Citizen::save(ostream& out) const {
+	out.write(rcastcc(&id), sizeof(this->id));
+	out.write(rcastcc(&districtSN), sizeof(this->districtSN));
+	out.write(rcastcc(&birthYear), sizeof(this->birthYear));
+	//Write dst! do i need it?
+	name.save(out);
+	out.write(rcastcc(&votedPartySN), sizeof(this->votedPartySN));
+	out.write(rcastcc(&didVote), sizeof(this->didVote));
+	out.write(rcastcc(&round_mode), sizeof(this->round_mode));
+	return out.good();
+}
+bool Citizen::load(istream& in) {
+	in.read(rcastc(&id), sizeof(id));
+	in.read(rcastc(&districtSN), sizeof(districtSN));
+	in.read(rcastc(&birthYear), sizeof(birthYear));
+	//read dst??
+	name.load(in);
+	in.read(rcastc(&votedPartySN), sizeof(votedPartySN));
+	in.read(rcastc(&didVote), sizeof(didVote));
+	in.read(rcastc(&round_mode), sizeof(round_mode));
+	return in.good();
+}

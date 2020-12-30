@@ -5,8 +5,6 @@
 #include "myString.h"
 #include <cmath>
 using namespace myStr;
-
-
 class District
 {
 protected:
@@ -29,6 +27,11 @@ public:
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList) = 0;
 
 	friend ostream& operator<<(ostream& out, const District& dst);
+	
+	friend class DistrictList;
+
+	virtual bool save(ostream& out) const;
+	virtual bool load(istream& in);
 protected:
 	int calcElectors(const int& numOfVoters);
 	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) = 0;

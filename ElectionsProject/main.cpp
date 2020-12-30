@@ -13,24 +13,6 @@ void addCitizen(RegularRound& RegularRound);
 void addParty(RegularRound& RegularRound);
 void addCitizenAsPartyRep(RegularRound& RegularRound);
 void vote(RegularRound& RegularRound);
-class A
-{
-public:
-	A() { cout << "ctor A" << endl; }
-	~A() { cout << "dtor A" << endl; };
-
-private:
-
-};
-class B:A
-{
-public:
-	B() { cout << "ctor B" << endl; };
-	~B() { cout << "dtor B" << endl; };
-
-private:
-
-};
 //int main() {
 //	SimpleRound simpleRound(30);
 //	myString name("citizen");
@@ -54,7 +36,22 @@ private:
 //}
 
 int i;
+
+class A {
+	int i;
+public:
+	A() :i(5) {}
+	const int& getI()const { 
+		cout << "i's address: " << &i << endl;
+		return i; }
+};
 int main() {
+	A a;
+	const int x = a.getI();
+	cout << "x address:  " << &x << endl;
+	cout << "x value: " << x << endl;
+
+	exit(0);
 	//B b;
 	RegularRound RegularRound;
 	RegularRound.addDistrict(myString("A"), 15, DistrictType::DIVIDED);
@@ -164,7 +161,7 @@ void addDistrictToRegularRound(RegularRound& RegularRound) {
 	cin >> rank;
 	if (rank <= 0)
 		cout << "Invalid amount of electors.";
-	else if (!RegularRound.addDistrict(dstName, rank,DistrictType::DIVIDED))//Need to change district Type!!
+	else if (!RegularRound.addDistrict(dstName, rank, DistrictType::DIVIDED))//Need to change district Type!!
 			cout << "Could not add district." << endl;
 }
 void addCitizen(RegularRound& RegularRound) {

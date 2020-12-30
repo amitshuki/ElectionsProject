@@ -36,13 +36,13 @@ District* const DistrictList::addDistrictToList(const myString& dstName, const i
 bool DistrictList::checkExistingDistrictBySN(const int& sn)const {
 	int i;
 	for (i = 0; i < logSize; i++)
-		if (dstArr[i]->getSN() == sn)
+		if (dstArr[i]->districtSN== sn)
 			return true;
 	return false;
 }
 District* DistrictList::getDistrictBySN(const int& sn)const {
 	for (int i = 0; i < logSize; i++)
-		if (dstArr[i]->getSN() == sn)
+		if (dstArr[i]->districtSN == sn)
 			return dstArr[i];
 	return nullptr;
 }
@@ -104,4 +104,16 @@ int DistrictList::getIndexOfWinningParty(ElectorsForPartyArr& elecForParty) {
 		}
 	}
 	return keepMaxPartyIndex;
+}
+
+bool DistrictList::save(ostream& out) {
+	out.write(rcastcc(&logSize), sizeof(logSize));
+	out.write(rcastcc(&capacity), sizeof(capacity));
+	for (int i = 0; i < logSize; i++)
+		if (!DistrictLoader::save(out, *(dstArr[i])))
+			return false;
+	return out.good();
+}
+bool DistrictList::load(istream& in) {
+	return true;
 }

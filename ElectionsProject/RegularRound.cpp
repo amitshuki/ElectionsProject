@@ -28,3 +28,12 @@ void RegularRound::showDistrict()const {
 	cout << "=========" << endl;
 	cout << distList;
 }
+
+bool RegularRound::save(ostream& out) {
+	Round::save(out);
+	return out.good();
+}
+
+bool RegularRound::load(istream& in) {
+	return true;
+}

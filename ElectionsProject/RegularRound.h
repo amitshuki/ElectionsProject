@@ -11,6 +11,7 @@ public:
 
 	void showDistrict()const;
 	bool checkExistingDistrictBySN(const int& sn)const { return distList.checkExistingDistrictBySN(sn); }
-
+	virtual bool save(ostream& out);
+	virtual bool load(istream& in);
 };
 

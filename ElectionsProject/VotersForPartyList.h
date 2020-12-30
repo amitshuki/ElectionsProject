@@ -23,5 +23,8 @@ public:
 	VotersForParty& getVFPByPartySN(const int& partySN);
 	const VotersForParty& operator[](const int idx);
 	VotersForPartyList& operator=(const VotersForPartyList& other);
+
+	bool save(ostream& out) const;
+	bool load(istream& in);
 };
 

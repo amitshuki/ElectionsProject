@@ -10,5 +10,7 @@ public:
 
 	bool addCitizen(const myString& name, const int& id, const int& birthYear);
 	bool addCitizenAsPartyRep(const int& repID, const int& partySN);
+	virtual bool save(ostream& out);
+	virtual bool load(istream& in);
 };
 

@@ -33,3 +33,18 @@ ostream& operator<<(ostream& out, const Party& prty) {
 	out << prty.drList << endl;
 	return out;
 }
+
+bool Party::save(ostream& out) {
+	if (!name.save(out))
+		return false;
+	out.write(rcastcc(&partySN), sizeof(partySN));
+	const int& candidateID = candidate->getId();
+	out.write(rcastcc(&candidateID), sizeof(candidateID));// Write only candidate's ID!
+	out.write(rcastcc(&round_mode), sizeof(round_mode));// Write only candidate's ID!
+	if (!drList.save(out))
+		return false;
+	return out.good();
+}
+bool Party::load(istream& in) {
+	return true;
+}

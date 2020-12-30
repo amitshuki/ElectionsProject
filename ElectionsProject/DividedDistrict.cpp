@@ -93,3 +93,12 @@ ElectorsForPartyArr& DividedDistrict::getVotingresults(PartyList& partyList) {
 
 	return *electors_for_parties;
 }
+
+
+bool DividedDistrict::save(ostream& out) const {
+	District::save(out);
+	return out.good();
+}
+bool DividedDistrict::load(istream& in) {
+	return true;
+}

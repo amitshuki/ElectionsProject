@@ -10,6 +10,7 @@ public:
 		District(newName, newRank, sn) {}
 
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList);
-
+	virtual bool save(ostream& out) const;
+	virtual bool load(istream& in);
 };
 

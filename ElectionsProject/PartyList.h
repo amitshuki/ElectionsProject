@@ -23,5 +23,8 @@ public:
 
 	Party* operator[](const int& idx)const;
 	friend ostream& operator<<(ostream& out, const PartyList& partyList);
+
+	bool save(ostream& out);
+	bool load(istream& in);
 };
 

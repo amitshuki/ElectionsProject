@@ -14,5 +14,8 @@ public:
 	DividedDistrict(const myString& newName, const int& newRank, const int& sn) :
 		District(newName, newRank, sn) {}
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList);
+
+	virtual bool save(ostream& out) const;
+	virtual bool load(istream& in);
 };
 

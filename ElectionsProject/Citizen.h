@@ -4,10 +4,15 @@ class District;
 using namespace std;
 using namespace myStr;
 
+
+#define rcastcc reinterpret_cast<const char*>
+#define rcastc reinterpret_cast<char*>
+
 enum class RoundMode { REGULAR, SIMPLE };
 
 class Citizen
 {
+public:
 private:
 	int id, districtSN, birthYear;
 	District* dst;
@@ -34,4 +39,8 @@ public:
 	const int& getVotedPartySN() const { return votedPartySN; }
 	bool hasVoted()const { return didVote; }
 	friend ostream& operator<<(ostream& out, const Citizen& cit);
+	bool save(ostream& out) const;
+	bool load(istream& in);
+
+	friend class CitizenList;
 };

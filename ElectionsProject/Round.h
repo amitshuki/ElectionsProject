@@ -14,10 +14,9 @@ protected:
 	PartyList partyList;
 	bool hasAny1votedyet;
 public:
-	Round(const RoundMode& rm) :votersBook(rm), partyList(rm),hasAny1votedyet(false) {}
-	~Round() {
-		votersBook.setDeleteOpt(CitizenList::deleteOption::DELETE_ALL);
-	}
+	Round(const RoundMode& rm) :
+		votersBook(rm, CitizenList::deleteOption::DELETE_ALL, CitizenList::saveloadOption::SAVE_AND_LOAD), partyList(rm), hasAny1votedyet(false) {}
+	~Round() {}
 
 
 	bool addParty(const myString& partyName, const int& candidateId);
@@ -31,6 +30,7 @@ public:
 	bool vote(const int& id, const int& partySN);
 
 	void showElectionsResults();
-
+	virtual bool save(ostream& out);
+	virtual bool load(istream& in);
 };
 

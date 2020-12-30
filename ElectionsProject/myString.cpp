@@ -203,6 +203,24 @@ namespace myStr {
 		return input;
 	}
 
+	bool myString::save(ostream& out) const{
+		out.write(reinterpret_cast<const char*>(&capacity), sizeof(capacity));
+		out.write(reinterpret_cast<const char*>(&length), sizeof(length));
+		out.write(arr, sizeof(arr));
+		return out.good();
+	}
+	bool myString::load(istream& in) {
+		in.read(reinterpret_cast<char*>(&capacity), sizeof(capacity));
+		in.read(reinterpret_cast<char*>(&length), sizeof(length));
+		if (in.good()) {
+			resizeCapacity(capacity);
+			in.read(reinterpret_cast<char*>(arr), sizeof(arr));
+			if (in.good())
+				return true;
+		}
+		return false;
+	}
+
 	bool myString::checkNumericInput(const char* str) {
 		int i, length = myStrLen(str);
 		for (i = 0; i < length; i++)
@@ -215,4 +233,5 @@ namespace myStr {
 		while (str[i++]);
 		return i - 1;
 	}
+
 }

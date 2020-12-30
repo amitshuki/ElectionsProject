@@ -62,6 +62,12 @@
     <ClInclude Include="RegularRound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DistrictLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RoundLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp">
@@ -116,6 +122,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RegularRound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RoundLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

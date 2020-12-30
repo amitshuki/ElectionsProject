@@ -67,3 +67,16 @@ ostream& operator<<(ostream& out, const PartyList& partyList) {
 		out << i + 1 << ". " << *(partyList.partyArr[i]) << endl;
 	return out;
 }
+
+bool PartyList::save(ostream& out) {
+	out.write(rcastcc(&logSize), sizeof(logSize));
+	out.write(rcastcc(&capacity), sizeof(capacity));
+	out.write(rcastcc(&round_mode), sizeof(round_mode));
+	for (auto i = 0; i < logSize; i++)
+		if (!partyArr[i]->save(out))
+			return false;
+	return out.good();
+}
+bool PartyList::load(istream& in) {
+	return true;
+}

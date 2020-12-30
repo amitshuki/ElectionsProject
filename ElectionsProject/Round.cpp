@@ -58,3 +58,14 @@ void Round::showElectionsResults() {
 	cout << "The winner of the elections, with " << winningPartyElectorsAmount << " electors is: " << endl;
 	cout << *(winningParty->getCandidate()) << endl;
 }
+
+bool Round::save(ostream& out) {
+	out.write(rcastcc(&hasAny1votedyet), sizeof(hasAny1votedyet));
+	if (!votersBook.save(out) || !distList.save(out) || !partyList.save(out))
+		return false;
+	return out.good();
+}
+
+bool Round::load(istream& in) {
+	return true;
+}

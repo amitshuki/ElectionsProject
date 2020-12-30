@@ -142,6 +142,7 @@
     <ClInclude Include="CitizenList.h" />
     <ClInclude Include="District.h" />
     <ClInclude Include="DistrictList.h" />
+    <ClInclude Include="DistrictLoader.h" />
     <ClInclude Include="DistrictReps.h" />
     <ClInclude Include="DistrictRepsList.h" />
     <ClInclude Include="DividedDistrict.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="PartyList.h" />
     <ClInclude Include="RegularRound.h" />
     <ClInclude Include="Round.h" />
+    <ClInclude Include="RoundLoader.h" />
     <ClInclude Include="SimpleRound.h" />
     <ClInclude Include="UnifiedDistrict.h" />
     <ClInclude Include="VotersForParty.h" />
@@ -161,6 +163,7 @@
     <ClCompile Include="CitizenList.cpp" />
     <ClCompile Include="District.cpp" />
     <ClCompile Include="DistrictList.cpp" />
+    <ClCompile Include="DistrictLoader.cpp" />
     <ClCompile Include="DistrictReps.cpp" />
     <ClCompile Include="DistrictRepsList.cpp" />
     <ClCompile Include="DividedDistrict.cpp" />
@@ -171,6 +174,7 @@
     <ClCompile Include="PartyList.cpp" />
     <ClCompile Include="RegularRound.cpp" />
     <ClCompile Include="Round.cpp" />
+    <ClCompile Include="RoundLoader.cpp" />
     <ClCompile Include="SimpleRound.cpp" />
     <ClCompile Include="UnifiedDistrict.cpp" />
     <ClCompile Include="VotersForParty.cpp" />

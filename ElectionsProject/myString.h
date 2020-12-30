@@ -45,6 +45,9 @@ namespace myStr {
 		friend ostream& operator<<(ostream& output, const myString& myStr);
 		friend istream& operator>>(istream& input, myString& str);
 
+		bool save(ostream& out) const;
+		bool load(istream& in);
+
 		static bool checkNumericInput(const char* str);
 		static int myStrLen(const char* str);
 	};

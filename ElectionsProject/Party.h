@@ -26,5 +26,7 @@ public:
 
 	void printResults(const int& districtSN, const int& electorsAmount);
 	friend ostream& operator<<(ostream& out, const Party& prty);
+	bool save(ostream& out);
+	bool load(istream& in);
 };
 
