@@ -15,7 +15,10 @@ protected:
 	bool hasAny1votedyet;
 public:
 	Round(const RoundMode& rm) :
-		votersBook(rm, CitizenList::deleteOption::DELETE_ALL, CitizenList::saveloadOption::SAVE_AND_LOAD), partyList(rm), hasAny1votedyet(false) {}
+		votersBook(rm, 
+			CitizenList::deleteOption::DELETE_ALL, 
+			CitizenList::saveloadOption::SAVE_AND_LOAD), 
+		partyList(rm), hasAny1votedyet(false) {}
 	~Round() {}
 
 
