@@ -11,8 +11,6 @@ namespace myStr {
 			this->length = elength;
 			this->capacity = elength + 1;
 		}
-		else
-			cout << "Cannot allocate negatives." << endl;
 	}
 	myString::myString(const myString& other) :arr(nullptr), length(0), capacity(0) {
 		length = other.length;
@@ -36,10 +34,10 @@ namespace myStr {
 			delete[] arr;
 	}
 
-	void myString::resizeCapacity(const int& newCapacity) {
+	bool myString::resizeCapacity(const int& newCapacity) {
 		/*This function resizeCapacitys myString according to given newCapacity*/
 		if (newCapacity == 0) {
-			cout << "New capacity is invalid." << endl;
+			return false;
 		}
 		else {
 			if (newCapacity > 0 && newCapacity != capacity) {
@@ -205,6 +203,24 @@ namespace myStr {
 		return input;
 	}
 
+	bool myString::save(ostream& out) const{
+		out.write(reinterpret_cast<const char*>(&capacity), sizeof(capacity));
+		out.write(reinterpret_cast<const char*>(&length), sizeof(length));
+		out.write(reinterpret_cast<const char*>(arr), sizeof(char) * capacity);
+		return out.good();
+	}
+	bool myString::load(istream& in) {
+		int wantedCapacity, wantedLength;
+		in.read(reinterpret_cast<char*>(&wantedCapacity), sizeof(wantedCapacity));
+		in.read(reinterpret_cast<char*>(&wantedLength), sizeof(wantedLength));
+		if (in.good()) {
+			resizeCapacity(wantedCapacity);
+			in.read(reinterpret_cast<char*>(arr), sizeof(char) * wantedCapacity);
+			length = wantedLength;
+		}
+		return in.good();
+	}
+
 	bool myString::checkNumericInput(const char* str) {
 		int i, length = myStrLen(str);
 		for (i = 0; i < length; i++)
@@ -217,4 +233,5 @@ namespace myStr {
 		while (str[i++]);
 		return i - 1;
 	}
+
 }

@@ -1,0 +1,58 @@
+title Vote
+
+participant State
+participant DistList
+participant District
+participant Voters4PartyList
+participant Voters4Party
+participant ElectorsForParty
+participant Party
+participant DistrictRepsList
+participant DistrictReps
+participant CitizenList
+participant Citizen
+
+State->DistList:<align:center>void calc():\nTells DistrictList to Calculate Results\nfor Each district.Then - Send to partyList And print.
+activate State
+activate DistList
+loop #00BFFF Per District
+DistList->District:<align:center> for each District:\ngetVotingResults(partyList, int& amountOfReps)
+activate District
+
+loop #9400D3 Each Party
+District->Voters4PartyList:getVfpByPartySN(party#)
+note over Voters4PartyList,Voters4Party:<align:center>holds an array with an \nentity for each party\n- How many votes
+note over District:Calculates a Table\nof ElectorsForParty
+Voters4PartyList-->District:returns int : amount of voters
+aboxleft right of District:District Calculates\n amount of Electors
+District->*ElectorsForParty:addVotesToParty(partySN,numOfElectors)
+note over ElectorsForParty:Holds a table \nwith partySN,\nnum of electors\nfor each party
+end 
+ElectorsForParty-->District:<align:center>obj -ElectorsForParty:\nDistrict* Z:\nParty X :100 Electors\nParty Y: 200 Electors\nParty Z: 50 Electors
+destroysilent ElectorsForParty
+District->Party:<align:center>**printResults(int electors,districtSN) - \n 1. Print party Details\n2. Print First X Reps**
+activate Party
+aboxleft right of Party:Prints Name and SN
+linear 
+Party->DistrictRepsList:printFirstXReps(districtSN,electorsAmount)
+DistrictRepsList->DistrictReps:printFirstXReps(electorsAmount)
+DistrictReps->CitizenList:printFirstXReps(amount)
+activate CitizenList
+loop CitArr(i...amount)
+CitizenList->Citizen:print
+end
+deactivate CitizenList
+linear off
+deactivate Party
+District-->>DistList:return : int winning partySN,\nupdate by ref: how many reps
+deactivate District
+note over DistList:Counts for each party\nhow many electors(needs\nand array or something)
+
+
+end
+DistList-->>State:<align:center>returns: wining party\n+\nnum of electors
+deactivate DistList
+
+note over State:<align:center> Prints Results:\nthe winner is bla bla \nwith bla electors
+
+deactivate State

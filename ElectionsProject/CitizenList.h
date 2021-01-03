@@ -2,105 +2,50 @@
 #include <iostream>
 #include "Citizen.h"
 using namespace std;
+
 class CitizenList
 {
 public:
 	enum class deleteOption { DELETE_ALL, CANCLE_LIST };
+	enum class saveloadOption { SAVE_AND_LOAD, NOT };
 private:
 	Citizen** citArr;
 	int logSize, capacity;
 
+	RoundMode round_mode;
 	deleteOption delOpt;
+	saveloadOption saveLoadOpt;
+	void resizeArr();
+	//Quick sort methods:
+	void swap(Citizen*& a, Citizen*& b);
+	int partition(const int& low, const int& high);
+	void quickSort(const int& low, const int& high);
 
-	void resizeArr() {
-		int i;
-		if (capacity == 0)
-			capacity++;
-		Citizen** newCitArr = new Citizen * [capacity * 2];
-		for (i = 0; i < capacity * 2; i++)
-			if (i < logSize)
-				newCitArr[i] = citArr[i];
-			else
-				newCitArr[i] = nullptr;
-		delete[] citArr;
-		citArr = newCitArr;
-		capacity *= 2;
-	}
 public:
-	CitizenList() :citArr(nullptr), logSize(0), capacity(0),delOpt(deleteOption::CANCLE_LIST) {}
-	CitizenList(const CitizenList& other) {
-		citArr = new Citizen*  [other.capacity];
-		for (int i = 0; i < other.logSize; i++)
-			citArr[i] = other.citArr[i];
-		logSize = other.logSize;
-		capacity = other.capacity;
-		this->delOpt = other.delOpt;
+	CitizenList(const RoundMode& rm, const deleteOption& dlOpt = deleteOption::CANCLE_LIST, const saveloadOption& slOpt = saveloadOption::NOT);
+	CitizenList(const CitizenList& other);
+	CitizenList(istream& in) :citArr(nullptr), logSize(0), capacity(0) { 
+		load(in); 
+		//TL
+		/*for (auto i = 0; i < logSize; i++)
+			cout << i + 1 << ": " << *citArr[i] << endl;*/
 	}
-	~CitizenList(){
-		int i;
-		if (delOpt == deleteOption::DELETE_ALL) {
-			for (i = 0; i < capacity; i++)
-				delete citArr[i];
-		}
-		delete[] citArr;
-	}
+	~CitizenList();
 
-	bool addCitizenToList(Citizen* cit){
-		if (logSize == capacity)
-			resizeArr();
-		if (checkExistingCitizenInListByID(cit->getId()))
-			return false;
-		return citArr[logSize++] = cit;
-	}
-	bool checkExistingCitizenInListByID(const int& id)const {
-		int i;
-		for (i = 0; i < logSize; i++)
-			if (citArr[i]->getId() == id)
-				return true;
-		return false;
-	}
-	bool setDeleteOpt(const deleteOption& delOpt) { 
-		this->delOpt = delOpt;
-		return this->delOpt == delOpt; 
-	}
-	
-	Citizen* const getCitizenByID(const int& id)const {
-		for (int i = 0; i < logSize; i++)
-			if (citArr[i]->getId() == id)
-				return citArr[i];
-		return nullptr;
-	}
+	bool addCitizenToList(Citizen* const cit);
+	bool addCitizenToList(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* dst);
+	bool checkExistingCitizenInListByID(const int& id)const;
+	Citizen* const getCitizenByID(const int& id)const;
 	const int& getLogSize()const { return logSize; }
 
-	CitizenList& getSubList(const int& amount)const {
-		CitizenList* newCitList = new CitizenList;
-		for (int i = 0; i < amount && i < logSize; i++)
-			newCitList->addCitizenToList(citArr[i]);
-		return *newCitList;
-	}
+	void printFirstXReps(const int& amount);
 
-	CitizenList& operator=(const CitizenList& other) {
-		Citizen** newCitArr = new Citizen * [other.capacity];
-		for (int i = 0; i < other.logSize; i++)
-			newCitArr[i] = other.citArr[i];
-		delete[] citArr;
-		citArr = newCitArr;
-		logSize = other.logSize;
-		capacity = other.capacity;
-		return *this;
-	}
-	CitizenList& operator+=(const CitizenList& other) {
-		while (logSize + other.logSize > capacity)// Resize until there is enough room for everybody
-			resizeArr();
-		for (int i = 0; i < other.logSize; i++)
-			citArr[i + logSize] = other.citArr[i];
-		return *this;
-	}
-	friend ostream& operator<<(ostream& out, const CitizenList& citList) {
-		int i;
-		for (i = 0; i < citList.logSize; i++)
-			out << i + 1 << ". " << *(citList.citArr[i]) << endl;
-		return out;
-	}
+	Citizen* operator[](const int& idx)const;
+	CitizenList& operator=(const CitizenList& other);
+	CitizenList& operator+=(const CitizenList& other);
+	friend ostream& operator<<(ostream& out, const CitizenList& citList);
+
+	bool save(ostream& out) const;
+	bool load(istream& in);
 };
 

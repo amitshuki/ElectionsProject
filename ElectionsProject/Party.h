@@ -2,47 +2,36 @@
 #include "DistrictRepsList.h"
 #include "Citizen.h"
 #include "myString.h"
-using namespace myStr;
-using namespace std;
 
 class Party
 {
 private:
 	myString name;
-	int SN;
+	int partySN;
 	const Citizen* candidate;
+	int candidateID;
 	DistrictRepsList drList;
+	RoundMode round_mode;
 public:
-	Party() :name(""), SN(-1), candidate(nullptr) {}
-	Party(const myString& newName, const int& sn, const Citizen* candidate) {
-		name = newName;
-		SN = sn;
-		this->candidate = candidate;
+	Party(const myString& newName, const int& sn, const Citizen* candidate, const RoundMode& rm):
+		name(newName), partySN(sn), candidate(candidate), drList(rm), round_mode(rm) {
+		candidateID = candidate->getId();
 	}
-	~Party() {
-		int i = 1;
-	}
-
-	const int& getSN()const { return SN; }
+	Party(istream& in);
+	const int& getSN()const { return partySN; }
 	const myString& getName()const { return name; }
 	const Citizen* getCandidate()const { return candidate; }
 
-	CitizenList& getSubRepsListInDistrict(const int& dstSN, const int& amount) {
-		// Party returns a sublist of representatives in the DistrictRepsList
-		return drList.getDistRepsByDistSN(dstSN).getRepsList().getSubList(amount);
-	}
 
-	bool addDistrict(const int& dstSN, const int& dstRank) { return drList.addDistrict(dstSN, dstRank); }
-	bool addCitizenAsRep(Citizen* const rep, const int& dstSN) { return drList.addCitizenAsRep(rep, dstSN); }
+	bool addDistrict(const int& dstSN, const int& dstRank);
+	bool addCitizenAsRep(Citizen* const rep, const int& dstSN = 0);
 
-	friend ostream& operator<<(ostream& out, const Party& prty) {
-		out << "Party Serial Number: " << prty.SN << ", ";
-		out << "Name: " << prty.name << endl;
-		out << "Candidate: " << *(prty.candidate) << endl;
-		out << "Representatives by Districts: " << endl;
-		out << "============================" << endl;
-		out << prty.drList << endl;
-		return out;
-	}
+
+	void printResults(const int& districtSN, const int& electorsAmount);
+	friend ostream& operator<<(ostream& out, const Party& prty);
+	bool save(ostream& out) const;
+	bool load(istream& in);
+
+	bool connectPartyreps2Citizens(CitizenList& citList);
 };
 
