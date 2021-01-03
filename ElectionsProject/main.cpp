@@ -50,6 +50,7 @@ void run() {
 		handleInput2(input, state);
 		cout << endl;
 	}
+	delete state;
 }
 void printMenu1() {
 	cout << "Initialization Menu:" << endl << "================" << endl;
