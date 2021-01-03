@@ -9,10 +9,19 @@ bool DistrictLoader::save(ostream& out,const District& dst) {
 		type = DistrictType::UNIFIED;
 
 	out.write(rcastcc(&type), sizeof(type));
-	if (!dst.save(out))
-		return false;
-	return out.good();
+	bool b = dst.save(out);
+	return b;
 }
-bool DistrictLoader::load(istream& in) {
-	return true;
+District* DistrictLoader::load(istream& in) {
+	DistrictType type;
+	in.read(rcastc(&type), sizeof(type));
+	switch (type) {
+	case DistrictType::DIVIDED:
+		return new DividedDistrict(in);
+		break;
+	case DistrictType::UNIFIED:
+		return new UnifiedDistrict(in);
+		break;
+	}
+	return nullptr;
 }

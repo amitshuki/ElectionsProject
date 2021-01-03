@@ -11,6 +11,7 @@ private:
 	void resize();
 public:
 	DistrictRepsList(const RoundMode& rm) :logSize(0), capacity(0), districtRepsArr(nullptr), round_mode(rm) {}
+	DistrictRepsList(istream& in) :districtRepsArr(nullptr), logSize(0), capacity(0) { load(in); }
 	~DistrictRepsList() {
 		for (int i = 0; i < logSize; i++)
 			delete districtRepsArr[i];
@@ -27,7 +28,9 @@ public:
 	DistrictRepsList& operator=(const DistrictRepsList& other);
 	friend ostream& operator<<(ostream& out, const DistrictRepsList& drList);
 
-	bool save(ostream& out);
+	bool save(ostream& out) const;
 	bool load(istream& in);
+
+	bool connectReps2Citizens(CitizenList& citList);
 };
 

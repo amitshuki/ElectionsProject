@@ -12,6 +12,7 @@ CitizenList::CitizenList(const CitizenList& other) {
 	this->delOpt = other.delOpt;
 	this->saveLoadOpt = other.saveLoadOpt;
 }
+
 CitizenList::~CitizenList() {
 	int i;
 	if (delOpt == deleteOption::DELETE_ALL) {
@@ -72,6 +73,11 @@ void CitizenList::printFirstXReps(const int& amount) {
 		cout << i + 1 << ". " << *(citArr[i]) << endl;
 }
 
+Citizen* CitizenList::operator[](const int& idx)const {
+	if (idx < 0 || idx >= logSize)
+		return nullptr;
+	return citArr[idx];
+}
 CitizenList& CitizenList::operator=(const CitizenList& other) {
 	Citizen** newCitArr = new Citizen * [other.capacity];
 	for (int i = 0; i < other.logSize; i++)
@@ -153,21 +159,23 @@ bool CitizenList::save(ostream& out) const {
 	return out.good();
 }
 bool CitizenList::load(istream& in) {
-	int capacityFromFile;
-	in.read(rcastc(&logSize), sizeof(logSize));
-	in.read(rcastc(&capacityFromFile), sizeof(capacity));
+	int wantedCapacity, wantedLogSize;
+	in.read(rcastc(&wantedLogSize), sizeof(wantedLogSize));
+	in.read(rcastc(&wantedCapacity), sizeof(wantedCapacity));
 	in.read(rcastc(&delOpt), sizeof(delOpt));
 	in.read(rcastc(&round_mode), sizeof(round_mode));
 	in.read(rcastc(&saveLoadOpt), sizeof(saveLoadOpt));
 
-	while (capacityFromFile > capacity)
+	while (wantedCapacity > capacity)
 		resizeArr();// Resize until there is enough room for the array
 
+	logSize = wantedLogSize;
+
 	for (auto i = 0; in.good() && i < logSize; i++) {
-		if (!citArr[i])
-			citArr[i] = new Citizen();// New allocation for unallocated citizens.
+		if (!citArr[i]) // if the current citizen does not exist - create a new one
+			citArr[i] = new Citizen();
 		if (saveLoadOpt == saveloadOption::SAVE_AND_LOAD)
-			citArr[i]->load(in);// Load if save and load is true
+			citArr[i]->load(in);
 		else
 			in.read(rcastc(&citArr[i]->id), sizeof(citArr[i]->id));// Load id if save and load is false
 	}

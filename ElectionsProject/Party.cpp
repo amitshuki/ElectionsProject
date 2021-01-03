@@ -2,6 +2,12 @@
 using namespace myStr;
 using namespace std;
 
+Party::Party(istream& in) :name(in), drList(in), candidate(nullptr) {
+	in.read(rcastc(&partySN), sizeof(partySN));
+	in.read(rcastc(&candidateID), sizeof(candidateID));
+	in.read(rcastc(&round_mode), sizeof(round_mode));
+}
+
 bool Party::addDistrict(const int& dstSN, const int& dstRank) {
 	if (round_mode == RoundMode::REGULAR)
 		return drList.addDistrict(dstSN, dstRank);
@@ -34,17 +40,32 @@ ostream& operator<<(ostream& out, const Party& prty) {
 	return out;
 }
 
-bool Party::save(ostream& out) {
+bool Party::save(ostream& out) const {
 	if (!name.save(out))
 		return false;
-	out.write(rcastcc(&partySN), sizeof(partySN));
-	const int& candidateID = candidate->getId();
-	out.write(rcastcc(&candidateID), sizeof(candidateID));// Write only candidate's ID!
-	out.write(rcastcc(&round_mode), sizeof(round_mode));// Write only candidate's ID!
 	if (!drList.save(out))
 		return false;
+	out.write(rcastcc(&partySN), sizeof(partySN));
+	out.write(rcastcc(&candidateID), sizeof(candidateID));// Write only candidate's ID!
+	out.write(rcastcc(&round_mode), sizeof(round_mode));
 	return out.good();
 }
 bool Party::load(istream& in) {
-	return true;
+	if (!name.load(in))
+		return false;
+	if (!drList.load(in))
+		return false;
+	in.read(rcastc(&partySN), sizeof(partySN));
+	in.read(rcastc(&candidateID), sizeof(candidateID));
+	in.read(rcastc(&round_mode), sizeof(round_mode));
+	return in.good();
+}
+
+bool Party::connectPartyreps2Citizens(CitizenList& citList) {
+	Citizen* cnd= citList.getCitizenByID(this->candidateID);
+	if (cnd)
+		this->candidate = cnd;
+	else
+		return false;
+	return this->drList.connectReps2Citizens(citList);
 }

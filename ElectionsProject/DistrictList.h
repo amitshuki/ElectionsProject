@@ -14,7 +14,8 @@ private:
 	int logSize, capacity;
 	void resizeArr();
 public:
-	DistrictList();
+	DistrictList() :dstArr(nullptr), logSize(0), capacity(0) {}
+	DistrictList(istream& in) :dstArr(nullptr), logSize(0), capacity(0) { load(in); }
 	~DistrictList();
 	// Adds a district and returns a pointer to it.
 	
@@ -34,7 +35,7 @@ public:
 	Party* getResults(int& winningPartyElectorsAmount, PartyList& partyList);
 	int getIndexOfWinningParty(ElectorsForPartyArr& elecForParty);
 
-	bool save(ostream& out);
+	bool save(ostream& out) const;
 	bool load(istream& in);
 };
 

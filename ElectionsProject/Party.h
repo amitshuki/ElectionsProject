@@ -9,12 +9,15 @@ private:
 	myString name;
 	int partySN;
 	const Citizen* candidate;
+	int candidateID;
 	DistrictRepsList drList;
 	RoundMode round_mode;
 public:
 	Party(const myString& newName, const int& sn, const Citizen* candidate, const RoundMode& rm):
-		name(newName), partySN(sn), candidate(candidate), drList(rm), round_mode(rm) {}
-
+		name(newName), partySN(sn), candidate(candidate), drList(rm), round_mode(rm) {
+		candidateID = candidate->getId();
+	}
+	Party(istream& in);
 	const int& getSN()const { return partySN; }
 	const myString& getName()const { return name; }
 	const Citizen* getCandidate()const { return candidate; }
@@ -26,7 +29,9 @@ public:
 
 	void printResults(const int& districtSN, const int& electorsAmount);
 	friend ostream& operator<<(ostream& out, const Party& prty);
-	bool save(ostream& out);
+	bool save(ostream& out) const;
 	bool load(istream& in);
+
+	bool connectPartyreps2Citizens(CitizenList& citList);
 };
 

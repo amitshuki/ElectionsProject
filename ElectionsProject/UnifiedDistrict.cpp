@@ -50,6 +50,3 @@ bool UnifiedDistrict::save(ostream& out) const {
 	District::save(out);
 	return out.good();
 }
-bool UnifiedDistrict::load(istream& in) {
-	return true;
-}

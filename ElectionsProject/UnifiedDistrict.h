@@ -8,9 +8,9 @@ private:
 public:
 	UnifiedDistrict(const myString& newName, const int& newRank, const int& sn):
 		District(newName, newRank, sn) {}
-
+	UnifiedDistrict(istream& in) :District(in) {}
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList);
 	virtual bool save(ostream& out) const;
-	virtual bool load(istream& in);
+	virtual bool load(istream& in){ return District::load(in); }
 };
 

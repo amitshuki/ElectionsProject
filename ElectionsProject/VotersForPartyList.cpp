@@ -65,5 +65,15 @@ bool VotersForPartyList::save(ostream& out) const {
 	return out.good();
 }
 bool VotersForPartyList::load(istream& in){
-	return true;
+	int wanted_capacity, wantedLogSize;
+	in.read(rcastc(&wantedLogSize), sizeof(wantedLogSize));
+	in.read(rcastc(&wanted_capacity), sizeof(wanted_capacity));
+	while (capacity < wanted_capacity)
+		resize();
+	logSize = wantedLogSize;
+
+	for (int i = 0; in.good() && i < logSize; i++)
+		if (!vfpArr[i].load(in))
+			return false;
+	return in.good();
 }

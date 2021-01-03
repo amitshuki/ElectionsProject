@@ -53,19 +53,22 @@
     <ClInclude Include="DividedDistrict.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Round.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleRound.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegularRound.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DistrictLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RoundLoader.h">
+    <ClInclude Include="State.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DistrictBasedState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VotingRound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StateLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -115,19 +118,22 @@
     <ClCompile Include="DividedDistrict.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Round.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleRound.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RegularRound.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DistrictLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RoundLoader.cpp">
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DistrictBasedState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UniformState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VotingRound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StateLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

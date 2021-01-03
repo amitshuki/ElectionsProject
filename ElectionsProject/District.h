@@ -13,6 +13,7 @@ protected:
 	VotersForPartyList voters4PartyList;// Contains a list of all the parties (serial nums) and how many voted for them in the district.
 	District();
 	District(const myString& newName, const int& newRank, const int& sn);
+	District(istream& in) { load(in); }
 public:
 	const int& getSN()const { return districtSN; }
 	const int& getRank()const { return rank; }

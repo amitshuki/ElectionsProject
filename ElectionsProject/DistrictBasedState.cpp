@@ -1,5 +1,5 @@
-#include "RegularRound.h"
-bool RegularRound::addDistrict(const myString& districtName, const int& rank, const DistrictType& dt) {
+#include "DistrictBasedState.h"
+bool DistrictBasedState::addDistrict(const myString& districtName, const int& rank, const DistrictType& dt) {
 	District* dst = distList.addDistrictToList(districtName, rank, dt);// Add the district to the Round's list.
 	if (dst == nullptr)
 		return false;
@@ -8,13 +8,13 @@ bool RegularRound::addDistrict(const myString& districtName, const int& rank, co
 			return false;
 	return partyList.addDistrictToParties(dst->getSN(), dst->getRank());// Add the District to the parties list.
 }
-bool RegularRound::addCitizen(const myString& name, const int& id, const int& birthYear, const int& districtSN) {
-	
+bool DistrictBasedState::addCitizen(const myString& name, const int& id, const int& birthYear, const int& districtSN) {
+
 	District* dst = this->distList.getDistrictBySN(districtSN);
 	return votersBook.addCitizenToList(name, id, birthYear, districtSN, dst) &&// Add citizen to voters book
 		dst->addCitizenToDistrict();// Add a citizen to the district's counter
 }
-bool RegularRound::addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN) {
+bool DistrictBasedState::addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN) {
 	Citizen* const rep = votersBook.getCitizenByID(repID);
 	Party* const prt = partyList.getPartyBySN(partySN);
 	District* const dst = distList.getDistrictBySN(districtSN);
@@ -23,17 +23,18 @@ bool RegularRound::addCitizenAsPartyRepInDist(const int& repID, const int& party
 	return false;
 }
 
-void RegularRound::showDistrict()const {
+void DistrictBasedState::showDistrict()const {
 	cout << "Districts:" << endl;
 	cout << "=========" << endl;
 	cout << distList;
 }
 
-bool RegularRound::save(ostream& out) {
-	Round::save(out);
+bool DistrictBasedState::save(ostream& out)const {
+	State::save(out);
 	return out.good();
 }
 
-bool RegularRound::load(istream& in) {
-	return true;
+bool DistrictBasedState::load(istream& in) {
+	State::load(in);
+	return in.good();
 }

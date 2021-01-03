@@ -13,7 +13,7 @@ void DistrictList::resizeArr() {
 	dstArr = newDstArr;
 	capacity *= 2;
 }
-DistrictList::DistrictList() :dstArr(nullptr), logSize(0), capacity(0) {}
+
 DistrictList::~DistrictList() {
 	int i;
 	for (i = 0; i < logSize; i++)
@@ -106,7 +106,7 @@ int DistrictList::getIndexOfWinningParty(ElectorsForPartyArr& elecForParty) {
 	return keepMaxPartyIndex;
 }
 
-bool DistrictList::save(ostream& out) {
+bool DistrictList::save(ostream& out)const {
 	out.write(rcastcc(&logSize), sizeof(logSize));
 	out.write(rcastcc(&capacity), sizeof(capacity));
 	for (int i = 0; i < logSize; i++)
@@ -115,5 +115,16 @@ bool DistrictList::save(ostream& out) {
 	return out.good();
 }
 bool DistrictList::load(istream& in) {
-	return true;
+	int wantedCapacity, wantedLogSize;
+	in.read(rcastc(&wantedLogSize), sizeof(wantedLogSize));
+	in.read(rcastc(&wantedCapacity), sizeof(wantedCapacity));
+
+	while (capacity < wantedCapacity)
+		resizeArr();
+
+	logSize = wantedLogSize;
+	for (int i = 0; in.good() && i < logSize; i++) {
+		dstArr[i] = DistrictLoader::load(in);
+	}
+	return in.good();
 }

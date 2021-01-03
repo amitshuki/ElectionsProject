@@ -68,7 +68,7 @@ ostream& operator<<(ostream& out, const PartyList& partyList) {
 	return out;
 }
 
-bool PartyList::save(ostream& out) {
+bool PartyList::save(ostream& out) const {
 	out.write(rcastcc(&logSize), sizeof(logSize));
 	out.write(rcastcc(&capacity), sizeof(capacity));
 	out.write(rcastcc(&round_mode), sizeof(round_mode));
@@ -78,5 +78,26 @@ bool PartyList::save(ostream& out) {
 	return out.good();
 }
 bool PartyList::load(istream& in) {
+	int wantedCapacity, wantedLogSize;
+	in.read(rcastc(&wantedLogSize), sizeof(wantedLogSize));
+	in.read(rcastc(&wantedCapacity), sizeof(wantedCapacity));
+	in.read(rcastc(&round_mode), sizeof(round_mode));
+
+	while (capacity < wantedCapacity)
+		resizeArr();
+	logSize = wantedLogSize;
+
+	for (auto i = 0; in.good() && i < logSize; i++)
+		if (!partyArr[i])
+			partyArr[i] = new Party(in);
+		else if(!partyArr[i]->load(in))
+			return false;
+	return in.good();
+}
+
+bool PartyList::connectPartyreps2Citizens(CitizenList& citList) {
+	for (int i = 0; i < logSize; i++)// Per Party
+		if (!partyArr[i]->connectPartyreps2Citizens(citList))
+			return false;
 	return true;
 }

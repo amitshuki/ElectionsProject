@@ -6,8 +6,11 @@ void DistrictRepsList::resize() {
 	if (capacity == 0)
 		capacity++;
 	DistrictReps** newDstRepsArr = new DistrictReps*[capacity * 2];
-	for (i = 0; i < logSize; i++)
-		newDstRepsArr[i] = districtRepsArr[i];
+	for (i = 0; i < capacity * 2; i++)
+		if (i < logSize)
+			newDstRepsArr[i] = districtRepsArr[i];
+		else
+			newDstRepsArr[i] = nullptr;
 	delete[] districtRepsArr;
 	districtRepsArr = newDstRepsArr;
 	capacity *= 2;}
@@ -55,15 +58,38 @@ ostream& operator<<(ostream& out, const DistrictRepsList& drList) {
 	return out;
 }
 
-bool DistrictRepsList::save(ostream& out) {
+bool DistrictRepsList::save(ostream& out) const {
 	out.write(rcastcc(&logSize), sizeof(logSize));
 	out.write(rcastcc(&capacity), sizeof(capacity));
 	out.write(rcastcc(&round_mode), sizeof(round_mode));
+	//TL
 	for (int i = 0; i < logSize; i++)
 		if (!districtRepsArr[i]->save(out))
 			return false;
 	return out.good();
 }
 bool DistrictRepsList::load(istream& in) {
+	int wantedCapacity, wantedLogSize;
+	in.read(rcastc(&wantedLogSize), sizeof(wantedLogSize));
+	in.read(rcastc(&wantedCapacity), sizeof(wantedCapacity));
+	in.read(rcastc(&round_mode), sizeof(round_mode));
+	while (capacity < wantedCapacity)
+		resize();
+	logSize = wantedLogSize;
+	//TL
+	for (int i = 0; in.good() && i < logSize; i++) {
+		if (!districtRepsArr[i]) {
+			districtRepsArr[i] = new DistrictReps(in);
+		}
+		else if (!districtRepsArr[i]->load(in))
+			return false;
+	}
+	return in.good();
+}
+
+bool DistrictRepsList::connectReps2Citizens(CitizenList& citList){
+	for (int i = 0; i < logSize; i++)// per District
+		if (!districtRepsArr[i]->connectReps2Citizens(citList))
+			return false;
 	return true;
 }

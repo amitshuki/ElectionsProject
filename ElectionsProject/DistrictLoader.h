@@ -8,6 +8,6 @@ class DistrictLoader
 {
 public:
 	static bool save(ostream& out, const District& dst);
-	static bool load(istream& in);
+	static District* load(istream& in);
 };
 

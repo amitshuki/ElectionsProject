@@ -11,7 +11,6 @@ District::District(const myString& newName, const int& newRank, const int& sn) {
 	rank = newRank;
 	name = newName;
 }
-
 bool District::addVoteToParty(const int& partySN) {
 	// Recieve the voters for party table and add a vote to the party in the current district
 	if (!voters4PartyList.getVFPByPartySN(partySN).addVote())
@@ -52,16 +51,24 @@ ostream& operator<<(ostream& out, const District& dst) {
 }
 
 bool District::save(ostream& out) const {
-	out.write(rcastcc(&districtSN), sizeof(districtSN));
-	out.write(rcastcc(&totalCivils), sizeof(totalCivils));
-	out.write(rcastcc(&totalVoters), sizeof(totalVoters));
-	out.write(rcastcc(&rank), sizeof(rank));
 	if (!name.save(out))
 		return false;
 	if (!voters4PartyList.save(out))
 		return false;
+	out.write(rcastcc(&districtSN), sizeof(districtSN));
+	out.write(rcastcc(&totalCivils), sizeof(totalCivils));
+	out.write(rcastcc(&totalVoters), sizeof(totalVoters));
+	out.write(rcastcc(&rank), sizeof(rank));
 	return out.good();
 }
 bool District::load(istream& in) {
-	return true;
+	if (!name.load(in))
+		return false;
+	if (!voters4PartyList.load(in))
+		return false;
+	in.read(rcastc(&districtSN), sizeof(districtSN));
+	in.read(rcastc(&totalCivils), sizeof(totalCivils));
+	in.read(rcastc(&totalVoters), sizeof(totalVoters));
+	in.read(rcastc(&rank), sizeof(rank));
+	return in.good();
 }

@@ -141,6 +141,7 @@
     <ClInclude Include="Citizen.h" />
     <ClInclude Include="CitizenList.h" />
     <ClInclude Include="District.h" />
+    <ClInclude Include="DistrictBasedState.h" />
     <ClInclude Include="DistrictList.h" />
     <ClInclude Include="DistrictLoader.h" />
     <ClInclude Include="DistrictReps.h" />
@@ -150,18 +151,19 @@
     <ClInclude Include="myString.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="PartyList.h" />
-    <ClInclude Include="RegularRound.h" />
-    <ClInclude Include="Round.h" />
-    <ClInclude Include="RoundLoader.h" />
-    <ClInclude Include="SimpleRound.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="StateLoader.h" />
     <ClInclude Include="UnifiedDistrict.h" />
+    <ClInclude Include="UniformState.h" />
     <ClInclude Include="VotersForParty.h" />
     <ClInclude Include="VotersForPartyList.h" />
+    <ClInclude Include="VotingRound.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp" />
     <ClCompile Include="CitizenList.cpp" />
     <ClCompile Include="District.cpp" />
+    <ClCompile Include="DistrictBasedState.cpp" />
     <ClCompile Include="DistrictList.cpp" />
     <ClCompile Include="DistrictLoader.cpp" />
     <ClCompile Include="DistrictReps.cpp" />
@@ -172,13 +174,13 @@
     <ClCompile Include="myString.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PartyList.cpp" />
-    <ClCompile Include="RegularRound.cpp" />
-    <ClCompile Include="Round.cpp" />
-    <ClCompile Include="RoundLoader.cpp" />
-    <ClCompile Include="SimpleRound.cpp" />
+    <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateLoader.cpp" />
     <ClCompile Include="UnifiedDistrict.cpp" />
+    <ClCompile Include="UniformState.cpp" />
     <ClCompile Include="VotersForParty.cpp" />
     <ClCompile Include="VotersForPartyList.cpp" />
+    <ClCompile Include="VotingRound.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

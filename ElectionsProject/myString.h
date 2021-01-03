@@ -14,6 +14,8 @@ namespace myStr {
 		myString(const int& elength);
 		myString(const myString& other);
 		myString(const char* str);
+		myString(istream& in) :arr(nullptr), length(0), capacity(0) { load(in); }
+
 		~myString();
 
 		const int& getlength()const { return length; }

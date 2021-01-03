@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Citizen.h"
 using namespace std;
+
 class CitizenList
 {
 public:
@@ -23,6 +24,12 @@ private:
 public:
 	CitizenList(const RoundMode& rm, const deleteOption& dlOpt = deleteOption::CANCLE_LIST, const saveloadOption& slOpt = saveloadOption::NOT);
 	CitizenList(const CitizenList& other);
+	CitizenList(istream& in) :citArr(nullptr), logSize(0), capacity(0) { 
+		load(in); 
+		//TL
+		/*for (auto i = 0; i < logSize; i++)
+			cout << i + 1 << ": " << *citArr[i] << endl;*/
+	}
 	~CitizenList();
 
 	bool addCitizenToList(Citizen* const cit);
@@ -33,6 +40,7 @@ public:
 
 	void printFirstXReps(const int& amount);
 
+	Citizen* operator[](const int& idx)const;
 	CitizenList& operator=(const CitizenList& other);
 	CitizenList& operator+=(const CitizenList& other);
 	friend ostream& operator<<(ostream& out, const CitizenList& citList);
