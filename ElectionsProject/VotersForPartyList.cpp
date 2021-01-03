@@ -1,4 +1,5 @@
 #include "VotersForPartyList.h"
+using namespace std;
 
 void VotersForPartyList::resize() {
 	int i;
@@ -53,4 +54,26 @@ VotersForPartyList& VotersForPartyList::operator=(const VotersForPartyList& othe
 	vfpArr = newVfpArr;
 	logSize = capacity = other.logSize;
 	return *this;
+}
+
+bool VotersForPartyList::save(ostream& out) const {
+	out.write(rcastcc(&logSize), sizeof(logSize));
+	out.write(rcastcc(&capacity), sizeof(capacity));
+	for (int i = 0; i < logSize; i++)
+		if (!vfpArr[i].save(out))
+			return false;
+	return out.good();
+}
+bool VotersForPartyList::load(istream& in){
+	int wanted_capacity, wantedLogSize;
+	in.read(rcastc(&wantedLogSize), sizeof(wantedLogSize));
+	in.read(rcastc(&wanted_capacity), sizeof(wanted_capacity));
+	while (capacity < wanted_capacity)
+		resize();
+	logSize = wantedLogSize;
+
+	for (int i = 0; in.good() && i < logSize; i++)
+		if (!vfpArr[i].load(in))
+			return false;
+	return in.good();
 }

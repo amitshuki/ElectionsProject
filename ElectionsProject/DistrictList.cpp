@@ -1,6 +1,4 @@
 #include "DistrictList.h"
-
-
 void DistrictList::resizeArr() {
 	int i;
 	if (capacity == 0)
@@ -15,7 +13,7 @@ void DistrictList::resizeArr() {
 	dstArr = newDstArr;
 	capacity *= 2;
 }
-DistrictList::DistrictList() :dstArr(nullptr), logSize(0), capacity(0) {}
+
 DistrictList::~DistrictList() {
 	int i;
 	for (i = 0; i < logSize; i++)
@@ -25,32 +23,29 @@ DistrictList::~DistrictList() {
 
 // Adds a district and returns a pointer to it.
 
-District* const DistrictList::addDistrictToList(const myString& dstName, const int& rank) {
+District* const DistrictList::addDistrictToList(const myString& dstName, const int& rank, const DistrictType& dt) {
 	if (logSize == capacity)
 		resizeArr();
+	if (dt == DistrictType::DIVIDED)
+		dstArr[logSize++] = new DividedDistrict(dstName, rank, logSize + 1);
+	else
+		dstArr[logSize++] = new UnifiedDistrict(dstName, rank, logSize + 1);
 
-	//while (checkExistingDistrictBySN(districtSN))//Check that there is no other dist with same SN
-	//	districtSN = rand() % (100 - 1 + 1) + 1;
-	dstArr[logSize++] = new District(dstName, rank, logSize + 1);//districtSN);
-	//cout << "Serial number: " << logSize + 1 << endl;
 	return dstArr[logSize - 1];
 }
 bool DistrictList::checkExistingDistrictBySN(const int& sn)const {
 	int i;
 	for (i = 0; i < logSize; i++)
-		if (dstArr[i]->getSN() == sn)
+		if (dstArr[i]->districtSN== sn)
 			return true;
 	return false;
 }
-District* const DistrictList::getDistrictBySN(const int& sn)const {
+District* DistrictList::getDistrictBySN(const int& sn)const {
 	for (int i = 0; i < logSize; i++)
-		if (dstArr[i]->getSN() == sn)
+		if (dstArr[i]->districtSN == sn)
 			return dstArr[i];
 	return nullptr;
 }
-
-
-
 
 District* const DistrictList::operator[](const int& idx) {
 	if (idx > logSize || idx < 0)
@@ -76,39 +71,28 @@ ostream& operator<<(ostream& out, const DistrictList& dstList) {
 
 
 Party* DistrictList::getResults(int& winningPartyElectorsAmount, PartyList& partyList) {
-	int i, j, const num_of_parties = partyList.getLogSize();
-	int winningPartySN, winningPartyIdx;
+	int i, winningPartyIdx;
 	Party* winningParty;
+	
 	// An array ordered same as partyList - counts for each party electors amount
-	ElectorsForParty* electors_for_parties = new ElectorsForParty[num_of_parties];
-
-	for (i = 0; i < num_of_parties; i++)
-		electors_for_parties[i].party = partyList[i];
+	ElectorsForPartyArr elects_for_parties(partyList);
 
 	// Every District - prints results.
 	for (i = 0; i < this->logSize/*logSize = Num of Districtrs*/; i++) {
-		// Winning partySN for current district.
-		winningPartySN = dstArr[i]->getVotingresults(partyList);
-		for (j = 0; j < num_of_parties; j++) {
-			if (electors_for_parties[j].party->getSN() == winningPartySN) {
-				electors_for_parties[j].electorsAmount += dstArr[i]->getRank();
-				break;
-			}
-		}
+		elects_for_parties += dstArr[i]->getVotingresults(partyList);//Add the current district result to the overall results.
 		cout << endl;
 	}
 
-	winningPartyIdx = getIndexOfWinningParty(electors_for_parties, num_of_parties);
-	winningPartyElectorsAmount = electors_for_parties[winningPartyIdx].electorsAmount;
-	winningParty = electors_for_parties[winningPartyIdx].party;
-	delete[] electors_for_parties;
+	winningPartyIdx = getIndexOfWinningParty(elects_for_parties);
+	winningPartyElectorsAmount = elects_for_parties[winningPartyIdx].electorsAmount;
+	winningParty = elects_for_parties[winningPartyIdx].party;
 	return winningParty;
 }
 
-int DistrictList::getIndexOfWinningParty(ElectorsForParty* elecForParty, const int& num_of_parties) {
+int DistrictList::getIndexOfWinningParty(ElectorsForPartyArr& elecForParty) {
 	int i, maxElectors = 0, keepMaxPartyIndex = 0;
 	ElectorsForParty cur;
-	for (i = 0; i < num_of_parties; i++) {
+	for (i = 0; i < elecForParty.getSize(); i++) {
 		cur = elecForParty[i];
 		if (cur.electorsAmount > maxElectors) {
 			maxElectors = cur.electorsAmount;
@@ -120,4 +104,27 @@ int DistrictList::getIndexOfWinningParty(ElectorsForParty* elecForParty, const i
 		}
 	}
 	return keepMaxPartyIndex;
+}
+
+bool DistrictList::save(ostream& out)const {
+	out.write(rcastcc(&logSize), sizeof(logSize));
+	out.write(rcastcc(&capacity), sizeof(capacity));
+	for (int i = 0; i < logSize; i++)
+		if (!DistrictLoader::save(out, *(dstArr[i])))
+			return false;
+	return out.good();
+}
+bool DistrictList::load(istream& in) {
+	int wantedCapacity, wantedLogSize;
+	in.read(rcastc(&wantedLogSize), sizeof(wantedLogSize));
+	in.read(rcastc(&wantedCapacity), sizeof(wantedCapacity));
+
+	while (capacity < wantedCapacity)
+		resizeArr();
+
+	logSize = wantedLogSize;
+	for (int i = 0; in.good() && i < logSize; i++) {
+		dstArr[i] = DistrictLoader::load(in);
+	}
+	return in.good();
 }

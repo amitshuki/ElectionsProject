@@ -10,6 +10,8 @@ private:
 	void resize();
 public:
 	VotersForPartyList() :logSize(0), capacity(0), vfpArr(nullptr) {}
+	VotersForPartyList(istream& in) :logSize(0), capacity(0), vfpArr(nullptr) { load(in); }
+
 	~VotersForPartyList() { delete[] vfpArr; }
 
 	const int& getLogSize()const { return logSize; }
@@ -23,5 +25,8 @@ public:
 	VotersForParty& getVFPByPartySN(const int& partySN);
 	const VotersForParty& operator[](const int idx);
 	VotersForPartyList& operator=(const VotersForPartyList& other);
+
+	bool save(ostream& out) const;
+	bool load(istream& in);
 };
 

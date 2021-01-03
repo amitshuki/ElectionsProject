@@ -1,9 +1,10 @@
 #pragma once
-#include "VotingResults.h"
-#include "District.h"
+#include "DistrictLoader.h"
+#include "UnifiedDistrict.h"
+#include "DividedDistrict.h"
+#include "ElectorsForPartyArr.h"
 #include "myString.h"
 using namespace myStr;
-
 
 
 class DistrictList
@@ -13,13 +14,14 @@ private:
 	int logSize, capacity;
 	void resizeArr();
 public:
-	DistrictList();
+	DistrictList() :dstArr(nullptr), logSize(0), capacity(0) {}
+	DistrictList(istream& in) :dstArr(nullptr), logSize(0), capacity(0) { load(in); }
 	~DistrictList();
 	// Adds a district and returns a pointer to it.
 	
-	District* const addDistrictToList(const myString& dstName, const int& rank);
+	District* const addDistrictToList(const myString& dstName, const int& rank,const DistrictType& dt);
 	bool checkExistingDistrictBySN(const int& sn)const;
-	District* const getDistrictBySN(const int& sn)const;
+	District* getDistrictBySN(const int& sn)const;
 	const int& getLogSize()const { return logSize; }
 
 
@@ -31,6 +33,9 @@ public:
 	
 
 	Party* getResults(int& winningPartyElectorsAmount, PartyList& partyList);
-	int getIndexOfWinningParty(ElectorsForParty* elecForParty, const int& num_of_parties);
+	int getIndexOfWinningParty(ElectorsForPartyArr& elecForParty);
+
+	bool save(ostream& out) const;
+	bool load(istream& in);
 };
 

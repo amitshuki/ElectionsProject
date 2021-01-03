@@ -1,47 +1,54 @@
 #pragma once
 #include "DistrictList.h"
-#include "District.h"
-#include "Citizen.h"
 #include "CitizenList.h"
-#include "Party.h"
 #include "PartyList.h"
-#include "VotingResults.h"
 #include "myString.h"
 using namespace myStr;
 using namespace std;
 
+struct Date {
+	int day, month, year;
+	Date():day(-1), month(-1), year(-1) {}
+	Date(const int& d, const int& m, const int& y) :day(d), month(m), year(y) {}
+	bool operator==(const Date& other)const;
+	friend ostream& operator<<(ostream& out, const Date& dt);
+};
 
 class State
 {
-private:
+protected:
 	CitizenList votersBook;
 	DistrictList distList;
 	PartyList partyList;
+	bool hasAny1votedyet;
+	Date date;
 public:
-	State() {
-		srand(time(0));
-	}
-	~State() {
-		votersBook.setDeleteOpt(CitizenList::deleteOption::DELETE_ALL);
-	}
+	State(const RoundMode& rm) :
+		votersBook(rm,
+			CitizenList::deleteOption::DELETE_ALL,
+			CitizenList::saveloadOption::SAVE_AND_LOAD),
+		partyList(rm), hasAny1votedyet(false) {}
+	State(istream& in);
+	virtual ~State() {}
+	
 
-
-	bool addDistrict(const myString& districtName, const int& rank);
-	bool addCitizen(const myString& name, const int& id, const int& birthYear, const int& districtSN);
 	bool addParty(const myString& partyName, const int& candidateId);
-	bool addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN);
 
 	void showVotersBook()const;
-	void showDistrict()const;
 	void showParties()const;
 
 	bool checkExistingCitizenbyID(const int& id) const { return votersBook.checkExistingCitizenInListByID(id); }
-	bool checkExistingDistrictBySN(const int& sn)const { return distList.checkExistingDistrictBySN(sn); }
 	bool checkExistingPartyBySN(const int& sn)const { return partyList.checkExistingPartyBySN(sn); }
 
 	bool vote(const int& id, const int& partySN);
 
 	void showElectionsResults();
 
+	bool setDate(const int& d, const int& m, const int& y);
+
+	virtual bool save(ostream& out) const;
+	virtual bool load(istream& in);
+
+	bool connectCitizensToDistricts();
 };
 

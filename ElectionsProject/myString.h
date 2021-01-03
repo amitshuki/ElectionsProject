@@ -14,12 +14,14 @@ namespace myStr {
 		myString(const int& elength);
 		myString(const myString& other);
 		myString(const char* str);
+		myString(istream& in) :arr(nullptr), length(0), capacity(0) { load(in); }
+
 		~myString();
 
 		const int& getlength()const { return length; }
 		const int& getCapacity()const { return capacity; }
 
-		void resizeCapacity(const int& newlength);
+		bool resizeCapacity(const int& newlength);
 	private:
 		void resizeCapacityCase_1_1(const int& newlength);
 		void resizeCapacityCase_1_2(const int& newlength);
@@ -44,6 +46,9 @@ namespace myStr {
 
 		friend ostream& operator<<(ostream& output, const myString& myStr);
 		friend istream& operator>>(istream& input, myString& str);
+
+		bool save(ostream& out) const;
+		bool load(istream& in);
 
 		static bool checkNumericInput(const char* str);
 		static int myStrLen(const char* str);

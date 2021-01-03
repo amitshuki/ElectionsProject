@@ -1,5 +1,8 @@
 #pragma once
-
+#include <iostream>
+using namespace std;
+#define rcastcc reinterpret_cast<const char*>
+#define rcastc reinterpret_cast<char*>
 class VotersForParty//This is connection table #2
 {
 private:
@@ -7,7 +10,7 @@ private:
 	int partySN;
 public:
 	VotersForParty() :numOfVoters(0), partySN(-1) {}
-
+	VotersForParty(istream& in) { load(in); }
 	bool setPartySN(const int& partySN);
 
 	bool addVote() { return ++numOfVoters; }
@@ -15,5 +18,8 @@ public:
 	const int& getNumOfVoters()const { return numOfVoters; }
 
 	int calcNumOfElectors(const int& totalVotes, const int& distRank)const;
+
+	bool save(ostream& out) const;
+	bool load(istream& in);
 };
 
