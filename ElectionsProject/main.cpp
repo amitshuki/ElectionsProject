@@ -4,30 +4,69 @@
 using namespace std;
 using namespace myStr;
 
-void run(const State& state);
+void run(State& state);
 void printMenu();
+void handleInput(const int& input, State& state);
 void addDistrictToState(State& state);
 void addCitizen(State& state);
 void addParty(State& state);
 void addCitizenAsPartyRep(State& state);
+void vote(State& state);
 
-void main() {
 
+int main() {
+	State state;
+	state.addDistrict(myString("A"),10);
+	state.addDistrict(myString("B"), 15);
+	state.addDistrict(myString("C"), 21);
+
+	int i = 1;
+
+	state.addCitizen(myString("Tal"), 312, 1994, 1);
+	state.addCitizen(myString("Dar"), 201, 1994, 1);
+	state.addCitizen(myString("Adi"), 202, 1994, 2);
+	state.addCitizen(myString("Sapir"), 203, 1994, 2);
+	state.addCitizen(myString("Tiki"), 204, 1994, 3);
+	state.addCitizen(myString("Yossi"), 205, 1994, 3);
+
+	state.addParty(myString("Dumbo"), 312);
+	state.addParty(myString("Ior"), 201);
+
+	state.addCitizenAsPartyRepInDist(202, 1, 1);
+	state.addCitizenAsPartyRepInDist(203, 1, 2);
+	state.addCitizenAsPartyRepInDist(204, 1, 2);
+	state.addCitizenAsPartyRepInDist(205, 1, 3);
+	state.addCitizenAsPartyRepInDist(202, 2, 1);
+	state.addCitizenAsPartyRepInDist(203, 2, 2);
+	state.addCitizenAsPartyRepInDist(204, 2, 1);
+	state.addCitizenAsPartyRepInDist(205, 2, 3);
+
+	state.vote(312, 1);
+	state.vote(201, 1);
+	state.vote(202, 2);
+	state.vote(203, 1);
+	state.vote(204, 2);
+	state.vote(205, 1);
+
+	state.showDistrict();
+	state.showVotersBook();
+	state.showParties();
+
+	//state.showElectionsResults();
 }
 
-void run(const State& state) {
+void run(State& state) {
 	int input = 0;
 	while (input != 10) {
 		printMenu();
 		cin >> input;
 		while (input < 1 || input>10) {
-			cout << "Invalid choice." << endl;
+			cout << "Invalid choice. Try Again: ";
 			cin >> input;
-			//handleInput(input)
 		}
-
+		handleInput(input, state);
+		cout << endl;
 	}
-
 }
 void printMenu() {
 	cout << "Main Menu:" << endl << "==========" << endl;
@@ -43,7 +82,7 @@ void printMenu() {
 	cout << "10. exit" << endl;
 }
 void handleInput(const int& input,State& state) {
-	cout << endl << endl;
+	cout << endl;
 	switch (input) {
 	case 1:
 		addDistrictToState(state);
@@ -58,75 +97,103 @@ void handleInput(const int& input,State& state) {
 		addCitizenAsPartyRep(state);
 		break;
 	case 5:
+		state.showDistrict();
 		break;
-
+	case 6:
+		state.showVotersBook();
+		break;
+	case 7:
+		state.showParties();
+		break;
+	
 	}
 }
 
 void addDistrictToState(State& state) {
 	myString dstName;
 	int rank;
-	cout << "\tDistrict name: ";
+	cout << "Add a District: " << endl;
+	cout << "============== " << endl;;
+
+	cout << "District name: ";
 	cin >> dstName;
-	cout << "\tDistrict's rank (amount of electors): ";
+	cout << "District's rank (amount of electors): ";
 	cin >> rank;
-	while (rank <= 0) {
-		cout << "\tInvalid amount of electors. Please try again: ";
-		cin >> rank;
-	}
-	state.addDistrict(dstName, rank);
+	if (rank <= 0)
+		cout << "Invalid amount of electors.";
+	else if (!state.addDistrict(dstName, rank))
+			cout << "Could not add district." << endl;
 }
 void addCitizen(State& state) {
 	myString name;
 	int id, birthYear, dstSN;
-	cout << "\tName: ";
+	cout << "Add a Citizen: " << endl;
+	cout << "============== " << endl;;
+
+	cout << "Name: ";
 	cin >> name;
-	cout << "\tYear of birth: ";
+	cout << "ID: ";
+	cin >> id;
+	cout << "Year of birth: ";
 	cin >> birthYear;
-	while (birthYear < 1880||birthYear>2020) {
-		cout << "\tInvalid birth year. Please try again: ";
-		cin >> birthYear;
-	}
-	cout << "\tDistrict serial number: ";
+	cout << "District serial number: ";
 	cin >> dstSN;
-	while (!state.checkExistingDistrictBySN(dstSN)) {
-		cout << "\tInvalid district serial number. Please try again: ";
-		cin >> dstSN;
-	}
-	state.addCitizen(name, id, birthYear, dstSN);
+	if (id < 1)
+		cout << "Invalid ID." << endl;
+	else if (birthYear < 1880 || birthYear>2020)
+		cout << "Invalid birth year. " << endl;
+	else if (!state.checkExistingDistrictBySN(dstSN))
+		cout << "Invalid district serial number." << endl;
+	else if(!state.addCitizen(name, id, birthYear, dstSN))
+			cout << "Could not add citizen." << endl;
 }
 void addParty(State& state) {
 	myString nameOfParty;
 	int candidateID;
-	cout << "\tName: ";
+	cout << "Add a Party: " << endl;
+	cout << "=========== " << endl;;
+	cout << "Name: ";
 	cin >> nameOfParty;
-	cout << "\tCandidate ID: ";
+	cout << "Candidate ID: ";
 	cin >> candidateID;
-	while (!state.checkExistingCitizenbyID(candidateID)) {
-		cout << "\tInvalid candidate ID. Please try again: ";
-		cin >> candidateID;
-	}
-	state.addParty(nameOfParty, candidateID);
+	if (!state.checkExistingCitizenbyID(candidateID))
+		cout << "Invalid candidate ID." << endl;
+	else if(!state.addParty(nameOfParty, candidateID))
+			cout << "Could not add district." << endl;
+
 }
 void addCitizenAsPartyRep(State& state) {
 	int repID, partySN, distrSN;
-	cout << "\tCandidate's ID: ";
+	cout << "Add a Citizen as Party Representative: " << endl;
+	cout << "=====================================" << endl;;
+
+	cout << "Representative's ID: ";
 	cin >> repID;
-	while (!state.checkExistingCitizenbyID(repID)) {
-		cout << "\tInvalid candidate ID. Please try again: ";
-		cin >> repID;
-	}
-	cout << "\tDistrict Serial Number: ";
+	cout << "District Serial Number: ";
 	cin >> distrSN;
-	while (!state.checkExistingDistrictBySN(distrSN)) {
-		cout << "\tInvalid district Serial Number. Please try again: ";
-		cin >> distrSN;
-	}
-	cout << "\tParty Serial Number: ";
+	cout << "Party Serial Number: ";
 	cin >> partySN;
-	while (!state.checkExistingPartyBySN(partySN)) {
-		cout << "\tInvalid party Serial Number. Please try again: ";
-		cin >> partySN;
-	}
-	state.addCitizenAsPartyRepInDist(repID, partySN, distrSN);
+	if(!state.checkExistingCitizenbyID(repID)) 
+		cout << "Invalid candidate ID. " << endl;
+	else if(!state.checkExistingDistrictBySN(distrSN)) 
+		cout << "Invalid district Serial Number. "<<endl;
+	else if (!state.checkExistingPartyBySN(partySN))
+		cout << "Invalid party Serial Number. " << endl;
+	else
+		if(!state.addCitizenAsPartyRepInDist(repID, partySN, distrSN))
+			cout << "Could not add representative." << endl;
+
+}
+void vote(State& state) {
+	int id, partySN;
+	cout << "Citizen's ID: ";
+	cin >> id;
+	cout << "Party Serial Number: ";
+	cin >> partySN;
+	if (!state.checkExistingCitizenbyID(id))
+		cout << "Invalid candidate ID. " << endl;
+	else if (!state.checkExistingPartyBySN(partySN))
+		cout << "Invalid party Serial Number. " << endl;
+	else if (!state.vote(id, partySN))
+		cout << "This citizen has already voted." << endl;
 }

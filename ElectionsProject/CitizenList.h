@@ -28,6 +28,14 @@ private:
 	}
 public:
 	CitizenList() :citArr(nullptr), logSize(0), capacity(0),delOpt(deleteOption::CANCLE_LIST) {}
+	CitizenList(const CitizenList& other) {
+		citArr = new Citizen * [other.capacity];
+		for (int i = 0; i < other.logSize; i++)
+			citArr[i] = other.citArr[i];
+		logSize = other.logSize;
+		capacity = other.capacity;
+		this->delOpt = other.delOpt;
+	}
 	~CitizenList(){
 		int i;
 		if (delOpt == deleteOption::DELETE_ALL) {
@@ -40,6 +48,8 @@ public:
 	bool addCitizenToList(Citizen* cit){
 		if (logSize == capacity)
 			resizeArr();
+		if (checkExistingCitizenInListByID(cit->getId()))
+			return false;
 		return citArr[logSize++] = cit;
 	}
 	bool checkExistingCitizenInListByID(const int& id)const {
@@ -61,12 +71,35 @@ public:
 		return nullptr;
 	}
 	const int& getLogSize()const { return logSize; }
-	
-	
+
+	CitizenList& getSubList(const int& amount)const {
+		CitizenList* newCitList = new CitizenList;
+		for (int i = 0; i < amount && i < logSize; i++)
+			newCitList->addCitizenToList(citArr[i]);
+		return *newCitList;
+	}
+
+	CitizenList& operator=(const CitizenList& other) {
+		Citizen** newCitArr = new Citizen * [other.capacity];
+		for (int i = 0; i < other.logSize; i++)
+			newCitArr[i] = other.citArr[i];
+		delete[] citArr;
+		citArr = newCitArr;
+		logSize = other.logSize;
+		capacity = other.capacity;
+		return *this;
+	}
+	CitizenList& operator+=(const CitizenList& other) {
+		while (logSize + other.logSize > capacity)// Resize until there is enough room for everybody
+			resizeArr();
+		for (int i = 0; i < other.logSize; i++)
+			citArr[i + logSize] = other.citArr[i];
+		return *this;
+	}
 	friend ostream& operator<<(ostream& out, const CitizenList& citList) {
 		int i;
 		for (i = 0; i < citList.logSize; i++)
-			out << *(citList.citArr[i]) << endl;
+			out << i + 1 << ". " << *(citList.citArr[i]) << endl;
 		return out;
 	}
 };

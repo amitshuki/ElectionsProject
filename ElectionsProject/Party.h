@@ -1,5 +1,5 @@
 #pragma once
-#include "DistrictReps.h"
+#include "DistrictRepsList.h"
 #include "Citizen.h"
 #include "myString.h"
 using namespace myStr;
@@ -11,76 +11,37 @@ private:
 	myString name;
 	int SN;
 	const Citizen* candidate;
-	DistrictReps* districtRepsArr;// This is the connection list in party to each district and the
-									// list of the representatives.
-	int districtsAmount, districtRepsArrCapacity;
-
-	void resizeDistRepsArr() {
-		int i;
-		if (districtRepsArrCapacity == 0)
-			districtRepsArrCapacity++;
-		DistrictReps* newDstRepsArr = new DistrictReps[districtRepsArrCapacity * 2];
-		for (i = 0; i < districtsAmount; i++)
-				newDstRepsArr[i] = districtRepsArr[i];
-		delete[] districtRepsArr;
-		districtRepsArr = newDstRepsArr;
-		districtRepsArrCapacity *= 2;
-	}
+	DistrictRepsList drList;
 public:
-	Party() :name(""), SN(-1), candidate(nullptr), districtRepsArr(nullptr), 
-		districtsAmount(0), districtRepsArrCapacity(0) {}
+	Party() :name(""), SN(-1), candidate(nullptr) {}
 	Party(const myString& newName, const int& sn, const Citizen* candidate) {
 		name = newName;
 		SN = sn;
 		this->candidate = candidate;
-		districtRepsArr = nullptr;
-		districtsAmount = districtRepsArrCapacity = 0;
 	}
-	/*Party(const Party& other) {
-		name = other.name;
-		SN = other.SN;
-		candidateID = other.candidateID;
-		districtRepsArr = new DistrictReps[other.districtRepsArrCapacity];
-
-		for (int i = 0; i < other.districtsAmount; i++)
-			districtRepsArr[i] = other.districtRepsArr[i];
-
-		districtsAmount = other.districtsAmount;
-		districtRepsArrCapacity = other.districtRepsArrCapacity;
-	}*/
 	~Party() {
-		int i;
-		if (districtRepsArrCapacity > 0) {
-			for (i = 0; i < districtsAmount; i++)
-				districtRepsArr[i].~DistrictReps();
-			delete[] districtRepsArr;
-		}
+		int i = 1;
 	}
 
 	const int& getSN()const { return SN; }
 	const myString& getName()const { return name; }
+	const Citizen* getCandidate()const { return candidate; }
 
-	bool addDistrict(const int& dstSN,const int& dstRank) {
-		if (districtsAmount == districtRepsArrCapacity)
-			resizeDistRepsArr();
-		return districtRepsArr[districtsAmount++].setDistrict(dstSN, dstRank);
+	CitizenList& getSubRepsListInDistrict(const int& dstSN, const int& amount) {
+		// Party returns a sublist of representatives in the DistrictRepsList
+		return drList.getDistRepsByDistSN(dstSN).getRepsList().getSubList(amount);
 	}
-	bool addCitizenAsRep(const Citizen* rep, const int& dstSN) {
-		int i;
-		for (i = 0; i < districtsAmount; i++)
-			if (districtRepsArr[i].getDistrictSN() == dstSN)
-				return districtRepsArr[i].addRep(const_cast<Citizen*>(rep));
-		return false;
-	}
+
+	bool addDistrict(const int& dstSN, const int& dstRank) { return drList.addDistrict(dstSN, dstRank); }
+	bool addCitizenAsRep(Citizen* const rep, const int& dstSN) { return drList.addCitizenAsRep(rep, dstSN); }
 
 	friend ostream& operator<<(ostream& out, const Party& prty) {
-		out << "Party Serial Number:" << prty.SN << ", ";
-		out << "Name :" << prty.name << endl;
-		out << "Candidate :" << prty.candidate << endl;
+		out << "Party Serial Number: " << prty.SN << ", ";
+		out << "Name: " << prty.name << endl;
+		out << "Candidate: " << *(prty.candidate) << endl;
 		out << "Representatives by Districts: " << endl;
 		out << "============================" << endl;
-		for (int i = 0; i < prty.districtsAmount; i++)
-			out << prty.districtRepsArr[i];
+		out << prty.drList << endl;
 		return out;
 	}
 };

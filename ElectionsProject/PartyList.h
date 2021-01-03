@@ -30,15 +30,15 @@ public:
 		delete[] partyArr;
 	}
 
-	bool addPartyToList(const myString& partName, const Citizen* candidate) {
+	Party* const addPartyToList(const myString& partName, const Citizen* candidate) {
 		int partySN = rand() % (200 - 101 + 1) + 101;
 		if (logSize == capacity)
 			resizeArr();
 
 		while (checkExistingPartyBySN(partySN))//Check that there is no other party with same SN
 			partySN = rand() % (200 - 101 + 1) + 101;
-
-		return partyArr[logSize++] = new Party(partName, partySN, candidate);
+		cout << "Serial number: " << partySN << endl;
+		return partyArr[logSize++] = new Party(partName, logSize + 1, candidate);
 	}
 	bool addDistrictToParties(const int& dstSN,const int& dstRank) {
 		int i;
@@ -62,15 +62,24 @@ public:
 		return nullptr;
 	}
 
+	const int& getLogSize()const { return logSize; }
+	
+	Party* getPartyByIndex(const int& idx)const {
+		if (idx >= 0 && idx < logSize)
+			return partyArr[idx];
+		return nullptr;
+	}
 
+	Party* operator[](const int& idx) {
+		if (idx >= 0 && idx < logSize)
+			return partyArr[idx];
+		return nullptr;
+	}
 	friend ostream& operator<<(ostream& out, const PartyList& partyList) {
 		int i;
 		for (i = 0; i < partyList.logSize; i++)
-			out << *(partyList.partyArr[i]) << endl;
+			out << i + 1 << ". " << *(partyList.partyArr[i]) << endl;
 		return out;
 	}
-
-
-
 };
 
