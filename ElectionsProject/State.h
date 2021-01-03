@@ -7,6 +7,7 @@
 #include "PartyList.h"
 #include "VotingResults.h"
 #include "myString.h"
+#include <ctime>
 using namespace myStr;
 using namespace std;
 

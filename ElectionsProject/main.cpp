@@ -52,7 +52,7 @@ int main() {
 	state.showVotersBook();
 	state.showParties();
 
-	//state.showElectionsResults();
+	state.showElectionsResults();
 }
 
 void run(State& state) {

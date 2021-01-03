@@ -29,7 +29,7 @@ private:
 public:
 	CitizenList() :citArr(nullptr), logSize(0), capacity(0),delOpt(deleteOption::CANCLE_LIST) {}
 	CitizenList(const CitizenList& other) {
-		citArr = new Citizen * [other.capacity];
+		citArr = new Citizen*  [other.capacity];
 		for (int i = 0; i < other.logSize; i++)
 			citArr[i] = other.citArr[i];
 		logSize = other.logSize;
@@ -39,7 +39,7 @@ public:
 	~CitizenList(){
 		int i;
 		if (delOpt == deleteOption::DELETE_ALL) {
-			for (i = 0; i < logSize; i++)
+			for (i = 0; i < capacity; i++)
 				delete citArr[i];
 		}
 		delete[] citArr;
