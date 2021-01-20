@@ -6,20 +6,17 @@ class DistrictRepsList
 private:
 	DynamicArray<DistrictReps*> districtRepsarr;// This is the connection list in party to each district and the
 									// list of the representatives.
-	DistrictReps** districtRepsArr;
-	int logSize, capacity;
 	RoundMode round_mode;
 
-	//void resize();TL
 public:
-	DistrictRepsList(const RoundMode& rm) :/*logSize(0), capacity(0), districtRepsArr(nullptr), */round_mode(rm) {}
-	DistrictRepsList(istream& in) /*:districtRepsArr(nullptr), logSize(0), capacity(0) */{ load(in); }
+	DistrictRepsList(const RoundMode& rm) :round_mode(rm) {}
+	DistrictRepsList(istream& in) { load(in); }
 	~DistrictRepsList();
 
 	bool addDistrict(const int& dstSN, const int& dstRank);
 	bool addCitizenAsRep(Citizen* rep, const int& dstSN);
 
-	const int& getLogSize()const { return logSize; }
+	const int& getLogSize()const { return districtRepsarr.getLogSize(); }
 	DistrictReps& getDistRepsByDistSN(const int& distSN);
 	void printFirstXReps(const int& districtSN, const int& amountOfReps)const;
 

@@ -79,7 +79,6 @@ int main() {
 
 	dbs->addParty(myString("Dumbo"), 0);
 	dbs->addParty(myString("Ior"), 100);
-	dbs->showParties();
 	for (i = 0; i < 15; i++) {
 		dbs->addCitizenAsPartyRepInDist(i, 1, 1);
 		dbs->addCitizenAsPartyRepInDist(i+15, 1, 2);
@@ -89,6 +88,7 @@ int main() {
 		dbs->addCitizenAsPartyRepInDist(i + 75, 2, 3);
 	}
 
+	dbs->showParties();
 	for (i = 0; i < 60; i++)
 		dbs->vote(i, 1);
 	for (i = 0; i < 40; i++)

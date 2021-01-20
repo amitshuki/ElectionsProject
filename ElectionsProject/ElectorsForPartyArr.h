@@ -17,14 +17,11 @@ class ElectorsForPartyArr
 {
 private:
 	DynamicArray<ElectorsForParty> arr;
-	/*ElectorsForParty* arr;
-	int size;*/
 public:
-	ElectorsForPartyArr() /*:arr(nullptr), size(0)*/ = default;
+	ElectorsForPartyArr() = default;
 	ElectorsForPartyArr(const int& size) :arr(size) {}
 	ElectorsForPartyArr(PartyList& partyList);
 	ElectorsForPartyArr(const ElectorsForPartyArr& efpa) :arr(efpa.arr) {}
-	~ElectorsForPartyArr() { /*delete[] arr;*/ }
 
 	void push_back(const ElectorsForParty& efp) { arr.push_back(efp); }
 	const int& getSize()const { return arr.getLogSize(); }

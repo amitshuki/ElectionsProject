@@ -158,7 +158,6 @@
     <ClInclude Include="UniformState.h" />
     <ClInclude Include="VotersForParty.h" />
     <ClInclude Include="VotersForPartyList.h" />
-    <ClInclude Include="VotingRound.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp" />
@@ -182,7 +181,6 @@
     <ClCompile Include="UniformState.cpp" />
     <ClCompile Include="VotersForParty.cpp" />
     <ClCompile Include="VotersForPartyList.cpp" />
-    <ClCompile Include="VotingRound.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

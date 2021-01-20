@@ -65,9 +65,6 @@
     <ClInclude Include="UniformState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VotingRound.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StateLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -131,9 +128,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UniformState.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VotingRound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StateLoader.cpp">

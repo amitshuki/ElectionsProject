@@ -10,6 +10,8 @@ private:
 	int partySN;
 public:
 	VotersForParty() :numOfVoters(0), partySN(-1) {}
+	VotersForParty(const int& partySN) :numOfVoters(0), partySN(partySN) {}
+
 	VotersForParty(istream& in) { load(in); }
 	bool setPartySN(const int& partySN);
 

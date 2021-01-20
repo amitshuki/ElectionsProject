@@ -1,20 +1,17 @@
 #pragma once
 #include <iostream>
 #include "VotersForParty.h"
+#include "DynamicArray.h"
 class VotersForPartyList
 {
 private:
-	VotersForParty* vfpArr;
-	int logSize, capacity;
+	DynamicArray<VotersForParty> vfpArr1;
 
-	void resize();
 public:
-	VotersForPartyList() :logSize(0), capacity(0), vfpArr(nullptr) {}
-	VotersForPartyList(istream& in) :logSize(0), capacity(0), vfpArr(nullptr) { load(in); }
+	VotersForPartyList() = default;
+	VotersForPartyList(istream& in){ load(in); }
 
-	~VotersForPartyList() { delete[] vfpArr; }
-
-	const int& getLogSize()const { return logSize; }
+	const int& getLogSize()const { return vfpArr1.getLogSize(); }
 
 	bool addParty(const int& partySN);
 	bool voteForParty(const int& partySN);
@@ -23,7 +20,7 @@ public:
 
 
 	VotersForParty& getVFPByPartySN(const int& partySN);
-	const VotersForParty& operator[](const int idx);
+	const VotersForParty& operator[](const int idx)const { return vfpArr1[idx]; }
 	VotersForPartyList& operator=(const VotersForPartyList& other);
 
 	bool save(ostream& out) const;
