@@ -20,7 +20,7 @@ DistrictRepsList::~DistrictRepsList() {
 	/*for (int i = 0; i < logSize; i++)
 		delete districtRepsArr[i];
 	delete[] districtRepsArr;*/
-	for (auto& i : districtRepsArr1)
+	for (auto& i : districtRepsarr)
 		delete i;
 }
 
@@ -29,7 +29,7 @@ bool DistrictRepsList::addDistrict(const int& dstSN, const int& dstRank) {
 		resize();
 	return districtRepsArr[logSize++] = new DistrictReps(dstSN, dstRank, this->round_mode);// setDistrict(dstSN, dstRank, this->round_mode);
 	*/
-	districtRepsArr1.push_back(new DistrictReps(dstSN, dstRank, this->round_mode));
+	districtRepsarr.push_back(new DistrictReps(dstSN, dstRank, this->round_mode));
 	return true;// need to change to exeptions
 }
 bool DistrictRepsList::addCitizenAsRep(Citizen* rep, const int& dstSN) {
@@ -37,7 +37,7 @@ bool DistrictRepsList::addCitizenAsRep(Citizen* rep, const int& dstSN) {
 	for (i = 0; i < logSize; i++)
 		if (districtRepsArr[i]->getDistrictSN() == dstSN)
 			return districtRepsArr[i]->addRep(rep);*/
-	for(auto& i:districtRepsArr1)
+	for(auto& i:districtRepsarr)
 		if (i->dstSN == dstSN)
 			return i->addRep(rep);
 	return false;
@@ -47,7 +47,7 @@ DistrictReps& DistrictRepsList::getDistRepsByDistSN(const int& distSN) {
 	/*for (int i = 0; i < logSize; i++)
 		if (distSN == districtRepsArr[i]->getDistrictSN())
 			return *(districtRepsArr[i]);*/
-	for (auto& i:districtRepsArr1)
+	for (auto& i:districtRepsarr)
 		if (i->dstSN==distSN)
 			return *i;
 }
@@ -56,33 +56,33 @@ void DistrictRepsList::printFirstXReps(const int& districtSN, const int& amountO
 	/*for (int i = 0; i < logSize; i++)
 		if (districtRepsArr[i]->getDistrictSN() == districtSN)
 			districtRepsArr[i]->printFirstXReps(amountOfReps);*/
-	for (auto& i:districtRepsArr1)
+	for (auto& i:districtRepsarr)
 		if (i->dstSN == districtSN)
 			i->printFirstXReps(amountOfReps);
 }
 
 
 DistrictRepsList& DistrictRepsList::operator=(const DistrictRepsList& other) {
-	districtRepsArr1 = other.districtRepsArr1;
+	districtRepsarr = other.districtRepsarr;
 	return *this;
 }
 ostream& operator<<(ostream& out, const DistrictRepsList& drList) {
 	/*for (int i = 0; i < drList.logSize; i++)
 		out << i + 1 << ". " << *(drList.districtRepsArr[i]) << endl;*/
 	int count = 0;
-	for (auto& i : drList.districtRepsArr1)
+	for (auto& i : drList.districtRepsarr)
 		out << ++count << ". " << *i << endl;
 	return out;
 }
 
 bool DistrictRepsList::save(ostream& out) const {
-	out.write(rcastcc(&(districtRepsArr1.getLogSize())), sizeof(districtRepsArr1.getLogSize()));
+	out.write(rcastcc(&(districtRepsarr.getLogSize())), sizeof(districtRepsarr.getLogSize()));
 	//out.write(rcastcc(&capacity), sizeof(capacity));
 	out.write(rcastcc(&round_mode), sizeof(round_mode));
 	/*for (int i = 0; i < logSize; i++)
 		if (!districtRepsArr[i]->save(out))
 			return false;*/
-	for (auto& i : districtRepsArr1)
+	for (auto& i : districtRepsarr)
 		if (!i->save(out))
 			return false;
 	return out.good();
@@ -108,7 +108,7 @@ bool DistrictRepsList::load(istream& in) {
 	DynamicArray<DistrictReps*> newDRArr(size);
 	for (auto i = 0; i < size; i++)
 		newDRArr.push_back(new DistrictReps(in));
-	districtRepsArr1 = newDRArr;
+	districtRepsarr = newDRArr;
 	return in.good();
 }
 
@@ -116,7 +116,7 @@ bool DistrictRepsList::connectReps2Citizens(CitizenList& citList){
 	//for (int i = 0; i < logSize; i++)// per District
 	//	if (!districtRepsArr[i]->connectReps2Citizens(citList))
 	//		return false;
-	for (auto& i : districtRepsArr1)// per District
+	for (auto& i : districtRepsarr)// per District
 		if (!i->connectReps2Citizens(citList))
 			return false;
 	return true;

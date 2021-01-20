@@ -4,7 +4,7 @@
 class DistrictRepsList
 {
 private:
-	DynamicArray<DistrictReps*> districtRepsArr1;// This is the connection list in party to each district and the
+	DynamicArray<DistrictReps*> districtRepsarr;// This is the connection list in party to each district and the
 									// list of the representatives.
 	DistrictReps** districtRepsArr;
 	int logSize, capacity;
