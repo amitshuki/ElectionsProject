@@ -36,6 +36,7 @@ public:
 	const int& getVotedPartySN() const { return votedPartySN; }
 	bool hasVoted()const { return didVote; }
 	Citizen& operator=(const Citizen& other);
+	bool operator<(const Citizen&);
 	friend ostream& operator<<(ostream& out, const Citizen& cit);
 
 	bool save(ostream& out) const;

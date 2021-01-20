@@ -35,7 +35,7 @@ public:
 	virtual bool load(istream& in);
 protected:
 	int calcElectors(const int& numOfVoters);
-	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) = 0;
+	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) const = 0;
 	int getWinningPartyIdx(ElectorsForPartyArr& electors_for_parties);
 	
 

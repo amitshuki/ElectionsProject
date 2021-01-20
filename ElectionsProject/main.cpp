@@ -4,6 +4,7 @@
 #include "state.h"
 #include "UniformState.h"
 #include "myString.h"
+#include "DynamicArray.h"
 using namespace std;
 using namespace myStr;
 
@@ -23,10 +24,134 @@ void vote(State& state);
 void save2File(State& state);
 State* loadFromFile();
 
-	
+
+//int main() {
+//	UniformState ufs(30);
+//	myString name("citizen");
+//	int i = 1;
+//	for (i = 0; i < 1000; i++)
+//		ufs.addCitizen(name, i, 1994);
+//	ufs.addParty("Dumbo", 0);
+//	ufs.addParty("Ior", 100);
+//
+//	for (i = 0; i < 30; i++) {
+//		ufs.addCitizenAsPartyRep(i, 1);
+//		ufs.addCitizenAsPartyRep(i+30, 2);
+//	}
+//
+//	for (i = 0; i < 300; i++)
+//		ufs.vote(i, 1);
+//	for (i = 0; i < 300; i++)
+//		ufs.vote(i + 500, 2);
+//	ufs.showElectionsResults();
+//	cout << "=============================================" << endl;
+//	cout << "=============================================" << endl;
+//	cout << "=============================================" << endl;
+//
+//	ofstream outfile("test.bin", ios::binary | ios::trunc);
+//	if (!outfile)
+//		exit(-2);
+//	StateLoader::save(outfile, ufs);
+//	outfile.close();
+//	State* state;
+//	ifstream infile("test.bin", ios::binary);
+//	if (!infile)
+//		exit(-4);
+//	state = StateLoader::load(infile);
+//	infile.close();
+//	state->showElectionsResults();
+//}
+int i = 1;
 int main() {
-	run();
+	DistrictBasedState* dbs = new DistrictBasedState();
+	dbs->addDistrict(myString("A"), 15, DistrictType::DIVIDED);
+	dbs->addDistrict(myString("B"), 10, DistrictType::UNIFIED);
+	dbs->addDistrict(myString("C"), 10, DistrictType::UNIFIED);
+	myString name("citizen");
+	dbs->showDistrict();
+	int i = 1;
+	for (i = 0; i < 100; i++)
+		dbs->addCitizen(name, i, 1994, 1);
+	for (i = 100; i < 200; i++)
+		dbs->addCitizen(name, i, 1995, 2);
+	for (i = 200; i < 300; i++)
+		dbs->addCitizen(name, i, 1996, 3);
+
+	dbs->addParty(myString("Dumbo"), 0);
+	dbs->addParty(myString("Ior"), 100);
+	dbs->showParties();
+	for (i = 0; i < 15; i++) {
+		dbs->addCitizenAsPartyRepInDist(i, 1, 1);
+		dbs->addCitizenAsPartyRepInDist(i+15, 1, 2);
+		dbs->addCitizenAsPartyRepInDist(i+30, 1, 3);
+		dbs->addCitizenAsPartyRepInDist(i+45, 2, 1);
+		dbs->addCitizenAsPartyRepInDist(i + 60, 2, 2);
+		dbs->addCitizenAsPartyRepInDist(i + 75, 2, 3);
+	}
+
+	for (i = 0; i < 60; i++)
+		dbs->vote(i, 1);
+	for (i = 0; i < 40; i++)
+		dbs->vote(i+60, 2);
+	for (i = 0; i < 25; i++) {
+		dbs->vote(i+100, 1);
+		dbs->vote(i + 125, 2);
+	}
+	for (i = 0; i < 40; i++) {
+		dbs->vote(i + 200, 1);
+	}
+	for (i = 0; i < 50; i++) {
+		dbs->vote(i + 240, 2);
+	}
+	/*dbs->showElectionsResults();
+	delete dbs;
+	cout << "===========================================" << endl;
+	cout << "===========================================" << endl;
+	cout << "===========================================" << endl;*/
+	ofstream outfile("test.bin", ios::binary | ios::trunc);
+	if (!outfile)
+		exit(-2);
+	StateLoader::save(outfile, *dbs);
+	outfile.close();
+	
+	delete dbs;
+	ifstream infile("test.bin", ios::binary);
+	if (!infile)
+		exit(-4);
+	dbs = dynamic_cast<DistrictBasedState*>(StateLoader::load(infile));
+	infile.close();
+
+	dbs->showElectionsResults();
+	delete dbs;
 }
+
+//int main() {
+//	DynamicArray<int> arr;
+//	for (int i = 0; i < 20; i++)
+//		arr.push_back(i+1);
+//	for (auto j : arr)
+//		cout << j << " ";
+//		
+//	cout << "logSize: " << arr.getLogSize() << " capacity: " << arr.getCapacity();
+//	cout << endl;
+//	arr.insert(DynamicArray<int>::iterator(arr, 5), 100);
+//	/*
+//	for (auto j : arr)
+//		cout << j << " ";
+//	cout << "logSize: " << arr.getLogSize() << " capacity: " << arr.getCapacity();
+//	cout << endl;
+//	arr.erase(DynamicArray<int>::iterator(arr, 5));
+//	for (auto j : arr)
+//		cout << j << " ";
+//	cout << "logSize: " << arr.getLogSize() << " capacity: " << arr.getCapacity();
+//	cout << endl;
+//	arr.erase(DynamicArray<int>::iterator(arr, 6), DynamicArray<int>::iterator(arr, 10));
+//	for (auto j : arr)
+//		cout << j << " ";
+//	cout << "logSize: " << arr.getLogSize() << " capacity: " << arr.getCapacity();
+//	cout << endl;*/
+//}
+
 void run() {	
 	int input = 0;
 	State* state = nullptr;
@@ -206,7 +331,7 @@ void addDistrictToState(DistrictBasedState& state) {
 
 void addCitizenWithoutDistricts(UniformState& state) {
 	myString name;
-	int id, birthYear, dstSN;
+	int id, birthYear;
 	bool res = false;
 	cout << "Add a Citizen: " << endl;
 	cout << "============== " << endl;;
@@ -264,7 +389,7 @@ void addParty(State& state) {
 
 }
 void addCitizenAsPartyRepWithoutDistricts(UniformState& state) {
-	int repID, partySN, distrSN;
+	int repID, partySN;
 	cout << "Add a Citizen as Party Representative: " << endl;
 	cout << "=====================================" << endl;;
 

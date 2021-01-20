@@ -5,7 +5,7 @@ class DividedDistrict :
     public District
 {
 private:
-	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties);
+	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties)const;
 	void swap(ElectorsForParty& a, ElectorsForParty& b);
 	int partition(ElectorsForPartyArr& electors_for_party, const int& low, const int& high);
 	void quickSort(ElectorsForPartyArr& electors_for_party, const int& low, const int& high);

@@ -1,8 +1,8 @@
 #include "UnifiedDistrict.h"
 
-void UnifiedDistrict::printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) {
+void UnifiedDistrict::printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties)const {
 	int i, curElectors;
-	Party* curParty;
+	const Party* curParty;
 	cout << "Voting results for " << *this << endl;
 	cout << "The winner for this District, with " << electors_for_parties[winningPartyIdx].electorsAmount;
 	cout << " electors and " << electors_for_parties[winningPartyIdx].votesForParty;
@@ -42,10 +42,9 @@ ElectorsForPartyArr& UnifiedDistrict::getVotingresults(PartyList& partyList) {
 
 	electors_for_parties[winningPartyIdx].electorsAmount = this->rank;//The winning party gets all the electors - Unified District
 
-	(*districtResults)[0] = electors_for_parties[winningPartyIdx];
+	districtResults->push_back(electors_for_parties[winningPartyIdx]);
 	return *districtResults;
 }
-
 bool UnifiedDistrict::save(ostream& out) const {
 	District::save(out);
 	return out.good();

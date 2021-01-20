@@ -17,11 +17,11 @@ bool Party::addDistrict(const int& dstSN, const int& dstRank) {
 	}
 	return false;
 }
-bool Party::addCitizenAsRep(Citizen* const rep, const int& dstSN) {
+bool Party::addCitizenAsRep(Citizen* rep, const int& dstSN) {
 	return drList.addCitizenAsRep(rep, dstSN); 
 }
 
-void Party::printResults(const int& districtSN, const int& electorsAmount) {
+void Party::printResults(const int& districtSN, const int& electorsAmount) const{
 	cout << "Party Name: " << name << ", Party Serial No.: " << partySN << endl;
 	drList.printFirstXReps(districtSN, electorsAmount);
 }

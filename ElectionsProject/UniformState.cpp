@@ -12,7 +12,7 @@ bool UniformState::addCitizen(const myString& name, const int& id, const int& bi
 }
 
 bool UniformState::addCitizenAsPartyRep(const int& repID, const int& partySN) {
-	Citizen* const rep = votersBook.getCitizenByID(repID);
+	Citizen* rep = votersBook.getCitizenByID(repID);
 	Party* const prt = partyList.getPartyBySN(partySN);
 	if (rep && prt)
 		return prt->addCitizenAsRep(rep, this->districtSN);

@@ -147,6 +147,7 @@
     <ClInclude Include="DistrictReps.h" />
     <ClInclude Include="DistrictRepsList.h" />
     <ClInclude Include="DividedDistrict.h" />
+    <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="ElectorsForPartyArr.h" />
     <ClInclude Include="myString.h" />
     <ClInclude Include="Party.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="DistrictReps.cpp" />
     <ClCompile Include="DistrictRepsList.cpp" />
     <ClCompile Include="DividedDistrict.cpp" />
+    <ClCompile Include="DynamicArray.cpp" />
     <ClCompile Include="ElectorsForPartyArr.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="myString.cpp" />

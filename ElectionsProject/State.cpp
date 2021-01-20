@@ -18,7 +18,7 @@ State::State(istream& in) :votersBook(in), distList(in), partyList(in) {
 }
 
 bool State::addParty(const myString& partyName, const int& candidateId) {
-	Citizen* const candidate = votersBook.getCitizenByID(candidateId);
+	Citizen* candidate = votersBook.getCitizenByID(candidateId);
 	Party* newParty;
 	bool res = false;
 	if (!candidate) 
@@ -71,7 +71,7 @@ void State::showElectionsResults() {
 		return;
 	cout << "Date of the elections: " << date << endl;
 	int winningPartyElectorsAmount;// getResults updates it byRef
-	Party* winningParty = distList.getResults(winningPartyElectorsAmount, partyList);
+	const Party* winningParty = distList.getResults(winningPartyElectorsAmount, partyList);
 	cout << "The winner of the elections, with " << winningPartyElectorsAmount << " electors is: " << endl;
 	cout << *(winningParty->getCandidate()) << endl;
 }

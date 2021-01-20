@@ -24,10 +24,10 @@ public:
 
 
 	bool addDistrict(const int& dstSN, const int& dstRank);
-	bool addCitizenAsRep(Citizen* const rep, const int& dstSN = 0);
+	bool addCitizenAsRep(Citizen* rep, const int& dstSN = 0);
 
 
-	void printResults(const int& districtSN, const int& electorsAmount);
+	void printResults(const int& districtSN, const int& electorsAmount)const;
 	friend ostream& operator<<(ostream& out, const Party& prty);
 	bool save(ostream& out) const;
 	bool load(istream& in);

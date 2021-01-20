@@ -15,7 +15,7 @@ bool DistrictBasedState::addCitizen(const myString& name, const int& id, const i
 		dst->addCitizenToDistrict();// Add a citizen to the district's counter
 }
 bool DistrictBasedState::addCitizenAsPartyRepInDist(const int& repID, const int& partySN, const int& districtSN) {
-	Citizen* const rep = votersBook.getCitizenByID(repID);
+	Citizen* rep = votersBook.getCitizenByID(repID);
 	Party* const prt = partyList.getPartyBySN(partySN);
 	District* const dst = distList.getDistrictBySN(districtSN);
 	if (rep && prt && dst)

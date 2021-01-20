@@ -1,10 +1,10 @@
 #include "DividedDistrict.h"
 
-void DividedDistrict::printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) {
+void DividedDistrict::printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) const{
 	int i, curElectors;
-	Party* curParty;
+	const Party* curParty;
 	cout << "Voting results for " << *this << endl;
-	quickSort(electors_for_parties, 0, electors_for_parties.getSize() - 1);// Sort the array
+	//quickSort(electors_for_parties, 0, electors_for_parties.getSize() - 1);// Sort the array
 	for (i = electors_for_parties.getSize() - 1; i >= 0; i--) {
 		if (electors_for_parties[i].electorsAmount > 0) {
 			cout << "This district grants " << electors_for_parties[i].electorsAmount;

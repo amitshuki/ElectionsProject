@@ -12,7 +12,7 @@ bool DistrictReps::setDistrict(const int& dstSn, const int& eRank, const RoundMo
 		return false;
 	return true;
 }
-bool DistrictReps::addRep(Citizen* const rep) {
+bool DistrictReps::addRep(Citizen* rep) {
 	if (this->rank == repsList.getLogSize())
 		return false;
 
