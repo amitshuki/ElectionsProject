@@ -88,7 +88,6 @@ int main() {
 		dbs->addCitizenAsPartyRepInDist(i + 75, 2, 3);
 	}
 
-	dbs->showParties();
 	for (i = 0; i < 60; i++)
 		dbs->vote(i, 1);
 	for (i = 0; i < 40; i++)

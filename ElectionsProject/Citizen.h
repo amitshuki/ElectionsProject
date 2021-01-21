@@ -4,7 +4,6 @@ class District;
 using namespace std;
 using namespace myStr;
 
-
 #define rcastcc reinterpret_cast<const char*>
 #define rcastc reinterpret_cast<char*>
 
@@ -12,7 +11,6 @@ enum class RoundMode { REGULAR, SIMPLE };
 
 class Citizen
 {
-public:
 private:
 	int id, districtSN, birthYear;
 	District* dst;
