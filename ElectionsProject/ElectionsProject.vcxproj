@@ -148,7 +148,10 @@
     <ClInclude Include="DistrictRepsList.h" />
     <ClInclude Include="DividedDistrict.h" />
     <ClInclude Include="DynamicArray.h" />
+    <ClInclude Include="elections_result_exception.h" />
     <ClInclude Include="ElectorsForPartyArr.h" />
+    <ClInclude Include="file_open_exception.h" />
+    <ClInclude Include="id_validation_exeption.h" />
     <ClInclude Include="myString.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="PartyList.h" />
@@ -170,7 +173,10 @@
     <ClCompile Include="DistrictRepsList.cpp" />
     <ClCompile Include="DividedDistrict.cpp" />
     <ClCompile Include="DynamicArray.cpp" />
+    <ClCompile Include="elections_result_exception.cpp" />
     <ClCompile Include="ElectorsForPartyArr.cpp" />
+    <ClCompile Include="file_open_exception.cpp" />
+    <ClCompile Include="id_validation_exeption.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="myString.cpp" />
     <ClCompile Include="Party.cpp" />
