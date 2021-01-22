@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #pragma once
 #include <iostream>
 using namespace std;
@@ -5,18 +6,16 @@ class file_open_exception :
     public exception
 {
 private:
-	char* msg;
+	string msg;
 public:
 	file_open_exception() {
-		msg = new char[50];
-		sprintf(msg, "File opening error.");
+		this->msg += "File opening error.";
 	}
 	file_open_exception(const char* name_of_file) {
-		this->msg = new char[100];
-		sprintf(this->msg, "Failed to open file: ");
-		strcat(this->msg, name_of_file);
+		this->msg += "Failed to open file: ";
+		this->msg.append(name_of_file);
 	}
-	~file_open_exception() { delete[] msg; }
-	virtual const char* what()  const throw() { return msg; }
+	~file_open_exception() = default;
+	virtual const char* what()  const throw() { return msg.data(); }
 };
 

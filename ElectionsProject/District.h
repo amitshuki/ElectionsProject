@@ -20,10 +20,10 @@ public:
 	const int& getTotalCivils()const { return totalCivils; }
 	const int& getTotalVoters()const { return totalVoters; }
 
-	bool addCitizenToDistrict() { return ++totalCivils; }
+	void addCitizenToDistrict() { ++totalCivils; }
 
-	bool addVoteToParty(const int& partySN);
-	bool addPartyToDistrict(const int& partySN) { return voters4PartyList.addParty(partySN); }
+	void addVoteToParty(const int& partySN);
+	void addPartyToDistrict(const int& partySN) { voters4PartyList.addParty(partySN); }
 
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList) = 0;
 
@@ -31,8 +31,9 @@ public:
 	
 	friend class DistrictList;
 
-	virtual bool save(ostream& out) const;
-	virtual bool load(istream& in);
+	virtual void save(ostream& out) const;
+	virtual void load(istream& in);
+
 protected:
 	int calcElectors(const int& numOfVoters);
 	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) const = 0;

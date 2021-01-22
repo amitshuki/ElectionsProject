@@ -5,6 +5,7 @@
 #include "UniformState.h"
 #include "myString.h"
 #include "DynamicArray.h"
+
 using namespace std;
 using namespace myStr;
 
@@ -23,7 +24,7 @@ void addCitizenAsPartyRepWithoutDistricts(UniformState& state);
 void vote(State& state);
 void save2File(State& state);
 State* loadFromFile();
-
+int countDigits(int num);
 
 int main() {
 	UniformState ufs(30);
@@ -43,11 +44,6 @@ int main() {
 		ufs.vote(i, 1);
 	for (i = 0; i < 300; i++)
 		ufs.vote(i + 500, 2);
-
-
-	cout << "=============================================" << endl;
-	cout << "=============================================" << endl;
-	cout << "=============================================" << endl;
 
 	ofstream outfile("test.bin", ios::binary | ios::trunc);
 	if (!outfile)
@@ -73,7 +69,6 @@ int i = 1;
 //	dbs->addDistrict(myString("B"), 10, DistrictType::UNIFIED);
 //	dbs->addDistrict(myString("C"), 10, DistrictType::UNIFIED);
 //	myString name("citizen");
-//	dbs->showDistrict();
 //	int i = 1;
 //	for (i = 0; i < 100; i++)
 //		dbs->addCitizen(name, i, 1994, 1);
@@ -86,9 +81,9 @@ int i = 1;
 //	dbs->addParty(myString("Ior"), 100);
 //	for (i = 0; i < 15; i++) {
 //		dbs->addCitizenAsPartyRepInDist(i, 1, 1);
-//		dbs->addCitizenAsPartyRepInDist(i+15, 1, 2);
-//		dbs->addCitizenAsPartyRepInDist(i+30, 1, 3);
-//		dbs->addCitizenAsPartyRepInDist(i+45, 2, 1);
+//		dbs->addCitizenAsPartyRepInDist(i + 15, 1, 2);
+//		dbs->addCitizenAsPartyRepInDist(i + 30, 1, 3);
+//		dbs->addCitizenAsPartyRepInDist(i + 45, 2, 1);
 //		dbs->addCitizenAsPartyRepInDist(i + 60, 2, 2);
 //		dbs->addCitizenAsPartyRepInDist(i + 75, 2, 3);
 //	}
@@ -119,6 +114,7 @@ int i = 1;
 //	outfile.close();
 //	
 //	delete dbs;
+//
 //	ifstream infile("test.bin", ios::binary);
 //	if (!infile)
 //		exit(-4);
@@ -156,31 +152,49 @@ int i = 1;
 //	cout << endl;*/
 //}
 
+
 void run() {	
 	int input = 0;
 	State* state = nullptr;
+
+	//First Menu:
 	printMenu1();
-	cin >> input;
-	while (input < 1 || input>3) {
-		cout << "Invalid choice. Try Again: ";
+	while (!state) {
 		cin >> input;
+		try {
+			if(input < 1 || input>3)
+				throw range_error("Incorrect input.");
+			state = handleInput1(input);
+		}
+		catch (infile_error& in_error) {
+			cout << "State loading failed: " << in_error.what() << endl;
+			return;
+		}
+		catch (exception& exp) {
+			cout << exp.what() << endl;
+		}
 	}
-	state = handleInput1(input);
-	if (!state)
-		return;
-	cout << endl;
+	
+	// State opened. Second menu:
 	while (input != 12) {
 		printMenu2();
 		cin >> input;
-		while (input < 1 || input>12) {
-			cout << "Invalid choice. Try Again: ";
-			cin >> input;
+		try {
+			if (input < 1 || input>12)
+				throw range_error("Incorrect input.");
+			handleInput2(input, state);
 		}
-		handleInput2(input, state);
+		catch (exception& exp) {
+			cout << exp.what();
+		}
 		cout << endl;
 	}
+
+	// Finished!
 	delete state;
 }
+// ================================
+
 void printMenu1() {
 	cout << "Initialization Menu:" << endl << "================" << endl;
 	cout << "1. Create new elections round." << endl;
@@ -202,49 +216,31 @@ void printMenu2() {
 	cout << "11. Load Round from file" << endl;
 	cout << "12. exit" << endl;
 }
+// ================================
+
 State* handleInput1(const int& input) {
 	cout << endl;
 	State* state = nullptr;
-	switch (input) {
-	case 1:
-		state = createNewState();
-		break;
-	case 2:
-		state = loadFromFile();
-		break;
-	case 3:
-		return nullptr;
-	}
-	return state;
-}
-State* createNewState() {
-	int choice = 0, rank = 0, day, month, year;
-	State* state = nullptr;
-	cout << "Enter round type (1 = District Based round\\ 2 = Simple Round): ";
-	cin >> choice;
-	while (choice < 1 || choice>2) {
-		cout << "Invalid choice. Try Again: ";
-		cin >> choice;
-	}
-	if (choice == 1)
-		state = new DistrictBasedState();
-	else {
-		cout << "Enter amount of electors: ";
-		cin >> rank;
-		while (rank < 1) {
-			cout << "Invalid rank. Try Again: ";
-			cin >> rank;
+	try {
+		switch (input) {
+		case 1:
+			state = createNewState();
+			break;
+		case 2:
+			state = loadFromFile();
+			break;
+		default:
+			throw range_error("Incorrect input.");
 		}
-		state = new UniformState(rank);
 	}
-	cout << "Enter elections date: (day\\month\\year): ";
-	cin >> day;
-	cin >> month;
-	cin >> year;
-	state->setDate(day, month, year);
+	catch (exception& exp) {
+		delete state;
+		throw exp;
+	}
+	if (!state)
+		throw bad_alloc();
 	return state;
 }
-
 void handleInput2(const int& input,State*& state) {
 	State* temp;
 	cout << endl;
@@ -274,7 +270,7 @@ void handleInput2(const int& input,State*& state) {
 		if (typeid(*state) == typeid(DistrictBasedState))
 			dynamic_cast<DistrictBasedState&>(*state).showDistrict();
 		else
-			cout << "There are no districts in a uniform round." << endl;
+			throw exception("There are no districts in a uniform round.");
 		break;
 	case 6:
 		state->showVotersBook();
@@ -292,19 +288,47 @@ void handleInput2(const int& input,State*& state) {
 		save2File(*state);
 		break;
 	case 11:
-		temp = loadFromFile();
-		if (!temp)
-			cout << "Could not load state." << endl;
-		else {
-			delete state;
-			state = temp;
-		}
+		state = loadFromFile();
 		break;
-	case 12:
+	default:
 		break;
 	}
+
 }
 
+State* createNewState() {
+	int choice = 0, rank = 0, day, month, year;
+	State* state = nullptr;
+	cout << "Enter round type (1 = District Based round\\ 2 = Simple Round): ";
+	cin >> choice;
+	if (choice < 1 || choice>2)
+		throw range_error("Invalid round type.");
+	try {
+		if (choice == 1)
+			state = new DistrictBasedState();
+		else {
+			cout << "Enter amount of electors: ";
+			cin >> rank;
+			if (rank < 1)
+				throw range_error("Invalid rank");
+			state = new UniformState(rank);
+		}
+		if (!state)
+			throw bad_exception();
+	}
+	catch (exception& exp) {
+		cout << "State creation failure: " << exp.what() << endl;
+		throw exp;
+	}
+	cout << "Enter elections date: (day\\month\\year): ";
+	cin >> day;
+	cin >> month;
+	cin >> year;
+	state->setDate(day, month, year);// need to verify
+	return state;
+}
+
+// ================================
 void addDistrictToState(DistrictBasedState& state) {
 	myString dstName;
 	int rank, type;
@@ -316,23 +340,20 @@ void addDistrictToState(DistrictBasedState& state) {
 	cout << "District's rank (amount of electors): ";
 	cin >> rank;
 	if (rank <= 0)
-		cout << "Invalid amount of electors.";
+		throw range_error("Invalid district rank.");
 	else {
 		cout << "District's type (1 = Divided , 2 = Uniform): ";
 		cin >> type;
 		if (type < 1 || type>2)
-			cout << "Invalid type.";
+			throw range_error("Invalid input.");
 		else {// type is ok!
 			if (type == 1)
-				res = state.addDistrict(dstName, rank, DistrictType::DIVIDED);
+				state.addDistrict(dstName, rank, DistrictType::DIVIDED);
 			else//if type==2
-				res = dynamic_cast<DistrictBasedState&>(state).addDistrict(dstName, rank, DistrictType::UNIFIED);
-			if (!res)
-				cout << "Could not add district." << endl;
+				dynamic_cast<DistrictBasedState&>(state).addDistrict(dstName, rank, DistrictType::UNIFIED);
 		}
 	}
 }
-
 void addCitizenWithoutDistricts(UniformState& state) {
 	myString name;
 	int id, birthYear;
@@ -344,15 +365,13 @@ void addCitizenWithoutDistricts(UniformState& state) {
 	cin >> name;
 	cout << "ID: ";
 	cin >> id;
+	if (id < 1 || countDigits(id) != 9)
+		throw range_error("Illigal id.");
 	cout << "Year of birth: ";
 	cin >> birthYear;
-	if (id < 1)
-		cout << "Invalid ID." << endl;
-	else if (birthYear < 1880 || birthYear>2021)
-		cout << "Invalid birth year. " << endl;
-	res = state.addCitizen(name, id, birthYear);
-	if (!res)
-		cout << "Could not add citizen." << endl;
+	if (state.getElectionsDate().year - birthYear < 18)
+		throw range_error("Invalid birth year, only 18+ can vote.");
+	state.addCitizen(name, id, birthYear);
 }
 void addCitizenWithDistricts(DistrictBasedState& state){
 	myString name;
@@ -364,18 +383,15 @@ void addCitizenWithDistricts(DistrictBasedState& state){
 	cin >> name;
 	cout << "ID: ";
 	cin >> id;
+	if (id < 1 || countDigits(id) != 9)
+		throw range_error("Illigal id.");
 	cout << "Year of birth: ";
 	cin >> birthYear;
+	if (state.getElectionsDate().year - birthYear < 18)
+		throw range_error("Invalid birth year, only 18+ can vote.");
 	cout << "District serial number: ";
 	cin >> dstSN;
-	if (id < 1)
-		cout << "Invalid ID." << endl;
-	else if (birthYear < 1880 || birthYear>2020)
-		cout << "Invalid birth year. " << endl;
-	else if (!state.checkExistingDistrictBySN(dstSN))
-		cout << "Invalid district serial number." << endl;
-	else if(!state.addCitizen(name, id, birthYear, dstSN))
-			cout << "Could not add citizen." << endl;
+	state.addCitizen(name, id, birthYear, dstSN);// district SN verification inside.
 }
 void addParty(State& state) {
 	myString nameOfParty;
@@ -386,11 +402,7 @@ void addParty(State& state) {
 	cin >> nameOfParty;
 	cout << "Candidate ID: ";
 	cin >> candidateID;
-	if (!state.checkExistingCitizenbyID(candidateID))
-		cout << "Invalid candidate ID." << endl;
-	else if(!state.addParty(nameOfParty, candidateID))
-			cout << "Could not add party." << endl;
-
+	state.addParty(nameOfParty, candidateID); // varification of candidate id inside.
 }
 void addCitizenAsPartyRepWithoutDistricts(UniformState& state) {
 	int repID, partySN;
@@ -401,13 +413,7 @@ void addCitizenAsPartyRepWithoutDistricts(UniformState& state) {
 	cin >> repID;
 	cout << "Party Serial Number: ";
 	cin >> partySN;
-	if (!state.checkExistingCitizenbyID(repID))
-		cout << "Invalid candidate ID. " << endl;
-	else if (!state.checkExistingPartyBySN(partySN))
-		cout << "Invalid party Serial Number. " << endl;
-	else if (!state.addCitizenAsPartyRep(repID, partySN))
-			cout << "Could not add representative." << endl;
-
+	state.addCitizenAsPartyRep(repID, partySN); // verification inside
 }
 void addCitizenAsPartyRepWithDistricts(DistrictBasedState& state) {
 	int repID, partySN, distrSN;
@@ -420,38 +426,27 @@ void addCitizenAsPartyRepWithDistricts(DistrictBasedState& state) {
 	cin >> distrSN;
 	cout << "Party Serial Number: ";
 	cin >> partySN;
-	if(!state.checkExistingCitizenbyID(repID)) 
-		cout << "Invalid candidate ID. " << endl;
-	else if(!state.checkExistingDistrictBySN(distrSN)) 
-		cout << "Invalid district Serial Number. "<<endl;
-	else if (!state.checkExistingPartyBySN(partySN))
-		cout << "Invalid party Serial Number. " << endl;
-	else
-		if(!state.addCitizenAsPartyRepInDist(repID, partySN, distrSN))
-			cout << "Could not add representative." << endl;
-
+	state.addCitizenAsPartyRepInDist(repID, partySN, distrSN);// verification inside
 }
+// ================================
+
 void vote(State& state) {
 	int id, partySN;
 	cout << "Citizen's ID: ";
 	cin >> id;
 	cout << "Party Serial Number: ";
 	cin >> partySN;
-	if (!state.checkExistingCitizenbyID(id))
-		cout << "Invalid candidate ID. " << endl;
-	else if (!state.checkExistingPartyBySN(partySN))
-		cout << "Invalid party Serial Number. " << endl;
-	else if (!state.vote(id, partySN))
-		cout << "This citizen has already voted." << endl;
+	state.vote(id, partySN);// Verification inside!
 }
+
+// ================================
 void save2File(State& state) {
 	string fname;
 	cout << "Enter file name:";
 	cin >> fname;
 	ofstream outfile(fname, ios::binary | ios::trunc);
 	if (!outfile) {
-		cout << "Error opening file." << endl;
-		return;
+		throw runtime_error("Error opening file");
 	}
 	StateLoader::save(outfile, state);
 	outfile.close();
@@ -463,10 +458,19 @@ State* loadFromFile() {
 	cin >> fname;
 	ifstream infile("test.bin", ios::binary);
 	if (!infile) {
-		cout << "Error opening file." << endl;
-		exit(-1);
+		throw runtime_error("Error opening file");
 	}
-	state = (StateLoader::load(infile));
+	state = StateLoader::load(infile);
 	infile.close();
 	return state;
+}
+// ================================
+
+int countDigits(int num) {
+	int count = 0;
+	while (num > 0) {
+		num /= 10;
+		count++;
+	}
+	return count;
 }

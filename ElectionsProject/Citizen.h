@@ -1,6 +1,7 @@
 #pragma once
 class District;
 #include "myString.h"
+#include "my_exceptions.h"
 using namespace std;
 using namespace myStr;
 
@@ -21,10 +22,10 @@ private:
 public:
 	Citizen() :id(-1), districtSN(-1), birthYear(-1), name(""), votedPartySN(-1), didVote(false), dst(nullptr), round_mode(RoundMode::REGULAR) {}
 	Citizen(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* mdst, const RoundMode& rm);
-	Citizen(istream& in);
+	Citizen(istream& in) { load(in); }
 	void vote(const int& partySN);
 
-	bool setDistrict(District* dst) { return this->dst = dst; }
+	void setDistrict(District* dst) { this->dst = dst; }
 
 	const int& getId()const { return id; }
 	const myString& getName()const { return name; }
@@ -34,11 +35,10 @@ public:
 	const int& getVotedPartySN() const { return votedPartySN; }
 	bool hasVoted()const { return didVote; }
 	Citizen& operator=(const Citizen& other);
-	bool operator<(const Citizen&);
 	friend ostream& operator<<(ostream& out, const Citizen& cit);
 
-	bool save(ostream& out) const;
-	bool load(istream& in);
+	void save(ostream& out) const;
+	void load(istream& in);
 
 	friend class CitizenList;
 };

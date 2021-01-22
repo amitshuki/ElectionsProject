@@ -16,19 +16,18 @@ CitizenList::~CitizenList() {
 	}
 }
 
-bool CitizenList::addCitizenToList(Citizen* cit) {
+void CitizenList::addCitizenToList(Citizen* cit) {
 	
 	if (checkExistingCitizenInListByID(cit->id))// No other citizen with same ID
-		return false;
+		throw adding_error("Citizen");
 	citArr.push_back(cit);
-	return true;
 }
 
-bool CitizenList::addCitizenToList(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* dst){
-	if (checkExistingCitizenInListByID(id))
-		return false;
-	citArr.push_back(new Citizen(name, id, birthYear, districtSN, dst, this->round_mode));
-	return true;
+void CitizenList::addCitizenToList(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* dst){
+	Citizen* cit = new Citizen(name, id, birthYear, districtSN, dst, this->round_mode);
+	if (!cit)
+		throw bad_alloc();
+	addCitizenToList(cit);
 }
 bool CitizenList::checkExistingCitizenInListByID(const int& id)const {
 	for (auto& i : citArr)
@@ -55,7 +54,8 @@ void CitizenList::printFirstXReps(const int& amount)const {
 }
 
 CitizenList& CitizenList::operator=(const CitizenList& other) {
-	citArr = other.citArr;
+	if (this != &other)
+		citArr = other.citArr;
 	return *this;
 }
 CitizenList& CitizenList::operator+=(const CitizenList& other) {
@@ -70,65 +70,23 @@ ostream& operator<<(ostream& out, const CitizenList& citList) {
 	return out;
 }
 
-// DO SOMETHING WITH THIS THING - DO I NEED TO SORT?
-// A utility function to swap two elements  
-void CitizenList::swap(Citizen*& a, Citizen*& b)
-{
-	Citizen* t = a;
-	a = b;
-	b = t;
-}
-
-int CitizenList::partition(const int& low, const int& high)
-{
-	int pivot = citArr[high]->id; // pivot  
-	int i = (low - 1); // Index of smaller element  
-
-	for (int j = low; j <= high - 1; j++)
-	{
-		// If current element is smaller than the pivot  
-		if (citArr[j]->id < pivot)
-		{
-			i++; // increment index of smaller element  
-			swap(citArr[i], citArr[j]);
-		}
-	}
-	swap(citArr[i + 1], citArr[high]);
-	return (i + 1);
-}
-
-void CitizenList::quickSort(const int& low, const int& high)
-{
-	if (low < high)
-	{
-		/* pi is partitioning index, arr[p] is now
-		at right place */
-		int pi = partition(low, high);
-
-		// Separately sort elements before  
-		// partition and after partition  
-		quickSort(low, pi - 1);
-		quickSort(pi + 1, high);
-	}
-}
-
-
-bool CitizenList::save(ostream& out) const {
+void CitizenList::save(ostream& out) const {
 	out.write(rcastcc(&citArr.getLogSize()), sizeof(citArr.getLogSize()));
 	out.write(rcastcc(&delOpt), sizeof(delOpt));
 	out.write(rcastcc(&round_mode), sizeof(round_mode));
 	out.write(rcastcc(&saveLoadOpt), sizeof(saveLoadOpt));
+	if (!out.good())
+		throw outfile_error();
 	for (auto& i : citArr) {
 		if (saveLoadOpt == saveloadOption::SAVE_AND_LOAD)
 			i->save(out);
 		else
 			out.write(rcastcc(&(i->id)), sizeof(i->id));
-		if (!out.good())
-			break;
+		if (!out.good()) 
+			throw outfile_error();
 	}
-	return out.good();
 }
-bool CitizenList::load(istream& in) {
+void CitizenList::load(istream& in) {
 	int size;
 	in.read(rcastc(&size), sizeof(size));
 	in.read(rcastc(&delOpt), sizeof(delOpt));
@@ -136,18 +94,29 @@ bool CitizenList::load(istream& in) {
 	in.read(rcastc(&saveLoadOpt), sizeof(saveLoadOpt));
 	DynamicArray<Citizen*> newArr(size);	
 	Citizen* temp;
-	for (auto i = 0; i < size; i++) {
-		if (!in.good())
-			return false;
-		if (saveLoadOpt == saveloadOption::SAVE_AND_LOAD)
-			newArr.push_back(new Citizen(in));
-		else {
-			newArr.push_back(new Citizen());
-			temp = newArr.back();
+	for (auto i = 0; in.good() && i < size; i++) {
+		switch (saveLoadOpt) {
+		case saveloadOption::SAVE_AND_LOAD:
+			temp = new Citizen(in);
+			break;
+		case saveloadOption::NOT:
+			temp = new Citizen();
+			if (!temp)
+				break;
 			// The following command reads the id of the citizen. class "State" is responsible to connect to actual citizens.
 			in.read(rcastc(&temp->id), sizeof(temp->id));// Load id if save and load is false
+			break;
+		default:
+			throw undefined_option("saveLoadOption");
 		}
+		if (!temp) {
+			for (auto& j : newArr)
+				delete j;
+			throw bad_alloc();
+		}
+		newArr.push_back(temp);
 	}
+	if (!in.good())
+		throw infile_error("CitizenList");
 	citArr = newArr;
-	return in.good();
 }

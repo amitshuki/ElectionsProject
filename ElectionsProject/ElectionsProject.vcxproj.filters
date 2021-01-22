@@ -122,8 +122,32 @@
     <ClInclude Include="elections_result_exception.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
+    <ClInclude Include="no_entity_error.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="connection_error.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="adding_error.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="my_exceptions.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="has_voted_error.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
     <ClInclude Include="file_open_exception.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="outfile_error.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="infile_error.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="undefined_option.h">
+      <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,15 +213,6 @@
     </ClCompile>
     <ClCompile Include="myString.cpp">
       <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="id_validation_exeption.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="elections_result_exception.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="file_open_exception.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

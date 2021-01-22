@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #pragma once
 #include <iostream>
 using namespace std;
@@ -5,17 +6,15 @@ class id_validation_exeption :
 	public exception
 {
 private:
-	char* msg;
+	string msg;
 public:
 	id_validation_exeption() {
-		msg = new char[50];
-		sprintf(msg, "Invalid ID.");
+		this->msg.append("Invalid ID.");
 	}
 	id_validation_exeption(const int& id) {
-		msg = new char[50];
-		sprintf(msg, "Invalid ID: %d", id);
+		this->msg.append("Invalid ID." + id);
 	}
-	~id_validation_exeption() { delete[] msg; }
-	virtual const char* what()  const throw() { return msg; }
+	~id_validation_exeption() = default;
+	virtual const char* what()  const throw() { return msg.data(); }
 };
 

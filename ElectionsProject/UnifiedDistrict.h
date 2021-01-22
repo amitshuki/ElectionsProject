@@ -10,7 +10,8 @@ public:
 		District(newName, newRank, sn) {}
 	UnifiedDistrict(istream& in) :District(in) {}
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList);
-	virtual bool save(ostream& out) const;
-	virtual bool load(istream& in){ return District::load(in); }
+
+	virtual void save(ostream& out) const{ District::save(out); }
+	virtual void load(istream& in){ District::load(in); }
 };
 

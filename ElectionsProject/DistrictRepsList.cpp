@@ -5,32 +5,42 @@ DistrictRepsList::~DistrictRepsList() {
 		delete i;
 }
 
-bool DistrictRepsList::addDistrict(const int& dstSN, const int& dstRank) {
-	districtRepsarr.push_back(new DistrictReps(dstSN, dstRank, this->round_mode));
-	return true;// need to change to exeptions
+void DistrictRepsList::addDistrict(const int& dstSN, const int& dstRank) {
+	DistrictReps* dr = new DistrictReps(dstSN, dstRank, this->round_mode);
+	if (!dr)
+		throw bad_alloc();
+	districtRepsarr.push_back(dr);
 }
-bool DistrictRepsList::addCitizenAsRep(Citizen* rep, const int& dstSN) {
+void DistrictRepsList::addCitizenAsRep(Citizen* rep, const int& dstSN) {
 	for (auto& i : districtRepsarr)
-		if (i->dstSN == dstSN)
-			return i->addRep(rep);
-	return false;
+		if (i->dstSN == dstSN) {
+			i->addRep(rep);
+			return;// IMPORTANT! == If district was found - end the method.
+		}
+	throw no_entity_error("DistrictReps");// if district was not found - throw exception
 }
 
 DistrictReps& DistrictRepsList::getDistRepsByDistSN(const int& distSN) {
 	for (auto& i:districtRepsarr)
 		if (i->dstSN==distSN)
 			return *i;
+	throw no_entity_error("DistrictReps");// if district was not found - throw exception
 }
 
 void DistrictRepsList::printFirstXReps(const int& districtSN, const int& amountOfReps)const {
-	for (auto& i:districtRepsarr)
-		if (i->dstSN == districtSN)
+	for (auto& i : districtRepsarr) {
+		if (i->dstSN == districtSN) {
 			i->printFirstXReps(amountOfReps);
+			return;// Important!
+		}
+	}
+	throw no_entity_error("DistrictReps");// if district was not found - throw exception
 }
 
 
 DistrictRepsList& DistrictRepsList::operator=(const DistrictRepsList& other) {
-	districtRepsarr = other.districtRepsarr;
+	if (this != &other)
+		districtRepsarr = other.districtRepsarr;
 	return *this;
 }
 ostream& operator<<(ostream& out, const DistrictRepsList& drList) {
@@ -40,28 +50,43 @@ ostream& operator<<(ostream& out, const DistrictRepsList& drList) {
 	return out;
 }
 
-bool DistrictRepsList::save(ostream& out) const {
+void DistrictRepsList::save(ostream& out) const {
 	out.write(rcastcc(&(districtRepsarr.getLogSize())), sizeof(districtRepsarr.getLogSize()));
 	out.write(rcastcc(&round_mode), sizeof(round_mode));
-	for (auto& i : districtRepsarr)
-		if (!i->save(out))
-			return false;
-	return out.good();
+	for (auto& i : districtRepsarr) {
+		i->save(out);
+		if (!out.good())
+			throw outfile_error("DistrictRepsList");
+	}
 }
-bool DistrictRepsList::load(istream& in) {
+void DistrictRepsList::load(istream& in) {
 	int size;
 	in.read(rcastc(&size), sizeof(size));
 	in.read(rcastc(&round_mode), sizeof(round_mode));
 	DynamicArray<DistrictReps*> newDRArr(size);
-	for (auto i = 0; i < size; i++)
-		newDRArr.push_back(new DistrictReps(in));
+	DistrictReps* dr;
+	try {
+		for (auto i = 0; in.good() && i < size; i++) {
+			dr = new DistrictReps(in);
+			if (!dr) {
+				for (auto& j : newDRArr)
+					delete j;
+				throw bad_alloc();
+			}
+			newDRArr.push_back(dr);
+		}
+	}
+	catch (exception& exp) {
+		cout << "DistrictRepsList loading failure: " << exp.what() << endl;
+		throw infile_error("DistrictRepsList");
+	}
+	if (!in.good())
+		throw infile_error("DistrictRepsList");
 	districtRepsarr = newDRArr;
-	return in.good();
 }
 
-bool DistrictRepsList::connectReps2Citizens(CitizenList& citList){
-	for (auto& i : districtRepsarr)// per District
-		if (!i->connectReps2Citizens(citList))
-			return false;
-	return true;
+void DistrictRepsList::connectReps2Citizens(CitizenList& citList){
+	for (auto& i : districtRepsarr) {// per District
+		i->connectReps2Citizens(citList);// Connects reps(id's only) to actual citizens.
+	}
 }

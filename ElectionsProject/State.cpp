@@ -1,5 +1,17 @@
 #include "State.h"
-
+Date::Date(const int& d, const int& m, const int& y){
+	if (d < 0 || d>31)
+		throw range_error("Invalid day.");
+	if (m < 0 || m>12)
+		throw range_error("Invalid month.");
+	if (y < 0 || y>2021)
+		throw range_error("Invalid year.");
+	if (d > 28 && m == 2)
+		throw range_error("Invalid day and month");
+	this->day = d;
+	this->month = m;
+	this->year = y;
+}
 bool Date::operator==(const Date& other)const {
 	if (day == other.day && month == other.month && year == other.year)
 		return true;
@@ -10,34 +22,56 @@ ostream& operator<<(ostream& out, const Date& dt) {
 	return out;
 }
 
-
-State::State(istream& in) :votersBook(in), distList(in), partyList(in) {
-	in.read(rcastc(&hasAny1votedyet), sizeof(hasAny1votedyet)); 
-	connectCitizensToDistricts();
-	partyList.connectPartyreps2Citizens(votersBook);
+State::State(istream& in) :votersBook(RoundMode::REGULAR), partyList(RoundMode::REGULAR) {
+	try {
+		CitizenList* temp_votersBook = new CitizenList(in);
+		if (!temp_votersBook)
+			throw bad_alloc();
+		DistrictList* temp_distList = new DistrictList(in);
+		if (!temp_distList) {
+			temp_votersBook->~CitizenList();
+			throw bad_alloc();
+		}
+		PartyList* temp_partyList = new PartyList(in);
+		if (!temp_partyList) {
+			temp_votersBook->~CitizenList();
+			temp_distList->~DistrictList();
+			throw bad_alloc();
+		}
+		votersBook = *temp_votersBook;
+		distList = *temp_distList;
+		partyList = *temp_partyList;
+		in.read(rcastc(&this->hasAny1votedyet), sizeof(this->hasAny1votedyet));
+		connectCitizensToDistricts();
+		partyList.connectPartyreps2Citizens(votersBook);
+	}
+	catch (connection_error& cnc_err) {
+		cout << cnc_err.what() << endl;
+		votersBook.~CitizenList();
+		distList.~DistrictList();
+		partyList.~PartyList();
+	}
+	catch (exception& exp) {
+		cout << "Error creating State: " << exp.what() << endl;
+		votersBook.~CitizenList();
+		distList.~DistrictList();
+		partyList.~PartyList();
+	}
 }
 
-bool State::addParty(const myString& partyName, const int& candidateId) {
+void State::addParty(const myString& partyName, const int& candidateId) {
 	Citizen* candidate = votersBook.getCitizenByID(candidateId);
+	if (!candidate)
+		throw no_entity_error("Candidate", "State");
 	Party* newParty;
-	bool res = false;
-	if (!candidate) 
-		return false;
-	else {
-		// Add the party to the State's list
-		newParty = partyList.addPartyToList(partyName, candidate);
-		if (newParty != nullptr) {
-			for (int i = 0; i < distList.getLogSize(); i++) {
-				//add all of the districts to the new party
-				res = newParty->addDistrict(distList[i]->getSN(), distList[i]->getRank());
-				// add the new party to all of the districts
-				res = distList[i]->addPartyToDistrict(newParty->getSN());
-				if (!res)
-					break;
-			}
-		}
+	// Add the party to the State's list
+	newParty = partyList.addPartyToList(partyName, candidate);
+	if (!newParty)
+		throw adding_error("Party", "State");
+	for (int i = 0; i < distList.getLogSize(); i++) {
+		newParty->addDistrict(distList[i]->getSN(), distList[i]->getRank());//add all of the districts to the new party
+		distList[i]->addPartyToDistrict(newParty->getSN());// add the new party to all of the districts
 	}
-	return res;
 }
 
 void State::showVotersBook()const {
@@ -45,72 +79,92 @@ void State::showVotersBook()const {
 	cout << "===========" << endl;
 	cout << votersBook;
 }
-
 void State::showParties()const {
 	cout << "Parties:" << endl;
 	cout << "=======" << endl;
 	cout << partyList;
 }
 
-bool State::vote(const int& id, const int& partySN) {
-	Citizen* cit = votersBook.getCitizenByID(id);
-	if (!cit->hasVoted()) {
-		hasAny1votedyet = true;
-		cit->vote(partySN);
-	}
+void State::vote(const int& id, const int& partySN) {
+	try {
+		Citizen* cit = votersBook.getCitizenByID(id);
+		if (!cit)
+			throw no_entity_error("Citizen", "State");
+		if (cit->hasVoted())
+			throw has_voted_error(cit->getId());
+		if (!checkExistingPartyBySN(partySN))
+			throw no_entity_error("Party");
 
-	// Add vote to the party in the district of the citizen.
-	District* dst = cit->getDistrict();
-	if (!dst->addVoteToParty(partySN))
-		return false;
-	return true;
+		District* dst = cit->getDistrict();
+		// Add vote to the party in the district of the citizen.
+		dst->addVoteToParty(partySN);
+
+		cit->vote(partySN);
+		hasAny1votedyet = true;
+	}
+	catch (exception& exp) {
+		cout << exp.what() << endl;
+	}
 }
 
 void State::showElectionsResults() {
-	if (this->hasAny1votedyet == false)
-		return;
-	cout << "Date of the elections: " << date << endl;
-	int winningPartyElectorsAmount;// getResults updates it byRef
-	const Party* winningParty = distList.getResults(winningPartyElectorsAmount, partyList);
-	cout << "The winner of the elections, with " << winningPartyElectorsAmount << " electors is: " << endl;
-	cout << *(winningParty->getCandidate()) << endl;
+	try {
+		if (this->hasAny1votedyet == false)
+			throw elections_result_exception("no one has voted yet.");
+		cout << "Date of the elections: " << this->elections_date << endl;
+		int winningPartyElectorsAmount;// getResults updates it byRef
+		const Party* winningParty = distList.getResults(winningPartyElectorsAmount, partyList);
+		cout << "The winner of the elections, with " << winningPartyElectorsAmount << " electors is: " << endl;
+		cout << *(winningParty->getCandidate()) << endl;
+	}
+	catch (exception& exp) {
+		cout << exp.what() << endl;
+	}
 }
 
-bool State::setDate(const int& d, const int& m, const int& y) {
-	Date dt(d, m, y);
-	this->date = dt;
-	return this->date == dt;
-}
 
-bool State::save(ostream& out) const {
-	if (!votersBook.save(out) || !distList.save(out) || !partyList.save(out))
-		return false;
+void State::save(ostream& out) const {
+	votersBook.save(out);
+	distList.save(out);
+	partyList.save(out);
 	out.write(rcastcc(&hasAny1votedyet), sizeof(hasAny1votedyet));
-	return out.good();
+	if (!out.good())
+		throw outfile_error("State");
 }
 
-bool State::load(istream& in) {
-	if (!votersBook.load(in) || !distList.load(in) || !partyList.load(in))
-		return false;
+void State::load(istream& in) {
+	votersBook.load(in);
+	distList.load(in);
+	partyList.load(in);
 	in.read(rcastc(&hasAny1votedyet), sizeof(hasAny1votedyet));
-	return in.good();
+	if (!in.good()) {
+		votersBook.~CitizenList();
+		distList.~DistrictList();
+		partyList.~PartyList();
+		throw infile_error("State");
+	}
 }
 
-bool State::connectCitizensToDistricts() {
+void State::connectCitizensToDistricts() {
 	Citizen* curCit;
 	District* dst;
-	int amountOfCitizens = votersBook.getLogSize(), i;
-	for (i = 0; i < amountOfCitizens; i++) {// Connect every citizen to Districts
-		curCit = votersBook[i];
-		if (curCit) {
-			dst = distList.getDistrictBySN(curCit->getDistrictSN());
-			if (dst)
-				curCit->setDistrict(dst);
+	int amountOfCitizens = votersBook.getLogSize();
+	try {
+		for (int i = 0; i < amountOfCitizens; i++) {// Connect every citizen to Districts
+			curCit = votersBook[i];
+			if (curCit) {
+				dst = distList.getDistrictBySN(curCit->getDistrictSN());
+				if (dst)
+					curCit->setDistrict(dst);
+				else
+					throw no_entity_error("District", "State");
+			}
 			else
-				return false;
+				throw no_entity_error("Citizen", "State");
 		}
-		else
-			return false;
 	}
-	return true;
+	catch (exception& exp) {
+		cout << exp.what();
+		throw connection_error("Citizens","Districts");// if in exception was thrown - do not connect the list to the partially connected list
+	}
 }

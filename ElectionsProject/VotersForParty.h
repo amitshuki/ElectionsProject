@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "my_exceptions.h"
 using namespace std;
 #define rcastcc reinterpret_cast<const char*>
 #define rcastc reinterpret_cast<char*>
@@ -13,15 +14,15 @@ public:
 	VotersForParty(const int& partySN) :numOfVoters(0), partySN(partySN) {}
 
 	VotersForParty(istream& in) { load(in); }
-	bool setPartySN(const int& partySN);
+	void setPartySN(const int& partySN);
 
-	bool addVote() { return ++numOfVoters; }
+	void addVote() { ++numOfVoters; }
 	const int& getPartySN()const { return partySN; }
 	const int& getNumOfVoters()const { return numOfVoters; }
 
 	int calcNumOfElectors(const int& totalVotes, const int& distRank)const;
 
-	bool save(ostream& out) const;
-	bool load(istream& in);
+	void save(ostream& out) const;
+	void load(istream& in);
 };
 

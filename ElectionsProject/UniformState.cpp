@@ -2,29 +2,34 @@
 using namespace std;
 UniformState::UniformState(const int& rank) :State(RoundMode::SIMPLE) {
 	District* dst = this->distList.addDistrictToList("gen_dst", rank, DistrictType::UNIFIED);
+	if (!dst) {
+		throw exception("Could not add dst to UniformState Ctor");
+	}
 	this->districtSN = dst->getSN();
 }
 
-bool UniformState::addCitizen(const myString& name, const int& id, const int& birthYear) {
+void UniformState::addCitizen(const myString& name, const int& id, const int& birthYear) {
 	District* dst = this->distList.getDistrictBySN(districtSN);
-	return votersBook.addCitizenToList(name, id, birthYear, districtSN, dst) &&// Add citizen to voters book
-		dst->addCitizenToDistrict();// Add a citizen to the district's counter
+	if (!dst)
+		throw no_entity_error("District", "UniformState");
+	votersBook.addCitizenToList(name, id, birthYear, districtSN, dst);// Add citizen to voters book
+	dst->addCitizenToDistrict();// Add a citizen to the district's counter
 }
 
-bool UniformState::addCitizenAsPartyRep(const int& repID, const int& partySN) {
+void UniformState::addCitizenAsPartyRep(const int& repID, const int& partySN) {
 	Citizen* rep = votersBook.getCitizenByID(repID);
-	Party* const prt = partyList.getPartyBySN(partySN);
-	if (rep && prt)
-		return prt->addCitizenAsRep(rep, this->districtSN);
-	return false;
+	if (!rep)
+		throw no_entity_error("Citizen", "UniformState");
+	Party* prt = partyList.getPartyBySN(partySN);
+	if (!prt)
+		throw no_entity_error("Party", "UniformState");
+
+	prt->addCitizenAsRep(rep, this->districtSN);
 }
 
-bool UniformState::save(ostream& out)const {
+void UniformState::save(ostream& out)const {
 	State::save(out);
 	out.write(rcastcc(&this->districtSN), sizeof(this->districtSN));
-	return out.good();
-}
-
-bool UniformState::load(istream& in) {
-	return true;
+	if (!out.good())
+		throw outfile_error("UniformState");
 }

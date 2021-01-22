@@ -11,15 +11,6 @@ Citizen::Citizen(const myString& name, const int& id, const int& birthYear, cons
 	this->dst = mdst;
 	round_mode = rm;
 }
-Citizen::Citizen(istream& in) :name(in) { 
-	in.read(rcastc(&id), sizeof(id));
-	in.read(rcastc(&districtSN), sizeof(districtSN));
-	in.read(rcastc(&birthYear), sizeof(birthYear));
-	dst = nullptr;// The loading state needs to connect between the citizens and Districts.
-	in.read(rcastc(&votedPartySN), sizeof(votedPartySN));
-	in.read(rcastc(&didVote), sizeof(didVote));
-	in.read(rcastc(&round_mode), sizeof(round_mode));
-}
 
 void Citizen::vote(const int& partySN) {
 	this->votedPartySN = partySN;
@@ -47,7 +38,7 @@ ostream& operator<<(ostream& out, const Citizen& cit) {
 	return out;
 }
 
-bool Citizen::save(ostream& out) const {
+void Citizen::save(ostream& out) const {
 	name.save(out);
 	out.write(rcastcc(&id), sizeof(this->id));
 	out.write(rcastcc(&districtSN), sizeof(this->districtSN));
@@ -55,16 +46,20 @@ bool Citizen::save(ostream& out) const {
 	out.write(rcastcc(&votedPartySN), sizeof(this->votedPartySN));
 	out.write(rcastcc(&didVote), sizeof(this->didVote));
 	out.write(rcastcc(&round_mode), sizeof(this->round_mode));
-	return out.good();
+	if (!out.good())
+		throw outfile_error("Citizen");
 }
-bool Citizen::load(istream& in) {
-	name.load(in);
-	in.read(rcastc(&id), sizeof(id));
-	in.read(rcastc(&districtSN), sizeof(districtSN));
-	in.read(rcastc(&birthYear), sizeof(birthYear));
-	dst = nullptr;// The loading state needs to connect between the citizens and Districts.
-	in.read(rcastc(&votedPartySN), sizeof(votedPartySN));
-	in.read(rcastc(&didVote), sizeof(didVote));
-	in.read(rcastc(&round_mode), sizeof(round_mode));
-	return in.good();
+void Citizen::load(istream& in) {
+	Citizen cit;
+	cit.name.load(in);
+	in.read(rcastc(&cit.id), sizeof(id));
+	in.read(rcastc(&cit.districtSN), sizeof(cit.districtSN));
+	in.read(rcastc(&cit.birthYear), sizeof(cit.birthYear));
+	cit.dst = nullptr;// The loading state needs to connect between the citizens and Districts.
+	in.read(rcastc(&cit.votedPartySN), sizeof(cit.votedPartySN));
+	in.read(rcastc(&cit.didVote), sizeof(cit.didVote));
+	in.read(rcastc(&cit.round_mode), sizeof(cit.round_mode));
+	if (!in.good())
+		throw infile_error("Citizen");
+	*this = cit;
 }

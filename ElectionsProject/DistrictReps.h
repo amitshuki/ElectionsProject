@@ -13,8 +13,8 @@ public:
 	DistrictReps(const int& districtSN, const int& rank, const RoundMode& rm) :
 		dstSN(districtSN), rank(rank), round_mode(rm), repsList(rm) {}
 	DistrictReps(istream& in);
-	bool setDistrict(const int& dstSn, const int& eRank,const RoundMode& rm);
-	bool addRep(Citizen* rep);
+	void setDistrict(const int& dstSn, const int& eRank,const RoundMode& rm);
+	void addRep(Citizen* rep);
 
 	const int& getDistrictSN()const { return dstSN; }
 	const int& getDistrictRank()const { return rank; }
@@ -23,9 +23,9 @@ public:
 	void printFirstXReps(const int& amount) const { repsList.printFirstXReps(amount); }
 
 	friend ostream& operator<<(ostream& out, const DistrictReps& dstReps);
-	bool save(ostream& out) const;
-	bool load(istream& in);
+	void save(ostream& out) const;
+	void load(istream& in);
 
-	bool connectReps2Citizens(CitizenList& citList);
+	void connectReps2Citizens(CitizenList& citList);
 };
 

@@ -31,7 +31,7 @@ private:
 	int getIndexOfWinningParty(ElectorsForPartyArr& elecForParty);
 
 public:
-	bool save(ostream& out) const;
-	bool load(istream& in);
+	void save(ostream& out) const;
+	void load(istream& in);
 };
 

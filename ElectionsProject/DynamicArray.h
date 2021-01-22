@@ -10,7 +10,7 @@ private:
 	void resize();
 public:
 	DynamicArray() :arr(nullptr), logSize(0), capacity(0) {}
-	DynamicArray(const int& size) :arr(new T[size]), logSize(0), capacity(size) {}
+	DynamicArray(const int& size) :arr(new T[size]), logSize(0), capacity(size) { if (!arr)throw bad_alloc(); }
 	DynamicArray(const DynamicArray& other) :arr(nullptr) { *this = other; }
 	~DynamicArray() { delete[] arr; }
 
@@ -39,7 +39,13 @@ public:
 	iterator erase(const iterator& iter);
 	iterator erase(const iterator& first, const iterator& last);
 
-	// =============== NEED TO ADD RBEGIN,REND ETC..
+	// =============== BEGIN\END METHODS
+
+	reverse_iterator rbegin() { return reverse_iterator(*this, 0); }
+	reverse_iterator rend() { return reverse_iterator(*this, logSize); }
+
+	const_iterator cbegin() const { return const_iterator(*this, 0); }
+	const_iterator cend() const { return const_iterator(*this, logSize); }
 
 	const_iterator begin() const{ return const_iterator(*this, 0); }
 	const_iterator end() const{ return const_iterator(*this, logSize); }
@@ -118,7 +124,7 @@ public:
 	const_iterator& operator--() { --i; return *this; }
 	const_iterator operator--(int) { const_iterator temp(*this);		--i;		return temp; }
 };
-
+// =============== REVERSE ITERATOR
 template <class T>
 class DynamicArray<T>::reverse_iterator {
 private:
@@ -162,6 +168,8 @@ void DynamicArray<T>::resize() {
 	if (capacity == 0)
 		capacity++;
 	T* newArr = new T[capacity * 2];
+	if (!newArr)
+		throw bad_alloc();
 	for (i = 0; i < logSize; i++)
 		newArr[i] = arr[i];
 
@@ -176,6 +184,8 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray& other) {
 		capacity = other.capacity;
 		delete[] arr;
 		arr = new T[capacity];
+		if (!arr)
+			throw bad_alloc();
 		for (int i = 0; i < logSize; i++)
 			arr[i] = other.arr[i];
 	}

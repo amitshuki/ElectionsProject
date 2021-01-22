@@ -1,52 +1,60 @@
 #include "VotersForPartyList.h"
 using namespace std;
 
-bool VotersForPartyList::addParty(const int& partySN) {
+void VotersForPartyList::addParty(const int& partySN) {
 	VotersForParty vfp(partySN);
-	vfpArr1.push_back(vfp);
-	return true;//Needs to change..
+	vfpArr.push_back(vfp);
 }
-bool VotersForPartyList::voteForParty(const int& partySN) {
-	for (auto& i : vfpArr1)
-		if (i.getPartySN() == partySN)
-			return i.addVote();
-	return false;
+void VotersForPartyList::voteForParty(const int& partySN) {
+	for (auto& i : vfpArr) {
+		if (i.getPartySN() == partySN) {
+			i.addVote();
+			return;// important
+		}
+	}
+	//if party was not found - exception!
+	throw no_entity_error("VotersforPartyList");
 }
 
 const int& VotersForPartyList::getAmountOfVotersByPartySN(const int& partySN) {
-	for (auto& i : vfpArr1)
+	for (auto& i : vfpArr) {
 		if (i.getPartySN() == partySN)
 			return i.getNumOfVoters();
-	return -1;// Party Not found - exeption!!!
+	}
+	throw no_entity_error("VotersforPartyList");
 }
 
 
 VotersForParty& VotersForPartyList::getVFPByPartySN(const int& partySN) {
-	for (auto& i : vfpArr1)
+	for (auto& i : vfpArr)
 		if (i.getPartySN() == partySN)
 			return i;
+	throw no_entity_error("VotersForPartyList");
 }
 
 VotersForPartyList& VotersForPartyList::operator=(const VotersForPartyList& other) {
-	vfpArr1 = other.vfpArr1;
+	if (this != &other)
+		vfpArr = other.vfpArr;
 	return *this;
 }
 
-bool VotersForPartyList::save(ostream& out) const {
-	out.write(rcastcc(&vfpArr1.getLogSize()), sizeof(vfpArr1.getLogSize()));
-	for (auto& i : vfpArr1)
-		if (!i.save(out))
-			return false;
-	return out.good();
+void VotersForPartyList::save(ostream& out) const {
+	out.write(rcastcc(&vfpArr.getLogSize()), sizeof(vfpArr.getLogSize()));
+	for (auto& i : vfpArr) {
+		i.save(out);
+		if (!out.good())
+			throw outfile_error("VotersForPartyList");
+	}
 }
-bool VotersForPartyList::load(istream& in){
+void VotersForPartyList::load(istream& in){
 	int size;
 	in.read(rcastc(&size), sizeof(size));
 	DynamicArray<VotersForParty> newArr;
-	for (int i = 0; in.good() && i < size; i++)
+	for (int i = 0; in.good() && i < size; i++) {
 		newArr.push_back(VotersForParty(in));
+	}
+	if(!in.good())
+		throw infile_error("VotersForPartyList");
 
-	vfpArr1 = newArr;
-
-	return in.good();
+	vfpArr = newArr;
 }

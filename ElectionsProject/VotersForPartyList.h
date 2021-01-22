@@ -2,28 +2,29 @@
 #include <iostream>
 #include "VotersForParty.h"
 #include "DynamicArray.h"
+#include "my_exceptions.h"
 class VotersForPartyList
 {
 private:
-	DynamicArray<VotersForParty> vfpArr1;
+	DynamicArray<VotersForParty> vfpArr;
 
 public:
 	VotersForPartyList() = default;
 	VotersForPartyList(istream& in){ load(in); }
 
-	const int& getLogSize()const { return vfpArr1.getLogSize(); }
+	const int& getLogSize()const { return vfpArr.getLogSize(); }
 
-	bool addParty(const int& partySN);
-	bool voteForParty(const int& partySN);
+	void addParty(const int& partySN);
+	void voteForParty(const int& partySN);
 
 	const int& getAmountOfVotersByPartySN(const int& partySN);
 
 
 	VotersForParty& getVFPByPartySN(const int& partySN);
-	const VotersForParty& operator[](const int idx)const { return vfpArr1[idx]; }
+	const VotersForParty& operator[](const int idx)const { return vfpArr[idx]; }
 	VotersForPartyList& operator=(const VotersForPartyList& other);
 
-	bool save(ostream& out) const;
-	bool load(istream& in);
+	void save(ostream& out) const;
+	void load(istream& in);
 };
 
