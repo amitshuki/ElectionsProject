@@ -3,13 +3,16 @@
 #include "StateLoader.h"
 #include "state.h"
 #include "UniformState.h"
-#include "myString.h"
+
 #include "DynamicArray.h"
 
 using namespace std;
-using namespace myStr;
+
 
 void run();
+void firstMenu(State*& state_ptr_ref);
+void secondMenu(State*& state_ptr_ref);
+
 void printMenu1();
 void printMenu2();
 State* handleInput1(const int& input);
@@ -26,145 +29,36 @@ void save2File(State& state);
 State* loadFromFile();
 int countDigits(int num);
 
+
 int main() {
-	UniformState ufs(30);
-	myString name("citizen");
-	int i = 1;
-	for (i = 0; i < 1000; i++)
-		ufs.addCitizen(name, i, 1994);
-	ufs.addParty("Dumbo", 0);
-	ufs.addParty("Ior", 100);
-
-	for (i = 0; i < 30; i++) {
-		ufs.addCitizenAsPartyRep(i, 1);
-		ufs.addCitizenAsPartyRep(i+30, 2);
-	}
-
-	for (i = 0; i < 300; i++)
-		ufs.vote(i, 1);
-	for (i = 0; i < 300; i++)
-		ufs.vote(i + 500, 2);
-
-	ofstream outfile("test.bin", ios::binary | ios::trunc);
-	if (!outfile)
-		exit(-2);
-	StateLoader::save(outfile, ufs);
-	outfile.close();
-
-	State* state;
+	run();
+}
 
 
-	ifstream infile("test.bin", ios::binary);
-	if (!infile)
-		exit(-4);
-	state = StateLoader::load(infile);
-	infile.close();
-	state->showElectionsResults();
+void run() {
+	State* state = nullptr;
+	firstMenu(state);
+	secondMenu(state);
+
+	// Finished!
 	delete state;
 }
-int i = 1;
-//int main() {
-//	DistrictBasedState* dbs = new DistrictBasedState();
-//	dbs->addDistrict(myString("A"), 15, DistrictType::DIVIDED);
-//	dbs->addDistrict(myString("B"), 10, DistrictType::UNIFIED);
-//	dbs->addDistrict(myString("C"), 10, DistrictType::UNIFIED);
-//	myString name("citizen");
-//	int i = 1;
-//	for (i = 0; i < 100; i++)
-//		dbs->addCitizen(name, i, 1994, 1);
-//	for (i = 100; i < 200; i++)
-//		dbs->addCitizen(name, i, 1995, 2);
-//	for (i = 200; i < 300; i++)
-//		dbs->addCitizen(name, i, 1996, 3);
-//
-//	dbs->addParty(myString("Dumbo"), 0);
-//	dbs->addParty(myString("Ior"), 100);
-//	for (i = 0; i < 15; i++) {
-//		dbs->addCitizenAsPartyRepInDist(i, 1, 1);
-//		dbs->addCitizenAsPartyRepInDist(i + 15, 1, 2);
-//		dbs->addCitizenAsPartyRepInDist(i + 30, 1, 3);
-//		dbs->addCitizenAsPartyRepInDist(i + 45, 2, 1);
-//		dbs->addCitizenAsPartyRepInDist(i + 60, 2, 2);
-//		dbs->addCitizenAsPartyRepInDist(i + 75, 2, 3);
-//	}
-//
-//	for (i = 0; i < 60; i++)
-//		dbs->vote(i, 1);
-//	for (i = 0; i < 40; i++)
-//		dbs->vote(i+60, 2);
-//	for (i = 0; i < 25; i++) {
-//		dbs->vote(i+100, 1);
-//		dbs->vote(i + 125, 2);
-//	}
-//	for (i = 0; i < 40; i++) {
-//		dbs->vote(i + 200, 1);
-//	}
-//	for (i = 0; i < 50; i++) {
-//		dbs->vote(i + 240, 2);
-//	}
-//	/*dbs->showElectionsResults();
-//	delete dbs;
-//	cout << "===========================================" << endl;
-//	cout << "===========================================" << endl;
-//	cout << "===========================================" << endl;*/
-//	ofstream outfile("test.bin", ios::binary | ios::trunc);
-//	if (!outfile)
-//		exit(-2);
-//	StateLoader::save(outfile, *dbs);
-//	outfile.close();
-//	
-//	delete dbs;
-//
-//	ifstream infile("test.bin", ios::binary);
-//	if (!infile)
-//		exit(-4);
-//	dbs = dynamic_cast<DistrictBasedState*>(StateLoader::load(infile));
-//	infile.close();
-//
-//	dbs->showElectionsResults();
-//	delete dbs;
-//}
-
-//int main() {
-//	DynamicArray<int> arr;
-//	for (int i = 0; i < 20; i++)
-//		arr.push_back(i+1);
-//	for (auto j : arr)
-//		cout << j << " ";
-//		
-//	cout << "logSize: " << arr.getLogSize() << " capacity: " << arr.getCapacity();
-//	cout << endl;
-//	arr.insert(DynamicArray<int>::iterator(arr, 5), 100);
-//	/*
-//	for (auto j : arr)
-//		cout << j << " ";
-//	cout << "logSize: " << arr.getLogSize() << " capacity: " << arr.getCapacity();
-//	cout << endl;
-//	arr.erase(DynamicArray<int>::iterator(arr, 5));
-//	for (auto j : arr)
-//		cout << j << " ";
-//	cout << "logSize: " << arr.getLogSize() << " capacity: " << arr.getCapacity();
-//	cout << endl;
-//	arr.erase(DynamicArray<int>::iterator(arr, 6), DynamicArray<int>::iterator(arr, 10));
-//	for (auto j : arr)
-//		cout << j << " ";
-//	cout << "logSize: " << arr.getLogSize() << " capacity: " << arr.getCapacity();
-//	cout << endl;*/
-//}
-
-
-void run() {	
-	int input = 0;
-	State* state = nullptr;
-
+// ================================
+void firstMenu(State*& state_ptr_ref) {
+	int input;
 	//First Menu:
-	printMenu1();
-	while (!state) {
-		cin >> input;
+	while (!state_ptr_ref) {
+		cout << endl;
+		printMenu1();
+		std::cin >> input;
 		try {
 			if(input < 1 || input>3)
 				throw range_error("Incorrect input.");
-			state = handleInput1(input);
+			state_ptr_ref = handleInput1(input);
+		}
+		catch (exit_exception& exit) {
+			cout << exit.what() << endl;
+			return;
 		}
 		catch (infile_error& in_error) {
 			cout << "State loading failed: " << in_error.what() << endl;
@@ -172,27 +66,32 @@ void run() {
 		}
 		catch (exception& exp) {
 			cout << exp.what() << endl;
+			state_ptr_ref = nullptr;
 		}
 	}
-	
+}
+void secondMenu(State*& state_ptr_ref) {
+	int input;
 	// State opened. Second menu:
-	while (input != 12) {
+	while (true) {
 		printMenu2();
 		cin >> input;
 		try {
 			if (input < 1 || input>12)
 				throw range_error("Incorrect input.");
-			handleInput2(input, state);
+			handleInput2(input, state_ptr_ref);
+		}
+		catch (exit_exception& exit) {
+			cout << exit.what() << endl;
+			return;
 		}
 		catch (exception& exp) {
 			cout << exp.what();
 		}
 		cout << endl;
 	}
-
-	// Finished!
-	delete state;
 }
+
 // ================================
 
 void printMenu1() {
@@ -229,9 +128,17 @@ State* handleInput1(const int& input) {
 		case 2:
 			state = loadFromFile();
 			break;
+		case 3:
+			throw exit_exception();
 		default:
 			throw range_error("Incorrect input.");
 		}
+	}
+	catch (exit_exception& ext) {
+		throw ext;
+	}
+	catch (range_error& r_err) {
+		throw r_err;
 	}
 	catch (exception& exp) {
 		delete state;
@@ -288,8 +195,14 @@ void handleInput2(const int& input,State*& state) {
 		save2File(*state);
 		break;
 	case 11:
-		state = loadFromFile();
+		temp = loadFromFile();
+		if (!temp)
+			throw bad_alloc();
+		delete state;
+		state = temp;
 		break;
+	case 12:
+		throw exit_exception();
 	default:
 		break;
 	}
@@ -330,7 +243,7 @@ State* createNewState() {
 
 // ================================
 void addDistrictToState(DistrictBasedState& state) {
-	myString dstName;
+	string dstName;
 	int rank, type;
 	bool res = false;
 	cout << "Add a District: " << endl;
@@ -355,7 +268,7 @@ void addDistrictToState(DistrictBasedState& state) {
 	}
 }
 void addCitizenWithoutDistricts(UniformState& state) {
-	myString name;
+	string name;
 	int id, birthYear;
 	bool res = false;
 	cout << "Add a Citizen: " << endl;
@@ -374,7 +287,7 @@ void addCitizenWithoutDistricts(UniformState& state) {
 	state.addCitizen(name, id, birthYear);
 }
 void addCitizenWithDistricts(DistrictBasedState& state){
-	myString name;
+	string name;
 	int id, birthYear, dstSN;
 	cout << "Add a Citizen: " << endl;
 	cout << "============== " << endl;;
@@ -394,7 +307,7 @@ void addCitizenWithDistricts(DistrictBasedState& state){
 	state.addCitizen(name, id, birthYear, dstSN);// district SN verification inside.
 }
 void addParty(State& state) {
-	myString nameOfParty;
+	string nameOfParty;
 	int candidateID;
 	cout << "Add a Party: " << endl;
 	cout << "=========== " << endl;;
@@ -456,7 +369,7 @@ State* loadFromFile() {
 	State* state;
 	cout << "Enter file name:";
 	cin >> fname;
-	ifstream infile("test.bin", ios::binary);
+	ifstream infile(fname, ios::binary);
 	if (!infile) {
 		throw runtime_error("Error opening file");
 	}

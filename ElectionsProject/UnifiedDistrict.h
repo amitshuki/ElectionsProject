@@ -6,7 +6,7 @@ class UnifiedDistrict :
 private:
 	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties)const;
 public:
-	UnifiedDistrict(const myString& newName, const int& newRank, const int& sn):
+	UnifiedDistrict(const string& newName, const int& newRank, const int& sn):
 		District(newName, newRank, sn) {}
 	UnifiedDistrict(istream& in) :District(in) {}
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList);

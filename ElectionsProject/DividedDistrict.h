@@ -7,7 +7,7 @@ class DividedDistrict :
 private:
 	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties)const;
 public:
-	DividedDistrict(const myString& newName, const int& newRank, const int& sn) :
+	DividedDistrict(const string& newName, const int& newRank, const int& sn) :
 		District(newName, newRank, sn) {}
 	DividedDistrict(istream& in) :District(in) {}
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList);

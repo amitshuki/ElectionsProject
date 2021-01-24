@@ -2,17 +2,17 @@
 #include "PartyList.h"
 #include "VotersForPartyList.h"
 #include "ElectorsForPartyArr.h"
-#include "myString.h"
+
 #include <cmath>
-using namespace myStr;
+
 class District
 {
 protected:
 	int districtSN, totalCivils, totalVoters, rank; 
-	myString name;
+	string name;
 	VotersForPartyList voters4PartyList;// Contains a list of all the parties (serial nums) and how many voted for them in the district.
 	District();
-	District(const myString& newName, const int& newRank, const int& sn);
+	District(const string& newName, const int& newRank, const int& sn);
 	District(istream& in) { load(in); }
 public:
 	const int& getSN()const { return districtSN; }

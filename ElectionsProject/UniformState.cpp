@@ -8,7 +8,7 @@ UniformState::UniformState(const int& rank) :State(RoundMode::SIMPLE) {
 	this->districtSN = dst->getSN();
 }
 
-void UniformState::addCitizen(const myString& name, const int& id, const int& birthYear) {
+void UniformState::addCitizen(const string& name, const int& id, const int& birthYear) {
 	District* dst = this->distList.getDistrictBySN(districtSN);
 	if (!dst)
 		throw no_entity_error("District", "UniformState");

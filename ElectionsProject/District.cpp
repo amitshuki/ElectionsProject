@@ -5,7 +5,7 @@ District::District() {
 	districtSN = rank = -1;
 	name = "";
 }
-District::District(const myString& newName, const int& newRank, const int& sn) {
+District::District(const string& newName, const int& newRank, const int& sn) {
 	districtSN = sn;
 	totalVoters = totalCivils = 0;
 	rank = newRank;
@@ -49,7 +49,9 @@ ostream& operator<<(ostream& out, const District& dst) {
 }
 
 void District::save(ostream& out) const {
-	name.save(out);
+	size_t size = name.size();
+	out.write(rcastcc(&size), sizeof(size));
+	out.write(rcastcc(&name[0]), size);
 	voters4PartyList.save(out);
 	out.write(rcastcc(&districtSN), sizeof(districtSN));
 	out.write(rcastcc(&totalCivils), sizeof(totalCivils));
@@ -59,7 +61,10 @@ void District::save(ostream& out) const {
 		throw outfile_error("District");
 }
 void District::load(istream& in) {
-	name.load(in);
+	size_t size;
+	in.read(rcastc(&size), sizeof(size));
+	name.resize(size);
+	in.read(rcastc(&name[0]), size);
 	voters4PartyList.load(in);
 	in.read(rcastc(&districtSN), sizeof(districtSN));
 	in.read(rcastc(&totalCivils), sizeof(totalCivils));

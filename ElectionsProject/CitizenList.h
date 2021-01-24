@@ -24,7 +24,7 @@ public:
 	~CitizenList();
 
 	void addCitizenToList(Citizen* cit);
-	void addCitizenToList(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* dst);
+	void addCitizenToList(const string& name, const int& id, const int& birthYear, const int& districtSN, District* dst);
 	bool checkExistingCitizenInListByID(const int& id)const;
 	Citizen* getCitizenByID(const int& id)const;
 	const int& getLogSize()const { return citArr.getLogSize(); }

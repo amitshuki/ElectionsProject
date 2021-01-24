@@ -92,9 +92,6 @@
     <ClInclude Include="ElectorsForPartyArr.h">
       <Filter>Header Files\Connection Lists</Filter>
     </ClInclude>
-    <ClInclude Include="myString.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="PartyList.h">
       <Filter>Header Files\Lists</Filter>
     </ClInclude>
@@ -147,6 +144,9 @@
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
     <ClInclude Include="undefined_option.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="exit_exception.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
   </ItemGroup>
@@ -209,9 +209,6 @@
       <Filter>Source Files\Connection Lists</Filter>
     </ClCompile>
     <ClCompile Include="DynamicArray.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="myString.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

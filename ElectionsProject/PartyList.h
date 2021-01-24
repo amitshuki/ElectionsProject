@@ -1,6 +1,6 @@
 #pragma once
 #include "Party.h"
-#include "myString.h"
+
 #include "DynamicArray.h"
 class PartyList
 {
@@ -11,7 +11,7 @@ public:
 	PartyList(istream& in) { load(in); }
 	~PartyList();
 
-	Party* addPartyToList(const myString& partName, const Citizen* candidate);
+	Party* addPartyToList(const string& partName, const Citizen* candidate);
 	void addDistrictToParties(const int& dstSN, const int& dstRank);
 
 	bool checkExistingPartyBySN(const int& sn)const;

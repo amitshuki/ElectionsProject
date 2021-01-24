@@ -1,5 +1,5 @@
 #include "DistrictBasedState.h"
-void DistrictBasedState::addDistrict(const myString& districtName, const int& rank, const DistrictType& dt) {
+void DistrictBasedState::addDistrict(const string& districtName, const int& rank, const DistrictType& dt) {
 	District* dst = distList.addDistrictToList(districtName, rank, dt);// Add the district to the Round's list.
 	if (dst == nullptr)
 		throw adding_error("District","DistrictBasedState");
@@ -9,7 +9,7 @@ void DistrictBasedState::addDistrict(const myString& districtName, const int& ra
 	partyList.addDistrictToParties(dst->getSN(), dst->getRank());// Add the District to the parties list.
 }
 
-void DistrictBasedState::addCitizen(const myString& name, const int& id, const int& birthYear, const int& districtSN) {
+void DistrictBasedState::addCitizen(const string& name, const int& id, const int& birthYear, const int& districtSN) {
 
 	District* dst = this->distList.getDistrictBySN(districtSN);
 	if (!dst)

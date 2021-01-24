@@ -2,9 +2,9 @@
 #include "DistrictList.h"
 #include "CitizenList.h"
 #include "PartyList.h"
-#include "myString.h"
+
 #include "my_exceptions.h"
-using namespace myStr;
+
 using namespace std;
 
 struct Date {
@@ -33,7 +33,7 @@ public:
 	virtual ~State() {}
 	
 
-	void addParty(const myString& partyName, const int& candidateId);
+	void addParty(const string& partyName, const int& candidateId);
 
 	void showVotersBook()const;
 	void showParties()const;

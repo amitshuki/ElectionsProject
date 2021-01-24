@@ -1,8 +1,14 @@
 #include "Party.h"
-using namespace myStr;
+
 using namespace std;
 
-Party::Party(istream& in) :name(in),drList(in){
+Party::Party(istream& in) :drList(in){
+	// Name load
+	size_t size;
+	in.read(rcastc(&size), sizeof(size));
+	name.resize(size);
+	in.read(rcastc(&name[0]), size);
+	// _Name load
 	in.read(rcastc(&partySN), sizeof(partySN));
 	candidate = nullptr;// see State::connectRepsToCitizens!
 	in.read(rcastc(&candidateID), sizeof(candidateID));
@@ -57,8 +63,12 @@ ostream& operator<<(ostream& out, const Party& prty) {
 }
 
 void Party::save(ostream& out) const {
-	name.save(out);
 	drList.save(out);
+	// Name save
+	size_t size = name.size();
+	out.write(rcastcc(&size), sizeof(size));
+	out.write(rcastcc(&name[0]), size);
+	// _Name save
 	out.write(rcastcc(&partySN), sizeof(partySN));
 	out.write(rcastcc(&candidateID), sizeof(candidateID));// Write only candidate's ID!
 	out.write(rcastcc(&round_mode), sizeof(round_mode));
@@ -68,8 +78,13 @@ void Party::save(ostream& out) const {
 void Party::load(istream& in) {
 	Party temp_prt;
 	try {
-		temp_prt.name.load(in);
 		temp_prt.drList.load(in);
+		// Name load
+		size_t size;
+		in.read(rcastc(&size), sizeof(size));
+		temp_prt.name.resize(size);
+		in.read(rcastc(&temp_prt.name[0]), size);
+		// _Name load
 		in.read(rcastc(&temp_prt.partySN), sizeof(temp_prt.partySN));
 		temp_prt.candidate = nullptr;// see State::connectRepsToCitizens!
 		in.read(rcastc(&temp_prt.candidateID), sizeof(temp_prt.candidateID));

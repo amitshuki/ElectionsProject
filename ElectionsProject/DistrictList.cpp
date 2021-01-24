@@ -6,7 +6,7 @@ DistrictList::~DistrictList() {
 }
 
 // Adds a district and returns a pointer to it.
-District* DistrictList::addDistrictToList(const myString& dstName, const int& rank, const DistrictType& dt) {
+District* DistrictList::addDistrictToList(const string& dstName, const int& rank, const DistrictType& dt) {
 	int logSize = dstArr.getLogSize();
 	District* dst;
 	switch (dt) {

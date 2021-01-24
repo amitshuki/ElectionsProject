@@ -3,19 +3,20 @@
 #include "UnifiedDistrict.h"
 #include "DividedDistrict.h"
 #include "ElectorsForPartyArr.h"
-#include "myString.h"
+
 #include "DynamicArray.h"
-using namespace myStr;
+
 class DistrictList
 {
 private:
 	DynamicArray<District*> dstArr;
 public:
 	DistrictList() = default;
+	DistrictList(const DistrictList& other) { this->dstArr = other.dstArr; }
 	DistrictList(istream& in) { load(in); }
 	~DistrictList();
 	// Adds a district and returns a pointer to it.
-	District* addDistrictToList(const myString& dstName, const int& rank,const DistrictType& dt);
+	District* addDistrictToList(const string& dstName, const int& rank,const DistrictType& dt);
 
 	bool checkExistingDistrictBySN(const int& sn)const;
 	District* getDistrictBySN(const int& sn)const;

@@ -1,9 +1,9 @@
 #pragma once
 class District;
-#include "myString.h"
+
 #include "my_exceptions.h"
 using namespace std;
-using namespace myStr;
+
 
 #define rcastcc reinterpret_cast<const char*>
 #define rcastc reinterpret_cast<char*>
@@ -14,21 +14,21 @@ class Citizen
 {
 private:
 	int id, districtSN, birthYear;
-	District* dst;
-	myString name;
+	District* dst;// Reference to district!
+	string name;
 	int votedPartySN;
 	bool didVote;
 	RoundMode round_mode;
 public:
 	Citizen() :id(-1), districtSN(-1), birthYear(-1), name(""), votedPartySN(-1), didVote(false), dst(nullptr), round_mode(RoundMode::REGULAR) {}
-	Citizen(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* mdst, const RoundMode& rm);
+	Citizen(const string& name, const int& id, const int& birthYear, const int& districtSN, District* mdst, const RoundMode& rm);
 	Citizen(istream& in) { load(in); }
 	void vote(const int& partySN);
 
 	void setDistrict(District* dst) { this->dst = dst; }
 
 	const int& getId()const { return id; }
-	const myString& getName()const { return name; }
+	const string& getName()const { return name; }
 	const int& getDistrictSN() const { return districtSN; }
 	District* getDistrict()const { return dst; }
 

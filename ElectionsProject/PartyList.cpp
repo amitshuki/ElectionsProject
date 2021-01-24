@@ -1,12 +1,12 @@
 #include "PartyList.h"
 
-using namespace myStr;
+
 PartyList::~PartyList() {
 	for (auto& i : partyArr)
 		delete i;
 }
 
-Party* PartyList::addPartyToList(const myString& partName, const Citizen* candidate) {
+Party* PartyList::addPartyToList(const string& partName, const Citizen* candidate) {
 	int size = partyArr.getLogSize();
 	Party* new_party = new Party(partName, size + 1, candidate, this->round_mode);
 	if (!new_party)

@@ -1,7 +1,7 @@
 #include "Citizen.h"
 using namespace std;
 
-Citizen::Citizen(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* mdst, const RoundMode& rm) {
+Citizen::Citizen(const string& name, const int& id, const int& birthYear, const int& districtSN, District* mdst, const RoundMode& rm) {
 	this->name = name;
 	this->id = id;
 	this->birthYear = birthYear;
@@ -39,7 +39,9 @@ ostream& operator<<(ostream& out, const Citizen& cit) {
 }
 
 void Citizen::save(ostream& out) const {
-	name.save(out);
+	size_t size = name.size();
+	out.write(rcastcc(&size), sizeof(size));
+	out.write(rcastcc(&name[0]), size);
 	out.write(rcastcc(&id), sizeof(this->id));
 	out.write(rcastcc(&districtSN), sizeof(this->districtSN));
 	out.write(rcastcc(&birthYear), sizeof(this->birthYear));
@@ -51,7 +53,10 @@ void Citizen::save(ostream& out) const {
 }
 void Citizen::load(istream& in) {
 	Citizen cit;
-	cit.name.load(in);
+	size_t size;
+	in.read(rcastc(&size), sizeof(size));
+	cit.name.resize(size);
+	in.read(rcastc(&cit.name[0]), size);
 	in.read(rcastc(&cit.id), sizeof(id));
 	in.read(rcastc(&cit.districtSN), sizeof(cit.districtSN));
 	in.read(rcastc(&cit.birthYear), sizeof(cit.birthYear));

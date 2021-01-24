@@ -10,3 +10,4 @@
 #include "has_voted_error.h"
 #include "elections_result_exception.h"
 #include "undefined_option.h"
+#include "exit_exception.h"

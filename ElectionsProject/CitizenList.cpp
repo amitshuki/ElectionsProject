@@ -23,7 +23,7 @@ void CitizenList::addCitizenToList(Citizen* cit) {
 	citArr.push_back(cit);
 }
 
-void CitizenList::addCitizenToList(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* dst){
+void CitizenList::addCitizenToList(const string& name, const int& id, const int& birthYear, const int& districtSN, District* dst){
 	Citizen* cit = new Citizen(name, id, birthYear, districtSN, dst, this->round_mode);
 	if (!cit)
 		throw bad_alloc();

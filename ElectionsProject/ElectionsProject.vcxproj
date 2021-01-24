@@ -152,11 +152,11 @@
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="elections_result_exception.h" />
     <ClInclude Include="ElectorsForPartyArr.h" />
+    <ClInclude Include="exit_exception.h" />
     <ClInclude Include="file_open_exception.h" />
     <ClInclude Include="has_voted_error.h" />
     <ClInclude Include="id_validation_exeption.h" />
     <ClInclude Include="infile_error.h" />
-    <ClInclude Include="myString.h" />
     <ClInclude Include="my_exceptions.h" />
     <ClInclude Include="no_entity_error.h" />
     <ClInclude Include="outfile_error.h" />
@@ -183,7 +183,6 @@
     <ClCompile Include="DynamicArray.cpp" />
     <ClCompile Include="ElectorsForPartyArr.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="myString.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PartyList.cpp" />
     <ClCompile Include="State.cpp" />

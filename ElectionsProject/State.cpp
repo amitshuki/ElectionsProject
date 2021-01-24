@@ -59,7 +59,7 @@ State::State(istream& in) :votersBook(RoundMode::REGULAR), partyList(RoundMode::
 	}
 }
 
-void State::addParty(const myString& partyName, const int& candidateId) {
+void State::addParty(const string& partyName, const int& candidateId) {
 	Citizen* candidate = votersBook.getCitizenByID(candidateId);
 	if (!candidate)
 		throw no_entity_error("Candidate", "State");
