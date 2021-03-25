@@ -54,6 +54,9 @@
     <Filter Include="Source Files\Exeptions">
       <UniqueIdentifier>{67c129f1-ff1f-4d97-b6ff-d0392f278526}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Hello">
+      <UniqueIdentifier>{d283c903-58ed-4046-96dc-58e5064be7a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Citizen.h">
@@ -77,9 +80,6 @@
     <ClInclude Include="DistrictLoader.h">
       <Filter>Header Files\Loaders</Filter>
     </ClInclude>
-    <ClInclude Include="DistrictReps.h">
-      <Filter>Header Files\Connection Lists</Filter>
-    </ClInclude>
     <ClInclude Include="DistrictRepsList.h">
       <Filter>Header Files\Lists</Filter>
     </ClInclude>
@@ -88,9 +88,6 @@
     </ClInclude>
     <ClInclude Include="DynamicArray.h">
       <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="ElectorsForPartyArr.h">
-      <Filter>Header Files\Connection Lists</Filter>
     </ClInclude>
     <ClInclude Include="PartyList.h">
       <Filter>Header Files\Lists</Filter>
@@ -106,9 +103,6 @@
     </ClInclude>
     <ClInclude Include="UniformState.h">
       <Filter>Header Files\State</Filter>
-    </ClInclude>
-    <ClInclude Include="VotersForParty.h">
-      <Filter>Header Files\Connection Lists</Filter>
     </ClInclude>
     <ClInclude Include="VotersForPartyList.h">
       <Filter>Header Files\Lists</Filter>
@@ -148,6 +142,15 @@
     </ClInclude>
     <ClInclude Include="Exceptions\adding_error.h">
       <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Connection Lists\DistrictReps.h">
+      <Filter>Header Files\Connection Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="Connection Lists\ElectorsForPartyArr.h">
+      <Filter>Header Files\Connection Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="Connection Lists\VotersForParty.h">
+      <Filter>Header Files\Connection Lists</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -199,17 +202,17 @@
     <ClCompile Include="DistrictBasedState.cpp">
       <Filter>Source Files\State</Filter>
     </ClCompile>
-    <ClCompile Include="VotersForParty.cpp">
-      <Filter>Source Files\Connection Lists</Filter>
-    </ClCompile>
-    <ClCompile Include="ElectorsForPartyArr.cpp">
-      <Filter>Source Files\Connection Lists</Filter>
-    </ClCompile>
-    <ClCompile Include="DistrictReps.cpp">
-      <Filter>Source Files\Connection Lists</Filter>
-    </ClCompile>
     <ClCompile Include="DynamicArray.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Connection Lists\DistrictReps.cpp">
+      <Filter>Source Files\Connection Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="Connection Lists\ElectorsForPartyArr.cpp">
+      <Filter>Source Files\Connection Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="Connection Lists\VotersForParty.cpp">
+      <Filter>Source Files\Connection Lists</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
