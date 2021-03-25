@@ -2,6 +2,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+//Hello
 using namespace std;
 class adding_error :
 	public exception
