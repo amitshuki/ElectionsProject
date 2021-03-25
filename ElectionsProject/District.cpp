@@ -5,23 +5,21 @@ District::District() {
 	districtSN = rank = -1;
 	name = "";
 }
-District::District(const myString& newName, const int& newRank, const int& sn) {
+District::District(const string& newName, const int& newRank, const int& sn) {
 	districtSN = sn;
 	totalVoters = totalCivils = 0;
 	rank = newRank;
 	name = newName;
 }
-bool District::addVoteToParty(const int& partySN) {
+void District::addVoteToParty(const int& partySN) {
 	// Recieve the voters for party table and add a vote to the party in the current district
-	if (!voters4PartyList.getVFPByPartySN(partySN).addVote())
-		return false;
+	voters4PartyList.getVFPByPartySN(partySN).addVote();
 	totalVoters++;
-	return true;
 }
 
 int District::calcElectors(const int& numOfVoters) {
-	if (numOfVoters <= 0)
-		return 0;
+	if (this->totalVoters == 0.0)
+		throw elections_result_exception("no one has voted yet.");
 	float percentage = (numOfVoters * rank);
 	float electors = percentage / static_cast<float>(totalVoters);
 	return round(electors);
@@ -50,25 +48,28 @@ ostream& operator<<(ostream& out, const District& dst) {
 	return out;
 }
 
-bool District::save(ostream& out) const {
-	if (!name.save(out))
-		return false;
-	if (!voters4PartyList.save(out))
-		return false;
+void District::save(ostream& out) const {
+	size_t size = name.size();
+	out.write(rcastcc(&size), sizeof(size));
+	out.write(rcastcc(&name[0]), size);
+	voters4PartyList.save(out);
 	out.write(rcastcc(&districtSN), sizeof(districtSN));
 	out.write(rcastcc(&totalCivils), sizeof(totalCivils));
 	out.write(rcastcc(&totalVoters), sizeof(totalVoters));
 	out.write(rcastcc(&rank), sizeof(rank));
-	return out.good();
+	if (!out.good())
+		throw outfile_error("District");
 }
-bool District::load(istream& in) {
-	if (!name.load(in))
-		return false;
-	if (!voters4PartyList.load(in))
-		return false;
+void District::load(istream& in) {
+	size_t size;
+	in.read(rcastc(&size), sizeof(size));
+	name.resize(size);
+	in.read(rcastc(&name[0]), size);
+	voters4PartyList.load(in);
 	in.read(rcastc(&districtSN), sizeof(districtSN));
 	in.read(rcastc(&totalCivils), sizeof(totalCivils));
 	in.read(rcastc(&totalVoters), sizeof(totalVoters));
 	in.read(rcastc(&rank), sizeof(rank));
-	return in.good();
+	if (!in.good())
+		throw infile_error("District");
 }

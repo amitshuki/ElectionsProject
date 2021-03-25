@@ -138,8 +138,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="adding_error.h" />
     <ClInclude Include="Citizen.h" />
     <ClInclude Include="CitizenList.h" />
+    <ClInclude Include="connection_error.h" />
     <ClInclude Include="District.h" />
     <ClInclude Include="DistrictBasedState.h" />
     <ClInclude Include="DistrictList.h" />
@@ -147,17 +149,26 @@
     <ClInclude Include="DistrictReps.h" />
     <ClInclude Include="DistrictRepsList.h" />
     <ClInclude Include="DividedDistrict.h" />
+    <ClInclude Include="DynamicArray.h" />
+    <ClInclude Include="elections_result_exception.h" />
     <ClInclude Include="ElectorsForPartyArr.h" />
-    <ClInclude Include="myString.h" />
+    <ClInclude Include="exit_exception.h" />
+    <ClInclude Include="file_open_exception.h" />
+    <ClInclude Include="has_voted_error.h" />
+    <ClInclude Include="id_validation_exeption.h" />
+    <ClInclude Include="infile_error.h" />
+    <ClInclude Include="my_exceptions.h" />
+    <ClInclude Include="no_entity_error.h" />
+    <ClInclude Include="outfile_error.h" />
     <ClInclude Include="Party.h" />
     <ClInclude Include="PartyList.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateLoader.h" />
+    <ClInclude Include="undefined_option.h" />
     <ClInclude Include="UnifiedDistrict.h" />
     <ClInclude Include="UniformState.h" />
     <ClInclude Include="VotersForParty.h" />
     <ClInclude Include="VotersForPartyList.h" />
-    <ClInclude Include="VotingRound.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp" />
@@ -169,9 +180,9 @@
     <ClCompile Include="DistrictReps.cpp" />
     <ClCompile Include="DistrictRepsList.cpp" />
     <ClCompile Include="DividedDistrict.cpp" />
+    <ClCompile Include="DynamicArray.cpp" />
     <ClCompile Include="ElectorsForPartyArr.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="myString.cpp" />
     <ClCompile Include="Party.cpp" />
     <ClCompile Include="PartyList.cpp" />
     <ClCompile Include="State.cpp" />
@@ -180,7 +191,6 @@
     <ClCompile Include="UniformState.cpp" />
     <ClCompile Include="VotersForParty.cpp" />
     <ClCompile Include="VotersForPartyList.cpp" />
-    <ClCompile Include="VotingRound.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

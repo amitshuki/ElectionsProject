@@ -2,15 +2,15 @@
 #include "DistrictList.h"
 #include "CitizenList.h"
 #include "PartyList.h"
-#include "myString.h"
-#include <ctime>
-using namespace myStr;
+
+#include "my_exceptions.h"
+
 using namespace std;
 
 struct Date {
 	int day, month, year;
 	Date():day(-1), month(-1), year(-1) {}
-	Date(const int& d, const int& m, const int& y) :day(d), month(m), year(y) {}
+	Date(const int& d, const int& m, const int& y);
 	bool operator==(const Date& other)const;
 	friend ostream& operator<<(ostream& out, const Date& dt);
 };
@@ -22,7 +22,7 @@ protected:
 	DistrictList distList;
 	PartyList partyList;
 	bool hasAny1votedyet;
-	Date date;
+	Date elections_date;
 public:
 	State(const RoundMode& rm) :
 		votersBook(rm,
@@ -33,7 +33,7 @@ public:
 	virtual ~State() {}
 	
 
-	bool addParty(const myString& partyName, const int& candidateId);
+	void addParty(const string& partyName, const int& candidateId);
 
 	void showVotersBook()const;
 	void showParties()const;
@@ -41,15 +41,15 @@ public:
 	bool checkExistingCitizenbyID(const int& id) const { return votersBook.checkExistingCitizenInListByID(id); }
 	bool checkExistingPartyBySN(const int& sn)const { return partyList.checkExistingPartyBySN(sn); }
 
-	bool vote(const int& id, const int& partySN);
+	void vote(const int& id, const int& partySN);
 
 	void showElectionsResults();
+	const Date& getElectionsDate()const { return this->elections_date; }
+	void setDate(const int& d, const int& m, const int& y) { this->elections_date = Date(d, m, y); }
 
-	bool setDate(const int& d, const int& m, const int& y);
+	virtual void save(ostream& out) const;
+	virtual void load(istream& in);
 
-	virtual bool save(ostream& out) const;
-	virtual bool load(istream& in);
-
-	bool connectCitizensToDistricts();
+	void connectCitizensToDistricts();
 };
 

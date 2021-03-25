@@ -2,17 +2,17 @@
 #include "PartyList.h"
 #include "VotersForPartyList.h"
 #include "ElectorsForPartyArr.h"
-#include "myString.h"
+
 #include <cmath>
-using namespace myStr;
+
 class District
 {
 protected:
 	int districtSN, totalCivils, totalVoters, rank; 
-	myString name;
+	string name;
 	VotersForPartyList voters4PartyList;// Contains a list of all the parties (serial nums) and how many voted for them in the district.
 	District();
-	District(const myString& newName, const int& newRank, const int& sn);
+	District(const string& newName, const int& newRank, const int& sn);
 	District(istream& in) { load(in); }
 public:
 	const int& getSN()const { return districtSN; }
@@ -20,10 +20,10 @@ public:
 	const int& getTotalCivils()const { return totalCivils; }
 	const int& getTotalVoters()const { return totalVoters; }
 
-	bool addCitizenToDistrict() { return ++totalCivils; }
+	void addCitizenToDistrict() { ++totalCivils; }
 
-	bool addVoteToParty(const int& partySN);
-	bool addPartyToDistrict(const int& partySN) { return voters4PartyList.addParty(partySN); }
+	void addVoteToParty(const int& partySN);
+	void addPartyToDistrict(const int& partySN) { voters4PartyList.addParty(partySN); }
 
 	virtual ElectorsForPartyArr& getVotingresults(PartyList& partyList) = 0;
 
@@ -31,11 +31,12 @@ public:
 	
 	friend class DistrictList;
 
-	virtual bool save(ostream& out) const;
-	virtual bool load(istream& in);
+	virtual void save(ostream& out) const;
+	virtual void load(istream& in);
+
 protected:
 	int calcElectors(const int& numOfVoters);
-	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) = 0;
+	virtual void printResults(const int& winningPartyIdx, ElectorsForPartyArr& electors_for_parties) const = 0;
 	int getWinningPartyIdx(ElectorsForPartyArr& electors_for_parties);
 	
 

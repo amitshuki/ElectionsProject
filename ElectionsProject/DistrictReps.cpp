@@ -7,19 +7,14 @@ DistrictReps::DistrictReps(istream& in) :repsList(in) {
 	in.read(rcastc(&rank), sizeof(rank));
 	in.read(rcastc(&round_mode), sizeof(round_mode));
 }
-bool DistrictReps::setDistrict(const int& dstSn, const int& eRank, const RoundMode& rm){
-	if (!(this->dstSN = dstSn) || !(this->rank = eRank))
-		return false;
-	return true;
+void DistrictReps::setDistrict(const int& dstSn, const int& eRank, const RoundMode& rm){
+	this->dstSN = dstSn;
+	this->rank = eRank;
 }
-bool DistrictReps::addRep(Citizen* const rep) {
+void DistrictReps::addRep(Citizen* rep) {
 	if (this->rank == repsList.getLogSize())
-		return false;
-
-	if (repsList.addCitizenToList(rep))
-		return true;
-
-	return false;
+		throw out_of_range("Representative list is full.");
+	repsList.addCitizenToList(rep);
 }
 
 ostream& operator<<(ostream& out, const DistrictReps& dstReps) {
@@ -39,33 +34,30 @@ ostream& operator<<(ostream& out, const DistrictReps& dstReps) {
 	return out;
 }
 
-bool DistrictReps::save(ostream& out)const {
-	if (!repsList.save(out))
-		return false;
+void DistrictReps::save(ostream& out)const {
+	repsList.save(out);
 	out.write(rcastcc(&dstSN), sizeof(dstSN));
 	out.write(rcastcc(&rank), sizeof(rank));
 	out.write(rcastcc(&round_mode), sizeof(round_mode));
-	return out.good();
+	if (!out.good())
+		throw outfile_error();
 }
-bool DistrictReps::load(istream& in) {
-	if (!repsList.load(in))
-		return false;
+void DistrictReps::load(istream& in) {
+	repsList.load(in);
 	in.read(rcastc(&dstSN), sizeof(dstSN));
 	in.read(rcastc(&rank), sizeof(rank));
 	in.read(rcastc(&round_mode), sizeof(round_mode));
-	return in.good();
+	if (!in.good())
+		throw infile_error();
 }
 
-bool DistrictReps::connectReps2Citizens(CitizenList& citList) {
-	int size = this->repsList.getLogSize();
-	Citizen* cit1, * cit2;
+void DistrictReps::connectReps2Citizens(CitizenList& citList) {
+	int size = this->repsList.getLogSize(),cur_id;
+	Citizen* cit2;
 	for (int i = 0; i < size; i++) {// every rep
-		cit1 = repsList[i];
-		cit2 = citList.getCitizenByID(cit1->getId());
-		if (cit1 && cit2)
-			*cit1 = *cit2;// copy the correct Citizen
-		else
-			return false;
+		cur_id = repsList[i]->getId();
+		cit2 = citList.getCitizenByID(cur_id);
+		delete repsList[i];// delete the "shallow" citizen
+		repsList[i] = cit2;// copy the correct Citizen
 	}
-	return true;
 }

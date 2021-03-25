@@ -1,32 +1,32 @@
 #pragma once
 #include "Party.h"
-#include "myString.h"
+
+#include "DynamicArray.h"
 class PartyList
 {
-	Party** partyArr;
-	int logSize, capacity;
+	DynamicArray<Party*> partyArr;
 	RoundMode round_mode;
-	void resizeArr();
 public:
-	PartyList(const RoundMode& rm) :partyArr(nullptr), logSize(0), capacity(0), round_mode(rm) {}
-	PartyList(istream& in) :partyArr(nullptr), logSize(0), capacity(0) { load(in); }
+	PartyList(const RoundMode& rm) :round_mode(rm) {}
+	PartyList(istream& in) { load(in); }
 	~PartyList();
 
-
-	Party* const addPartyToList(const myString& partName, const Citizen* candidate);
-	bool addDistrictToParties(const int& dstSN, const int& dstRank);
+	Party* addPartyToList(const string& partName, const Citizen* candidate);
+	void addDistrictToParties(const int& dstSN, const int& dstRank);
 
 	bool checkExistingPartyBySN(const int& sn)const;
-	Party* const getPartyBySN(const int& sn)const;
-	const int& getLogSize()const { return logSize; }
+	Party* getPartyBySN(const int& sn)const;
 	Party* getPartyByIndex(const int& idx)const;
 
-	Party* operator[](const int& idx)const;
+	const int& getLogSize()const { return partyArr.getLogSize(); }
+
+	PartyList& operator=(const PartyList& other);
+	Party* operator[](const int& idx)const { return partyArr[idx]; }
 	friend ostream& operator<<(ostream& out, const PartyList& partyList);
 
-	bool save(ostream& out) const;
-	bool load(istream& in);
+	void save(ostream& out) const;
+	void load(istream& in);
 
-	bool connectPartyreps2Citizens(CitizenList& citList);
+	void connectPartyreps2Citizens(CitizenList& citList);
 };
 

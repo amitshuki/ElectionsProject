@@ -8,9 +8,9 @@ private:
 public:
 	UniformState(const int& rank);
 	UniformState(istream& in) :State(in) { in.read(rcastc(&districtSN), sizeof(districtSN)); }
-	bool addCitizen(const myString& name, const int& id, const int& birthYear);
-	bool addCitizenAsPartyRep(const int& repID, const int& partySN);
-	virtual bool save(ostream& out) const override;
-	virtual bool load(istream& in) override;
+	void addCitizen(const string& name, const int& id, const int& birthYear);
+	void addCitizenAsPartyRep(const int& repID, const int& partySN);
+	virtual void save(ostream& out) const override;
+	virtual void load(istream& in) override{ State::load(in); }
 };
 

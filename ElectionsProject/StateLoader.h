@@ -10,7 +10,7 @@ enum class StateType { DISTRICT_BASED, UNIFORM};
 class StateLoader
 {
 public:
-	static bool save(ostream& out, const State& rnd);
+	static void save(ostream& out, const State& rnd);
 	static State* load(istream& in);
 };
 

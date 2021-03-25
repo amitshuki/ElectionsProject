@@ -1,0 +1,13 @@
+#pragma once
+#include <iostream>
+#include "adding_error.h"
+#include "connection_error.h"
+#include "no_entity_error.h"
+#include "id_validation_exeption.h"
+#include "file_open_exception.h"
+#include "outfile_error.h"
+#include "infile_error.h"
+#include "has_voted_error.h"
+#include "elections_result_exception.h"
+#include "undefined_option.h"
+#include "exit_exception.h"

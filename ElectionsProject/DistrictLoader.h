@@ -7,7 +7,7 @@ enum class DistrictType { UNIFIED, DIVIDED };
 class DistrictLoader
 {
 public:
-	static bool save(ostream& out, const District& dst);
+	static void save(ostream& out, const District& dst);
 	static District* load(istream& in);
 };
 

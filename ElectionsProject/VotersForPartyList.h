@@ -1,32 +1,30 @@
 #pragma once
 #include <iostream>
 #include "VotersForParty.h"
+#include "DynamicArray.h"
+#include "my_exceptions.h"
 class VotersForPartyList
 {
 private:
-	VotersForParty* vfpArr;
-	int logSize, capacity;
+	DynamicArray<VotersForParty> vfpArr;
 
-	void resize();
 public:
-	VotersForPartyList() :logSize(0), capacity(0), vfpArr(nullptr) {}
-	VotersForPartyList(istream& in) :logSize(0), capacity(0), vfpArr(nullptr) { load(in); }
+	VotersForPartyList() = default;
+	VotersForPartyList(istream& in){ load(in); }
 
-	~VotersForPartyList() { delete[] vfpArr; }
+	const int& getLogSize()const { return vfpArr.getLogSize(); }
 
-	const int& getLogSize()const { return logSize; }
-
-	bool addParty(const int& partySN);
-	bool voteForParty(const int& partySN);
+	void addParty(const int& partySN);
+	void voteForParty(const int& partySN);
 
 	const int& getAmountOfVotersByPartySN(const int& partySN);
 
 
 	VotersForParty& getVFPByPartySN(const int& partySN);
-	const VotersForParty& operator[](const int idx);
+	const VotersForParty& operator[](const int idx)const { return vfpArr[idx]; }
 	VotersForPartyList& operator=(const VotersForPartyList& other);
 
-	bool save(ostream& out) const;
-	bool load(istream& in);
+	void save(ostream& out) const;
+	void load(istream& in);
 };
 

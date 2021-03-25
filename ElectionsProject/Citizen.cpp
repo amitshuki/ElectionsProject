@@ -1,7 +1,7 @@
 #include "Citizen.h"
 using namespace std;
 
-Citizen::Citizen(const myString& name, const int& id, const int& birthYear, const int& districtSN, District* mdst, const RoundMode& rm) {
+Citizen::Citizen(const string& name, const int& id, const int& birthYear, const int& districtSN, District* mdst, const RoundMode& rm) {
 	this->name = name;
 	this->id = id;
 	this->birthYear = birthYear;
@@ -10,15 +10,6 @@ Citizen::Citizen(const myString& name, const int& id, const int& birthYear, cons
 	this->didVote = false;
 	this->dst = mdst;
 	round_mode = rm;
-}
-Citizen::Citizen(istream& in) :name(in) { 
-	in.read(rcastc(&id), sizeof(id));
-	in.read(rcastc(&districtSN), sizeof(districtSN));
-	in.read(rcastc(&birthYear), sizeof(birthYear));
-	dst = nullptr;// The loading state needs to connect between the citizens and Districts.
-	in.read(rcastc(&votedPartySN), sizeof(votedPartySN));
-	in.read(rcastc(&didVote), sizeof(didVote));
-	in.read(rcastc(&round_mode), sizeof(round_mode));
 }
 
 void Citizen::vote(const int& partySN) {
@@ -47,24 +38,33 @@ ostream& operator<<(ostream& out, const Citizen& cit) {
 	return out;
 }
 
-bool Citizen::save(ostream& out) const {
-	name.save(out);
+void Citizen::save(ostream& out) const {
+	size_t size = name.size();
+	out.write(rcastcc(&size), sizeof(size));
+	out.write(rcastcc(&name[0]), size);
 	out.write(rcastcc(&id), sizeof(this->id));
 	out.write(rcastcc(&districtSN), sizeof(this->districtSN));
 	out.write(rcastcc(&birthYear), sizeof(this->birthYear));
 	out.write(rcastcc(&votedPartySN), sizeof(this->votedPartySN));
 	out.write(rcastcc(&didVote), sizeof(this->didVote));
 	out.write(rcastcc(&round_mode), sizeof(this->round_mode));
-	return out.good();
+	if (!out.good())
+		throw outfile_error("Citizen");
 }
-bool Citizen::load(istream& in) {
-	name.load(in);
-	in.read(rcastc(&id), sizeof(id));
-	in.read(rcastc(&districtSN), sizeof(districtSN));
-	in.read(rcastc(&birthYear), sizeof(birthYear));
-	dst = nullptr;// The loading state needs to connect between the citizens and Districts.
-	in.read(rcastc(&votedPartySN), sizeof(votedPartySN));
-	in.read(rcastc(&didVote), sizeof(didVote));
-	in.read(rcastc(&round_mode), sizeof(round_mode));
-	return in.good();
+void Citizen::load(istream& in) {
+	Citizen cit;
+	size_t size;
+	in.read(rcastc(&size), sizeof(size));
+	cit.name.resize(size);
+	in.read(rcastc(&cit.name[0]), size);
+	in.read(rcastc(&cit.id), sizeof(id));
+	in.read(rcastc(&cit.districtSN), sizeof(cit.districtSN));
+	in.read(rcastc(&cit.birthYear), sizeof(cit.birthYear));
+	cit.dst = nullptr;// The loading state needs to connect between the citizens and Districts.
+	in.read(rcastc(&cit.votedPartySN), sizeof(cit.votedPartySN));
+	in.read(rcastc(&cit.didVote), sizeof(cit.didVote));
+	in.read(rcastc(&cit.round_mode), sizeof(cit.round_mode));
+	if (!in.good())
+		throw infile_error("Citizen");
+	*this = cit;
 }
