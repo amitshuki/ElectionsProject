@@ -99,7 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\Connection Lists;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\Exceptions</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\Utilities;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\State;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\Loaders;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\Lists;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\District;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\Connection Lists;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\;C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\Exceptions</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,18 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Citizen.h" />
-    <ClInclude Include="CitizenList.h" />
     <ClInclude Include="Connection Lists\DistrictReps.h" />
     <ClInclude Include="Connection Lists\ElectorsForPartyArr.h" />
     <ClInclude Include="Connection Lists\VotersForParty.h" />
     <ClInclude Include="connection_error.h" />
-    <ClInclude Include="District.h" />
-    <ClInclude Include="DistrictBasedState.h" />
-    <ClInclude Include="DistrictList.h" />
-    <ClInclude Include="DistrictLoader.h" />
-    <ClInclude Include="DistrictRepsList.h" />
-    <ClInclude Include="DividedDistrict.h" />
-    <ClInclude Include="DynamicArray.h" />
+    <ClInclude Include="District\District.h" />
+    <ClInclude Include="District\DividedDistrict.h" />
+    <ClInclude Include="District\UnifiedDistrict.h" />
     <ClInclude Include="elections_result_exception.h" />
     <ClInclude Include="Exceptions\adding_error.h" />
     <ClInclude Include="Exceptions\has_voted_error.h" />
@@ -159,39 +154,44 @@
     <ClInclude Include="file_open_exception.h" />
     <ClInclude Include="id_validation_exeption.h" />
     <ClInclude Include="infile_error.h" />
+    <ClInclude Include="Lists\CitizenList.h" />
+    <ClInclude Include="Lists\DistrictList.h" />
+    <ClInclude Include="Lists\DistrictRepsList.h" />
+    <ClInclude Include="Lists\PartyList.h" />
+    <ClInclude Include="Lists\VotersForPartyList.h" />
+    <ClInclude Include="Loaders\DistrictLoader.h" />
+    <ClInclude Include="Loaders\StateLoader.h" />
     <ClInclude Include="my_exceptions.h" />
     <ClInclude Include="no_entity_error.h" />
     <ClInclude Include="outfile_error.h" />
     <ClInclude Include="Party.h" />
-    <ClInclude Include="PartyList.h" />
-    <ClInclude Include="State.h" />
-    <ClInclude Include="StateLoader.h" />
+    <ClInclude Include="State\DistrictBasedState.h" />
+    <ClInclude Include="State\State.h" />
+    <ClInclude Include="State\UniformState.h" />
     <ClInclude Include="undefined_option.h" />
-    <ClInclude Include="UnifiedDistrict.h" />
-    <ClInclude Include="UniformState.h" />
-    <ClInclude Include="VotersForPartyList.h" />
+    <ClInclude Include="Utilities\DynamicArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp" />
-    <ClCompile Include="CitizenList.cpp" />
     <ClCompile Include="Connection Lists\DistrictReps.cpp" />
     <ClCompile Include="Connection Lists\ElectorsForPartyArr.cpp" />
     <ClCompile Include="Connection Lists\VotersForParty.cpp" />
-    <ClCompile Include="District.cpp" />
-    <ClCompile Include="DistrictBasedState.cpp" />
-    <ClCompile Include="DistrictList.cpp" />
-    <ClCompile Include="DistrictLoader.cpp" />
-    <ClCompile Include="DistrictRepsList.cpp" />
-    <ClCompile Include="DividedDistrict.cpp" />
-    <ClCompile Include="DynamicArray.cpp" />
+    <ClCompile Include="District\District.cpp" />
+    <ClCompile Include="District\DividedDistrict.cpp" />
+    <ClCompile Include="District\UnifiedDistrict.cpp" />
+    <ClCompile Include="Lists\CitizenList.cpp" />
+    <ClCompile Include="Lists\DistrictList.cpp" />
+    <ClCompile Include="Lists\DistrictRepsList.cpp" />
+    <ClCompile Include="Lists\PartyList.cpp" />
+    <ClCompile Include="Lists\VotersForPartyList.cpp" />
+    <ClCompile Include="Loaders\DistrictLoader.cpp" />
+    <ClCompile Include="Loaders\StateLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Party.cpp" />
-    <ClCompile Include="PartyList.cpp" />
-    <ClCompile Include="State.cpp" />
-    <ClCompile Include="StateLoader.cpp" />
-    <ClCompile Include="UnifiedDistrict.cpp" />
-    <ClCompile Include="UniformState.cpp" />
-    <ClCompile Include="VotersForPartyList.cpp" />
+    <ClCompile Include="State\DistrictBasedState.cpp" />
+    <ClCompile Include="State\State.cpp" />
+    <ClCompile Include="State\UniformState.cpp" />
+    <ClCompile Include="Utilities\DynamicArray.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -54,9 +54,6 @@
     <Filter Include="Source Files\Exeptions">
       <UniqueIdentifier>{67c129f1-ff1f-4d97-b6ff-d0392f278526}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Hello">
-      <UniqueIdentifier>{d283c903-58ed-4046-96dc-58e5064be7a7}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Citizen.h">
@@ -64,48 +61,6 @@
     </ClInclude>
     <ClInclude Include="Party.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CitizenList.h">
-      <Filter>Header Files\Lists</Filter>
-    </ClInclude>
-    <ClInclude Include="District.h">
-      <Filter>Header Files\District</Filter>
-    </ClInclude>
-    <ClInclude Include="DistrictBasedState.h">
-      <Filter>Header Files\State</Filter>
-    </ClInclude>
-    <ClInclude Include="DistrictList.h">
-      <Filter>Header Files\Lists</Filter>
-    </ClInclude>
-    <ClInclude Include="DistrictLoader.h">
-      <Filter>Header Files\Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="DistrictRepsList.h">
-      <Filter>Header Files\Lists</Filter>
-    </ClInclude>
-    <ClInclude Include="DividedDistrict.h">
-      <Filter>Header Files\District</Filter>
-    </ClInclude>
-    <ClInclude Include="DynamicArray.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="PartyList.h">
-      <Filter>Header Files\Lists</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Header Files\State</Filter>
-    </ClInclude>
-    <ClInclude Include="StateLoader.h">
-      <Filter>Header Files\Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="UnifiedDistrict.h">
-      <Filter>Header Files\District</Filter>
-    </ClInclude>
-    <ClInclude Include="UniformState.h">
-      <Filter>Header Files\State</Filter>
-    </ClInclude>
-    <ClInclude Include="VotersForPartyList.h">
-      <Filter>Header Files\Lists</Filter>
     </ClInclude>
     <ClInclude Include="id_validation_exeption.h">
       <Filter>Header Files\Exeptions</Filter>
@@ -152,6 +107,48 @@
     <ClInclude Include="Connection Lists\VotersForParty.h">
       <Filter>Header Files\Connection Lists</Filter>
     </ClInclude>
+    <ClInclude Include="District\District.h">
+      <Filter>Header Files\District</Filter>
+    </ClInclude>
+    <ClInclude Include="District\DividedDistrict.h">
+      <Filter>Header Files\District</Filter>
+    </ClInclude>
+    <ClInclude Include="District\UnifiedDistrict.h">
+      <Filter>Header Files\District</Filter>
+    </ClInclude>
+    <ClInclude Include="Lists\CitizenList.h">
+      <Filter>Header Files\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="Lists\DistrictList.h">
+      <Filter>Header Files\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="Lists\DistrictRepsList.h">
+      <Filter>Header Files\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="Lists\PartyList.h">
+      <Filter>Header Files\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="Lists\VotersForPartyList.h">
+      <Filter>Header Files\Lists</Filter>
+    </ClInclude>
+    <ClInclude Include="Loaders\DistrictLoader.h">
+      <Filter>Header Files\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Loaders\StateLoader.h">
+      <Filter>Header Files\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="State\DistrictBasedState.h">
+      <Filter>Header Files\State</Filter>
+    </ClInclude>
+    <ClInclude Include="State\State.h">
+      <Filter>Header Files\State</Filter>
+    </ClInclude>
+    <ClInclude Include="State\UniformState.h">
+      <Filter>Header Files\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\DynamicArray.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Citizen.cpp">
@@ -163,48 +160,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CitizenList.cpp">
-      <Filter>Source Files\Lists</Filter>
-    </ClCompile>
-    <ClCompile Include="DistrictList.cpp">
-      <Filter>Source Files\Lists</Filter>
-    </ClCompile>
-    <ClCompile Include="DistrictRepsList.cpp">
-      <Filter>Source Files\Lists</Filter>
-    </ClCompile>
-    <ClCompile Include="PartyList.cpp">
-      <Filter>Source Files\Lists</Filter>
-    </ClCompile>
-    <ClCompile Include="VotersForPartyList.cpp">
-      <Filter>Source Files\Lists</Filter>
-    </ClCompile>
-    <ClCompile Include="DistrictLoader.cpp">
-      <Filter>Source Files\Loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="StateLoader.cpp">
-      <Filter>Source Files\Loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="District.cpp">
-      <Filter>Source Files\District</Filter>
-    </ClCompile>
-    <ClCompile Include="UnifiedDistrict.cpp">
-      <Filter>Source Files\District</Filter>
-    </ClCompile>
-    <ClCompile Include="DividedDistrict.cpp">
-      <Filter>Source Files\District</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Source Files\State</Filter>
-    </ClCompile>
-    <ClCompile Include="UniformState.cpp">
-      <Filter>Source Files\State</Filter>
-    </ClCompile>
-    <ClCompile Include="DistrictBasedState.cpp">
-      <Filter>Source Files\State</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicArray.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Connection Lists\DistrictReps.cpp">
       <Filter>Source Files\Connection Lists</Filter>
     </ClCompile>
@@ -213,6 +168,48 @@
     </ClCompile>
     <ClCompile Include="Connection Lists\VotersForParty.cpp">
       <Filter>Source Files\Connection Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="District\District.cpp">
+      <Filter>Source Files\District</Filter>
+    </ClCompile>
+    <ClCompile Include="District\DividedDistrict.cpp">
+      <Filter>Source Files\District</Filter>
+    </ClCompile>
+    <ClCompile Include="District\UnifiedDistrict.cpp">
+      <Filter>Source Files\District</Filter>
+    </ClCompile>
+    <ClCompile Include="Lists\CitizenList.cpp">
+      <Filter>Source Files\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="Lists\DistrictList.cpp">
+      <Filter>Source Files\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="Lists\DistrictRepsList.cpp">
+      <Filter>Source Files\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="Lists\PartyList.cpp">
+      <Filter>Source Files\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="Lists\VotersForPartyList.cpp">
+      <Filter>Source Files\Lists</Filter>
+    </ClCompile>
+    <ClCompile Include="Loaders\DistrictLoader.cpp">
+      <Filter>Source Files\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Loaders\StateLoader.cpp">
+      <Filter>Source Files\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="State\DistrictBasedState.cpp">
+      <Filter>Source Files\State</Filter>
+    </ClCompile>
+    <ClCompile Include="State\State.cpp">
+      <Filter>Source Files\State</Filter>
+    </ClCompile>
+    <ClCompile Include="State\UniformState.cpp">
+      <Filter>Source Files\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\DynamicArray.cpp">
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
