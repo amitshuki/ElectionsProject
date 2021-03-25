@@ -128,9 +128,6 @@
     <ClInclude Include="my_exceptions.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
-    <ClInclude Include="has_voted_error.h">
-      <Filter>Header Files\Exeptions</Filter>
-    </ClInclude>
     <ClInclude Include="file_open_exception.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
@@ -146,7 +143,10 @@
     <ClInclude Include="exit_exception.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
-    <ClInclude Include="Errors\adding_error.h">
+    <ClInclude Include="Exceptions\has_voted_error.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\adding_error.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
   </ItemGroup>

@@ -99,6 +99,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\talev\source\repos\amitshuki\ElectionsProject\ElectionsProject\Exceptions</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,10 +152,10 @@
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="elections_result_exception.h" />
     <ClInclude Include="ElectorsForPartyArr.h" />
-    <ClInclude Include="Errors\adding_error.h" />
+    <ClInclude Include="Exceptions\adding_error.h" />
+    <ClInclude Include="Exceptions\has_voted_error.h" />
     <ClInclude Include="exit_exception.h" />
     <ClInclude Include="file_open_exception.h" />
-    <ClInclude Include="has_voted_error.h" />
     <ClInclude Include="id_validation_exeption.h" />
     <ClInclude Include="infile_error.h" />
     <ClInclude Include="my_exceptions.h" />

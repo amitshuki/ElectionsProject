@@ -37,7 +37,13 @@ int main() {
 
 void run() {
 	State* state = nullptr;
-	firstMenu(state);
+	try {
+		firstMenu(state);
+	}
+	catch (exit_exception& exit) {
+		delete state;
+		return;
+	}
 	secondMenu(state);
 
 	// Finished!
@@ -58,7 +64,7 @@ void firstMenu(State*& state_ptr_ref) {
 		}
 		catch (exit_exception& exit) {
 			cout << exit.what() << endl;
-			return;
+			throw exit;
 		}
 		catch (infile_error& in_error) {
 			cout << "State loading failed: " << in_error.what() << endl;
