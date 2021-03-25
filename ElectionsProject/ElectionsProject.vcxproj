@@ -138,7 +138,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="adding_error.h" />
     <ClInclude Include="Citizen.h" />
     <ClInclude Include="CitizenList.h" />
     <ClInclude Include="connection_error.h" />
@@ -152,6 +151,7 @@
     <ClInclude Include="DynamicArray.h" />
     <ClInclude Include="elections_result_exception.h" />
     <ClInclude Include="ElectorsForPartyArr.h" />
+    <ClInclude Include="Errors\adding_error.h" />
     <ClInclude Include="exit_exception.h" />
     <ClInclude Include="file_open_exception.h" />
     <ClInclude Include="has_voted_error.h" />

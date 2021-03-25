@@ -125,9 +125,6 @@
     <ClInclude Include="connection_error.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
-    <ClInclude Include="adding_error.h">
-      <Filter>Header Files\Exeptions</Filter>
-    </ClInclude>
     <ClInclude Include="my_exceptions.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
@@ -147,6 +144,9 @@
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
     <ClInclude Include="exit_exception.h">
+      <Filter>Header Files\Exeptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Errors\adding_error.h">
       <Filter>Header Files\Exeptions</Filter>
     </ClInclude>
   </ItemGroup>
